@@ -1,0 +1,37 @@
+@import "functions";
+
+@mixin dark-theme() {
+  @if (&) {
+    @media (prefers-color-scheme: dark) {
+      body:not([class~='theme-light']) & {
+        @content;
+      }
+    }
+    .theme-dark & {
+      @content;
+    }
+  } @else {
+    @media (prefers-color-scheme: dark) {
+      body:not([class~='theme-light']) {
+        @content;
+      }
+    }
+    .theme-dark {
+      @content;
+    }
+  }
+}
+
+@mixin screen-up($size) {
+  $size: strip-unit($size);
+  @media (min-width: $size * 1px) {
+    @content;
+  }
+}
+
+@mixin screen-down($size) {
+  $size: strip-unit($size);
+  @media (max-width: $size * 1px) {
+    @content;
+  }
+}

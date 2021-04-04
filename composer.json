@@ -1,0 +1,21 @@
+{
+  "name": "perrincl/bookmarks-box",
+  "description": "Team Bookmarking Website",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Clément P. (Cleymax)",
+      "email": "clement.perrin@etu.univ-smb.fr"
+    },
+    {
+      "name": "Raphaël H. (Zerka30)",
+      "email": "raphael.hien@etu.univ-smb.fr"
+    }
+  ],
+  "require": {
+    "filp/whoops": "^2.9"
+  },
+  "require-dev": {
+    "symfony/var-dumper": "^5.2"
+  }
+}

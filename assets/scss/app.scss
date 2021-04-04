@@ -1,0 +1,38 @@
+// TOOLS
+@import "tools/reset";
+@import "tools/mixins";
+
+//GENERAL
+
+:root {
+  --white: #ffff;
+  --dark: #0C0C0C;
+  --red: #EC4E4F;
+  --green: #27AE60;
+  --yellow: #F39C12;
+  --primary: #3498DB;
+  --secondary: #353535;
+  --border: #B1B1B1;
+  --background: #f7fafb;
+  --dark-red: #B00000;
+}
+
+@include dark-theme {
+  --white: #0C0C0C;
+  --dark: #FFFFFF;
+  --red: #EC4E4F;
+  --green: #27AE60;
+  --yellow: #F39C12;
+  --primary: #7BCAFF;
+  --secondary: #353535;
+  --border: #EDEDED;
+  --background: #f7fafb;
+  --dark-red: #B00000;
+}
+
+//MODULES
+@import "modules/button";
+
+//PAGES
+@import "page/auth/login";
+

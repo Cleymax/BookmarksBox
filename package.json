@@ -1,0 +1,30 @@
+{
+  "name": "bookmarksbox",
+  "version": "1.0.0",
+  "description": "Team Bookmarking",
+  "scripts": {
+    "dev": "concurrently \"yarn watch\" \"yarn live-server\"",
+    "watch": "node-sass --output-style expanded --source-map true -w -r assets/scss -o assets/css",
+    "server": "live-server --host=0.0.0.0 --ignore=package.json",
+    "build": "node-sass --output-style compressed --source-map false -r assets/scss -o assets/css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cleymax/BookmarksBox.git"
+  },
+  "keywords": [
+    "bookmark",
+    "box",
+    "php"
+  ],
+  "author": "Clement PERRIN <clement.perrin@etu.univ-smb.fr>",
+  "bugs": {
+    "url": "https://github.com/Cleymax/BookmarksBox/issues"
+  },
+  "homepage": "https://github.com/Cleymax/BookmarksBox#readme",
+  "devDependencies": {
+    "concurrently": "^6.0.0",
+    "live-server": "^1.2.1",
+    "node-sass": "^5.0.0"
+  }
+}
