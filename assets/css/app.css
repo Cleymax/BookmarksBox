@@ -235,6 +235,56 @@ h3, .h3 {
   --dark-red: #B00000;
 }
 
+.btn {
+  background-color: #353535;
+  padding: 8px 18px;
+  border-radius: 50px;
+  color: var(--white);
+  cursor: pointer;
+  line-height: 15px;
+  text-align: center;
+  will-change: transform, opacity;
+  text-decoration: none;
+  display: inline-flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-width: 64px;
+  outline: none;
+  user-select: none;
+  overflow: visible;
+  vertical-align: middle;
+  transition: all ease .3s;
+}
+
+.btn:hover {
+  background-color: var(--white);
+  color: var(--color);
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+}
+
+.btn:active {
+  transform: scale(1.03);
+}
+
+.btn span {
+  padding-right: 4px;
+}
+
+.btn-outlined {
+  border-style: solid;
+  border-width: 1px;
+  background-color: transparent;
+  color: var(--color);
+  border-color: var(--color);
+}
+
+.btn-outlined:hover {
+  background-color: var(--color);
+  color: var(--dark);
+}
+
 .flex-center {
   display: flex;
   justify-content: center;
@@ -278,6 +328,31 @@ h3, .h3 {
 
 .card .button {
   margin: 10px;
+}
+
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background: #FFFFFF;
+  box-shadow: 0 5px 6px rgba(0, 0, 0, 0.25);
+}
+
+header .header-logo {
+  font-size: 30px;
+  font-weight: bold;
+  font-family: Roboto, serif;
+}
+
+@media (max-width: 540px) {
+  header {
+    flex-direction: column;
+  }
+  header .header-right {
+    padding-top: 10px;
+  }
 }
 
 /*# sourceMappingURL=app.css.map */

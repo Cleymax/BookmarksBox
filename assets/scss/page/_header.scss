@@ -1,0 +1,23 @@
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background: #FFFFFF;
+  box-shadow: 0 5px 6px rgba(0, 0, 0, 0.25);
+
+  .header-logo {
+    font-size: 30px;
+    font-weight: bold;
+    font-family: Roboto, serif;
+  }
+
+  @include screen-down(540) {
+    flex-direction: column;
+
+    .header-right {
+      padding-top: 10px;
+    }
+  }
+}
