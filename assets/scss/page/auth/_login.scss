@@ -1,0 +1,40 @@
+.flex-center{
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.container{
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.card{
+  display: flex;
+  flex-direction: column;
+  width: 492px;
+  text-align: center;
+  padding: 42px;
+  & .form-group {
+    margin-top: 45px;
+  }
+  & .input, & input:not([type="submit"]){
+    width: 100%;
+    text-align: left;
+  }
+  & input[type="submit"] {
+    width: 70%;
+  }
+  & .line-separator {
+    width: 20%;
+    border-bottom: 1px solid #27AE60;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  & .button{
+    margin: 10px;
+  }
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+
+}
