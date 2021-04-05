@@ -292,7 +292,7 @@ h3, .h3 {
   text-align: center;
   padding: 42px;
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);
-  border-radius: 4px;
+  border-radius: 10px;
 }
 
 .input-auth {
@@ -339,9 +339,23 @@ h3, .h3 {
   margin-top: 48px;
 }
 
-.input-auth label {
+.label-2fa {
   display: block;
   margin-bottom: 16px;
+}
+
+.input-group {
+  margin-top: 50px;
+}
+
+.input-register {
+  width: 100%;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.btn-register {
+  margin-top: 42px;
 }
 
 header {
