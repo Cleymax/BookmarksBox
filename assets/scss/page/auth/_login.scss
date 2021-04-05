@@ -12,6 +12,15 @@
 .card{
   & .form-group {
     margin-top: 45px;
+
+
+    &> .input-auth {
+      margin-top: 10px;
+    }
+
+    & .input-auth > label {
+      width: 100%;
+    }
   }
   & input:not([type="submit"]){
     width: 100%;

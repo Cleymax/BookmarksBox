@@ -1,8 +1,9 @@
 %btn, .btn {
-  background-color: #353535;
+  background-color: var(--primary);
   padding: 8px 18px;
-  border-radius: 50px;
+  border-radius: 4px;
   color: var(--white);
+  border: 2px solid var(--primary);
   cursor: pointer;
   line-height: 15px;
   text-align: center;
@@ -20,17 +21,29 @@
   vertical-align: middle;
   transition: all ease .3s;
 
-
   &:hover {
     background-color: var(--white);
-    color: var(--color);
+    color: var(--primary);
+    border: 2px solid var(--primary);
     box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2),
     0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+  }
+
+
+  &-yellow {
+    background-color: var(--yellow);
+    border-color: var(--yellow);
+
+    &:hover {
+      border-color: var(--yellow);
+      color: var(--yellow);
+    }
   }
 
   &:active {
     transform: scale(1.03);
   }
+
   & span {
     padding-right: 4px;
   }

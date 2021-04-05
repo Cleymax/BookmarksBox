@@ -8,27 +8,42 @@
     <title>Document</title>
     <link rel="stylesheet" href="../../css/app.css">
 </head>
-<body>
-
+<body class="theme-light">
+<header>
+    <div class="header-left">
+        <a class="header-logo" href="#">
+            <img src="../../img/logo.svg" height="50px" alt="logo">
+            Bookmarks<span style="color: var(--dark-red)">Box</span>
+        </a>
+    </div>
+    <div class="header-right">
+        <button class="btn btn-outlined">Se connecter</button>
+        <button class="btn">S'incrire</button>
+    </div>
+</header>
 <div class="container card">
     <h1>Se connecter</h1>
     <form action="">
         <div class="form-group">
             <div class="input-auth">
-                <label for="username">Username</label>
-                <input type="text" id="username">
+                <label for="username" class="textfield">
+                    <input type="text" id="username">
+                    <span>Username</span>
+                </label>
             </div>
             <div class="input-auth">
-                <label for="password">Password</label>
-                <input type="text" id="password">
+                <label for="password"  class="textfield">
+                    <input type="text" id="password">
+                    <span>Password</span>
+                </label>
             </div>
             <div class="btn-container">
                 <div class="button">
-                    <input type="submit" value="Connexion">
+                    <input type="submit" class="btn"  value="Connexion">
                 </div>
                 <div class="line-separator"></div>
                 <div class="button">
-                    <input type="submit" value="IUT ANNECY">
+                    <input type="submit" class="btn btn-yellow"  value="IUT ANNECY">
                 </div>
             </div>
         </div>
