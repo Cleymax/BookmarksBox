@@ -7,6 +7,14 @@ header {
   background: #FFFFFF;
   box-shadow: 0 5px 6px rgba(0, 0, 0, 0.25);
 
+  & a{
+    display: flex;
+    align-items: center;
+    & img{
+      margin-right: 10px;
+    }
+  }
+
   .header-logo {
     font-size: 30px;
     font-weight: bold;
