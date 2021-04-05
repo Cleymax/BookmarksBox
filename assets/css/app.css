@@ -236,10 +236,11 @@ h3, .h3 {
 }
 
 .btn {
-  background-color: #353535;
+  background-color: var(--primary);
   padding: 8px 18px;
-  border-radius: 50px;
+  border-radius: 4px;
   color: var(--white);
+  border: 2px solid var(--primary);
   cursor: pointer;
   line-height: 15px;
   text-align: center;
@@ -260,8 +261,19 @@ h3, .h3 {
 
 .btn:hover {
   background-color: var(--white);
-  color: var(--color);
+  color: var(--primary);
+  border: 2px solid var(--primary);
   box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+}
+
+.btn-yellow {
+  background-color: var(--yellow);
+  border-color: var(--yellow);
+}
+
+.btn-yellow:hover {
+  border-color: var(--yellow);
+  color: var(--yellow);
 }
 
 .btn:active {
@@ -300,6 +312,88 @@ h3, .h3 {
   text-align: left;
 }
 
+.textfield {
+  display: inline-flex;
+  position: relative;
+  font-family: "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system, serif;
+  font-size: 16px;
+  line-height: 15px;
+  overflow: hidden;
+  border: 2px solid var(--border);
+  border-radius: 5px;
+}
+
+.textfield > input {
+  margin-left: 4px;
+  display: block;
+  box-sizing: border-box;
+  border: none;
+  border-top: solid 20px transparent;
+  padding: 0 4px 4px 0;
+  width: 100%;
+  height: inherit;
+  color: rgba(0, 0, 0, 0.87);
+  background-color: transparent;
+  box-shadow: none;
+  /* Firefox */
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  caret-color: #2196f3;
+  transition: border-bottom 0.2s, background-color 0.2s;
+}
+
+.textfield > input + span {
+  margin-left: 4px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: block;
+  box-sizing: border-box;
+  padding: 7px 0 0;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 75%;
+  line-height: 10px;
+  pointer-events: none;
+  transition: color 0.2s, font-size 0.2s, line-height 0.2s;
+}
+
+.textfield > input:hover {
+  border-bottom-color: rgba(0, 0, 0, 0.87);
+}
+
+.textfield > input:not(:focus):placeholder-shown + span {
+  font-size: inherit;
+  line-height: 56px;
+}
+
+.textfield > input:focus {
+  outline: none;
+}
+
+.textfield > input:focus + span {
+  color: #2196f3;
+}
+
+.textfield > input:focus + span::before {
+  opacity: 0.12;
+}
+
+.textfield > input:focus + span::after {
+  transform: scale(1);
+}
+
+.textfield > input:disabled {
+  border-bottom-color: rgba(0, 0, 0, 0.38);
+  color: rgba(0, 0, 0, 0.38);
+}
+
+.textfield > input:disabled + span {
+  color: rgba(0, 0, 0, 0.38);
+}
+
 .flex-center {
   display: flex;
   justify-content: center;
@@ -313,6 +407,14 @@ h3, .h3 {
 
 .card .form-group {
   margin-top: 45px;
+}
+
+.card .form-group > .input-auth {
+  margin-top: 10px;
+}
+
+.card .form-group .input-auth > label {
+  width: 100%;
 }
 
 .card input:not([type="submit"]) {

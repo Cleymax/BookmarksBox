@@ -1,4 +1,86 @@
+//Look https://codepen.io/Takumari85/pen/RaYwpJ
+
 .input-auth {
   width: 100%;
   text-align: left;
+}
+
+.textfield {
+  display: inline-flex;
+  position: relative;
+  font-family: "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system, serif;
+  font-size: 16px;
+  line-height: 15px;
+  overflow: hidden;
+  border: 2px solid var(--border);
+  border-radius: 5px;
+
+  & > input {
+    margin-left: 4px;
+    display: block;
+    box-sizing: border-box;
+    border: none;
+    border-top: solid 20px transparent;
+    padding: 0 4px 4px 0;
+    width: 100%;
+    height: inherit;
+    color: rgba(0, 0, 0, 0.87);
+    background-color: transparent;
+    box-shadow: none; /* Firefox */
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    caret-color: rgb(33, 150, 243);
+    transition: border-bottom 0.2s, background-color 0.2s;
+
+    & + span {
+      margin-left: 4px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: block;
+      box-sizing: border-box;
+      padding: 7px 0 0;
+      color: rgba(0, 0, 0, 0.6);
+      font-size: 75%;
+      line-height: 10px;
+      pointer-events: none;
+      transition: color 0.2s, font-size 0.2s, line-height 0.2s;
+    }
+
+    &:hover {
+      border-bottom-color: rgba(0, 0, 0, 0.87);
+    }
+
+    &:not(:focus):placeholder-shown + span {
+      font-size: inherit;
+      line-height: 56px;
+    }
+
+    &:focus {
+      outline: none;
+
+      & + span {
+        color: rgb(33, 150, 243);
+
+        &::before {
+          opacity: 0.12;
+        }
+
+        &::after{
+          transform: scale(1);
+        }
+      }
+    }
+
+    &:disabled{
+      border-bottom-color: rgba(0, 0, 0, 0.38);
+      color: rgba(0, 0, 0, 0.38);
+      &+span{
+        color: rgba(0, 0, 0, 0.38);
+      }
+    }
+  }
 }
