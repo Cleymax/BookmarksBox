@@ -8,32 +8,54 @@
     <title>Document</title>
     <link rel="stylesheet" href="../../css/app.css">
 </head>
-<body>
+<body class="theme-light">
+
+<header>
+    <div class="header-left">
+        <a class="header-logo" href="#">
+            <img src="../../img/logo.svg" height="50px" alt="logo">
+            Bookmarks<span style="color: var(--dark-red)">Box</span>
+        </a>
+    </div>
+    <div class="header-right">
+        <button class="btn btn-outlined">Se connecter</button>
+        <button class="btn">S'incrire</button>
+    </div>
+</header>
+
 <div class="container card">
     <h1>S'inscrire</h1>
     <form action="">
         <div class="form-group">
             <div class="input-register">
-                <label for="mail">Email</label>
-                <input type="text" id="mail">
+                <label for="mail"  class="textfield">
+                    <input type="text" id="mail">
+                    <span>Mail</span>
+                </label>
             </div>
             <div class="input-register">
-                <label for="username">Username</label>
-                <input type="text" id="username">
+                <label for="username"  class="textfield">
+                    <input type="text" id="username">
+                    <span>Username</span>
+                </label>
             </div>
             <div class="input-group">
                 <div class="input-register">
-                    <label for="password">Password</label>
-                    <input type="text" id="password">
+                    <label for="password"  class="textfield">
+                        <input type="text" id="password">
+                        <span>Password</span>
+                    </label>
                 </div>
                 <div class="input-register">
-                    <label for="confirm">Confirme Password</label>
-                    <input type="text" id="confirm">
+                    <label for="confirm"  class="textfield">
+                        <input type="text" id="confirm">
+                        <span>Confirm Password</span>
+                    </label>
                 </div>
             </div>
             <div class="btn-register">
                 <div class="button">
-                    <input type="submit" value="S'inscrire">
+                    <input type="submit" value="S'inscrire" class="btn">
                 </div>
             </div>
         </div>

@@ -298,6 +298,7 @@ h3, .h3 {
 }
 
 .card {
+  margin-top: 135px;
   display: flex;
   flex-direction: column;
   width: 25%;
@@ -451,6 +452,8 @@ h3, .h3 {
 }
 
 .input-register {
+  display: flex;
+  justify-content: center;
   width: 100%;
   text-align: left;
   margin-bottom: 10px;
@@ -458,6 +461,10 @@ h3, .h3 {
 
 .btn-register {
   margin-top: 42px;
+}
+
+.input-register > label {
+  width: 100%;
 }
 
 header {
