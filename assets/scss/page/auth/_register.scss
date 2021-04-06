@@ -3,6 +3,8 @@
 }
 
 .input-register {
+  display: flex;
+  justify-content: center;
   width: 100%;
   text-align: left;
   margin-bottom: 10px;
@@ -10,4 +12,8 @@
 
 .btn-register{
   margin-top: 42px;
+}
+
+.input-register > label {
+  width: 100%;
 }
