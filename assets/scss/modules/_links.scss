@@ -1,0 +1,33 @@
+
+a {
+  color: var(--links);
+  font-weight: 450;
+  cursor: pointer;
+  outline: none;
+  will-change: transform, opacity;
+  text-decoration: none;
+  user-select: none;
+  overflow: visible;
+  border: none;
+
+  position: relative;
+  transition: clip-path 275ms ease;
+
+  &:hover span::before, &:focus span::before {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+  & span {
+    position: relative;
+    display: inline-block;
+    color: var(--links);
+    &::before {
+      position: absolute;
+      content: attr(data-content);
+      color: var(--links);
+      text-decoration: underline;
+      text-decoration-color: var(--links);
+      clip-path: polygon(0 0, 0 0, 0% 100%, 0 100%);
+      transition: clip-path 275ms ease;
+    }
+  }
+}
