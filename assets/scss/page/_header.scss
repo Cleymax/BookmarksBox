@@ -1,18 +1,25 @@
+@import "../tools/functions";
 header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  background: #FFFFFF;
-  box-shadow: 0 5px 6px rgba(0, 0, 0, 0.25);
+  background:var(--background);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
 
-  & a{
+  & a {
     display: flex;
     align-items: center;
-    & img{
+    color: var(--dark);
+
+    & svg {
       margin-right: 10px;
     }
+  }
+
+  #box path {
+    fill: var(--dark);
   }
 
   .header-logo {
@@ -21,11 +28,17 @@ header {
     font-family: Roboto, serif;
   }
 
-  @include screen-down(540) {
-    flex-direction: column;
+  .header-right button:not(:last-child) {
+    margin-right: 5px;
+  }
 
+  @include screen-down(640) {
+    flex-direction: column;
     .header-right {
       padding-top: 10px;
+      & button {
+        margin: 0;
+      }
     }
   }
 }
