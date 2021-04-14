@@ -13,6 +13,12 @@ footer {
     font-size: 20px;
   }
 
+  @include screen-up(900){
+    position: absolute;
+    bottom:0;
+    width: 100%;
+  }
+
   @include screen-down(640) {
     flex-direction: column;
 
