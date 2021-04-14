@@ -1,4 +1,5 @@
 <?php
+namespace App\View;
 
 class View
 {
@@ -7,8 +8,8 @@ class View
 
     /**
      * View constructor.
-     * @param $name
-     * @param $layout
+     * @param string $name
+     * @param string $layout
      */
     public function __construct(string $name, string $layout)
     {
