@@ -2,7 +2,7 @@
   background-color: var(--primary);
   padding: 8px 18px;
   border-radius: 4px;
-  color: var(--white);
+  color: white;
   border: 2px solid var(--primary);
   cursor: pointer;
   line-height: 15px;
@@ -21,43 +21,64 @@
   vertical-align: middle;
   transition: all ease .3s;
 
-  &:hover {
-    background-color: var(--white);
-    color: var(--primary);
-    border: 2px solid var(--primary);
-    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2),
-    0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+  & > span.material-icons {
+    margin-right: 5px;
+    font-size: 15px;
   }
 
-
-  &-yellow {
-    background-color: var(--yellow);
-    border-color: var(--yellow);
-
-    &:hover {
-      border-color: var(--yellow);
-      color: var(--yellow);
-    }
+  &:hover,&:focus {
+    transform: scale(1.02);
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2),
+    0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
   }
 
   &:active {
     transform: scale(1.03);
   }
 
-  & span {
-    padding-right: 4px;
+  &-rounded {
+    border-radius: 50px;
   }
 
   &-outlined {
     border-style: solid;
-    border-width: 1px;
-    background-color: transparent;
-    color: var(--color);
-    border-color: var(--color);
+    background-color: var(--white);
+    color: var(--secondary);
+    border-color: var(--secondary);
+  }
 
-    &:hover {
-      background-color: var(--color);
-      color: var(--dark);
+  &-yellow {
+    background-color: var(--yellow);
+    border-color: var(--yellow);
+
+    &:hover,&:focus {
+      border-color: var(--yellow);
     }
+  }
+
+  &-white {
+    background-color: var(--white);
+    border-color: var(--white);
+    color: var(--dark);
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+    &:hover {
+      border-color: var(--white);
+    }
+  }
+
+  &-secondary {
+    color: var(--white);
+    background-color: var(--secondary);
+    border-color: var(--secondary);
+  }
+
+  &[disabled] {
+    cursor: default;
+    filter: grayscale(1);
+    opacity: 0.7;
+  }
+
+  &:hover[disabled] {
+    filter: grayscale(1);
   }
 }
