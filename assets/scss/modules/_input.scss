@@ -8,7 +8,6 @@
 .textfield {
   display: inline-flex;
   position: relative;
-  font-family: "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system, serif;
   font-size: 16px;
   line-height: 15px;
   overflow: hidden;
@@ -24,13 +23,13 @@
     padding: 0 4px 4px 0;
     width: 100%;
     height: inherit;
-    color: rgba(0, 0, 0, 0.87);
+    color: var(--dark);
     background-color: transparent;
     box-shadow: none; /* Firefox */
     font-family: inherit;
     font-size: inherit;
     line-height: inherit;
-    caret-color: rgb(33, 150, 243);
+    caret-color: var(--primary);
     transition: border-bottom 0.2s, background-color 0.2s;
 
     & + span {
@@ -43,7 +42,7 @@
       display: block;
       box-sizing: border-box;
       padding: 7px 0 0;
-      color: rgba(0, 0, 0, 0.6);
+      color: var(--dark);
       font-size: 75%;
       line-height: 10px;
       pointer-events: none;

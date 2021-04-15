@@ -1,5 +1,8 @@
 <?php
 
+namespace App\Router;
+
+use App\View\View;
 
 class Route
 {
@@ -15,7 +18,7 @@ class Route
      * Route constructor.
      * @param string $uri
      * @param array|string $methods
-     * @param Closure|array $action
+     * @param array|\Closure $action
      * @param bool $auth the user need to be not null. The default value is false
      */
     public function __construct(string $uri, $methods, $action, bool $auth = false)
@@ -24,6 +27,11 @@ class Route
         $this->methods = $methods;
         $this->action = $action;
         $this->auth = $auth;
+    }
+
+    public static function init()
+    {
+        Router::get()->onRequest();
     }
 
     /**
@@ -51,7 +59,7 @@ class Route
     }
 
     /**
-     * @return array|Closure
+     * @return array|\Closure
      */
     public function getAction()
     {
@@ -73,7 +81,7 @@ class Route
 
     public static function post(string $uri, $action, bool $auth = false): Route
     {
-        return self::addRoute('GET', $uri, $action, $auth);
+        return self::addRoute('POST', $uri, $action, $auth);
     }
 
     public static function any(string $uri, $action, bool $auth = false): Route

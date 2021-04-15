@@ -1,5 +1,5 @@
 <?php
-
+namespace App\Security;
 
 class Auth
 {

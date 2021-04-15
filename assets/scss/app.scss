@@ -11,6 +11,7 @@
   --red: #EC4E4F;
   --green: #27AE60;
   --yellow: #F39C12;
+  --links: #0b4f7a;
   --primary: #3498DB;
   --secondary: #353535;
   --border: #B1B1B1;
@@ -19,25 +20,35 @@
 }
 
 @include dark-theme {
-  --white: #0C0C0C;
+  --white: #515151;
   --dark: #FFFFFF;
   --red: #EC4E4F;
   --green: #27AE60;
-  --yellow: #F39C12;
-  --primary: #7BCAFF;
-  --secondary: #353535;
+  --yellow: #b5790d;
+  --primary: #0b4f7a;
+  --secondary: #ffffff;
   --border: #EDEDED;
-  --background: #f7fafb;
+  --background: #353535;
   --dark-red: #B00000;
 }
+
+body {
+  background-color: var(--background);
+  font-family: "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system, serif;
+  color: var(--dark);
+}
+
 
 //MODULES
 @import "modules/button";
 @import "modules/card";
 @import "modules/input";
+@import "modules/switch";
+@import "modules/links";
 
 //PAGES
 @import "page/auth/login";
 @import "page/auth/2fa";
 @import "page/auth/register";
 @import "page/header";
+@import "page/footer";
