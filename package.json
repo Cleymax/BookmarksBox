@@ -4,9 +4,9 @@
   "description": "Team Bookmarking",
   "scripts": {
     "dev": "concurrently \"yarn watch\" \"yarn live-server\"",
-    "watch": "node-sass --output-style expanded --source-map true -w -r assets/scss -o assets/css",
+    "watch": "node-sass --output-style expanded --source-map true -w -r resources/scss -o public/css",
     "server": "live-server --host=0.0.0.0 --ignore=package.json",
-    "build": "node-sass --output-style compressed --source-map false -r assets/scss -o assets/css"
+    "build": "node-sass --output-style compressed --source-map false -r resources/scss -o public/css"
   },
   "repository": {
     "type": "git",

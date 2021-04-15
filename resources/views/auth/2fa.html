@@ -6,7 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <link rel="stylesheet" href="../../css/app.css">
+    <link rel="stylesheet" href="../../../public/css/app.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
             integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
@@ -42,18 +42,16 @@
     </div>
 </header>
 <div class="container card">
-    <h1>Mot de passe oublié</h1>
+    <h1>2FA</h1>
     <form action="">
         <div class="form-group">
             <div class="input-auth">
-                <p class="label-2fa">Saisissez votre numéro de téléphone ou votre adresse e-mail de récupération</p>
-                <label for="username" class="textfield">
-                    <input type="text" id="username" autocomplete="username" name="username" spellcheck="false"
-                           tabindex="1"
-                           aria-label="Nom d'utilisateur ou adresse e-mail" required aria-required="true"
-                           title="Nom d'utilisateur ou adresse e-mail"
-                           autocapitalize="none" dir="ltr" autofocus>
-                    <span aria-hidden="true">Nom d'utilisateur ou adresse e-mail</span>
+                <p class="label-2fa">Entrez votre code de double authentification.</p>
+                <label for="code" class="textfield">
+                    <input type="tel" pattern="[0-9]{6}" minlength="6" maxlength="6" id="code" tabindex="1"
+                           spellcheck="false" aria-label="Saisir le code" name="code" autocapitalize="off" autofocus
+                           required aria-required="true" dir="ltr" title="Entre votre code 2FA">
+                    <span>Saisir le code</span>
                 </label>
             </div>
             <div class="btn-2fa">

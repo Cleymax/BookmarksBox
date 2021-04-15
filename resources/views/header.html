@@ -6,7 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <link rel="stylesheet" href="../../css/app.css">
+    <link rel="stylesheet" href="../../public/css/app.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
             integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
@@ -41,55 +41,11 @@
         </button>
     </div>
 </header>
-
-<div class="container card">
-    <h1>Se connecter</h1>
-    <form action="">
-        <div class="form-group">
-            <div class="input-auth">
-                <label for="username" class="textfield">
-                    <input type="text" id="username" autocomplete="username" name="username" spellcheck="false"
-                           tabindex="1"
-                           aria-label="Nom d'utilisateur ou adresse e-mail" required aria-required="true"
-                           title="Nom d'utilisateur ou adresse e-mail"
-                           autocapitalize="none" dir="ltr" autofocus>
-                    <span aria-hidden="true">Nom d'utilisateur ou adresse e-mail</span>
-                </label>
-            </div>
-            <div class="input-auth">
-                <label for="password" class="textfield">
-                    <input type="password" id="password" required aria-required="true" tabindex="2" spellcheck="false"
-                           autocomplete="current-password" aria-label="Mot de passe" autocapitalize="off" dir="ltr"
-                           minlength="6" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
-                           title="Le mot de passe doit faire 6  carractères avec une majuscule et un chiffre"
-                           name="password">
-                    <span aria-hidden="true">Mot de passe</span>
-                </label>
-                <div style="margin-top: 10px">
-                    <label for="show-password" class="switch" style="margin-right: 10px">
-                        <input type="checkbox" id="show-password" tabindex="3" aria-labelledby="afficher-passwd">
-                        <span class="slider round"></span>
-                    </label>
-                    <span id="afficher-passwd" aria-hidden="true">Afficher le mot de passe</span>
-                </div>
-            </div>
-            <div class="btn-container">
-                <div class="button">
-                    <button class="btn" tabindex="4"><span class="material-icons">login</span>Connexion</button>
-                </div>
-                <div class="line-separator"></div>
-                <div class="button">
-                    <button class="btn btn-yellow" tabindex="5"><span class="material-icons">school</span>IUT d'Annecy
-                    </button>
-                </div>
-                <div class="line-separator"></div>
-                <a href="" tabindex="6">
-                    <span data-content="Mot de passe oublié">Mot de passe oublié</span>
-                </a>
-            </div>
-        </div>
-    </form>
-</div>
+<br>
+<br>
+<br>
+<br>
+<br>
 <footer>
     <span>Tout droit réservés &copy; 2022</span>
     <span>Par Clément PERRIN et Raphaël HIEN avec <span class="material-icons">favorite</span></span>
@@ -100,10 +56,6 @@
         $('#theme').prop("checked", theme === 'theme-light' ? false : true)
         $('body').addClass(theme)
     }
-    $('#show-password').click(function () {
-        let checkbox = $(this).is(":checked");
-        $('#password').attr('type', checkbox ? 'text' : 'password');
-    });
     $('#theme').click(function () {
         let body = $('body');
         if (body.hasClass('theme-light')) {
