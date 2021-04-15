@@ -12,7 +12,12 @@ class Route
     private $methods;
     private $auth;
     private $action;
-    private $name;
+    /**
+     * The regular expression requirements.
+     *
+     * @var array
+     */
+    public $wheres = [];
 
     /**
      * Route constructor.
@@ -67,11 +72,27 @@ class Route
     }
 
     /**
-     * @return mixed
+     * @param string $name
+     * @param string $expression
+     * @return $this
      */
-    public function getName()
+    public function where(string $name, string $expression): self
     {
-        return $this->name;
+        $this->wheres[$name] = $expression;
+        return $this;
+    }
+
+    public function whereArray(array $where): self
+    {
+        $this->wheres = $where;
+        return $this;
+    }
+
+    public static function debug()
+    {
+        foreach (Router::get()->getRoutes() as $routes) {
+            dump($routes);
+        }
     }
 
     public static function get(string $uri, $action, bool $auth = false): Route
