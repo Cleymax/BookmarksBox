@@ -1,0 +1,16 @@
+{
+  "@context": "http://schema.org",
+  "@type": "EmailMessage",
+  "potentialAction": {
+    "@type": "ConfirmAction",
+    "target": "https://bookmarksbox.test/public/auth/forget-password?key=dqzijdizqjcqz5c9qz252czqd",
+    "url": "https://bookmarksbox.test/public/auth/forget-password?key=dqzijdizqjcqz5c9qz252czqd",
+    "name": "Reset password"
+  },
+  "description": "Reset my password",
+  "publisher": {
+    "@type": "Organization",
+    "name": "BookmarksBox",
+    "url": "https://bookmarksbox.com"
+  }
+}
