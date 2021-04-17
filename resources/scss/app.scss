@@ -38,6 +38,10 @@ body {
   color: var(--dark);
 }
 
+.turbolinks-progress-bar {
+  height: 5px;
+  background-color: var(--primary);
+}
 
 //MODULES
 @import "modules/button";
