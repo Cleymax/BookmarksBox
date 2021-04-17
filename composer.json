@@ -13,7 +13,9 @@
     }
   ],
   "require": {
-    "filp/whoops": "^2.9"
+    "filp/whoops": "^2.9",
+    "vlucas/phpdotenv": "^5.3",
+    "ext-json": "*"
   },
   "require-dev": {
     "symfony/var-dumper": "^5.2",
