@@ -2,12 +2,12 @@
 
 namespace App;
 
-use App\Controller\AuthController;
-use App\Controller\BookmarkController;
-use App\Controller\DashboardController;
-use App\Controller\FolderController;
-use App\Controller\TeamsController;
-use App\Controller\UserController;
+use App\Controllers\AuthController;
+use App\Controllers\BookmarkController;
+use App\Controllers\DashboardController;
+use App\Controllers\FolderController;
+use App\Controllers\TeamsController;
+use App\Controllers\UserController;
 use App\Router\Route;
 use App\Router\Router;
 use App\Security\Auth;
@@ -19,6 +19,9 @@ require_once ROOT_PATH . '/../app/Bootsrap.php';
 
 Route::get('/auth/login', [AuthController::class, 'loginView']);
 Route::post('/auth/login', [AuthController::class, 'login']);
+
+Route::get('/auth/register', [AuthController::class, 'registerView']);
+Route::post('/auth/register', [AuthController::class, 'register']);
 
 Route::get('/auth/2fa', [AuthController::class, 'twofaView']);
 Route::post('/auth/2fa', [AuthController::class, 'twofa']);
@@ -41,7 +44,7 @@ Route::get('/folder/{id}', [FolderController::class, 'folderView'], true);
 Route::post('/folder/{id}', [FolderController::class, 'createFolder'], true);
 Route::put('/folder/{id}', [FolderController::class, 'editFolder'], true);
 Route::delete('/folder/{id}', [FolderController::class, 'deleteFolder'], true);
-Route::get('/folder/{id}/bookmarks', [FolderController::class, 'getFolderBookmark'], true);
+Route::get('/folder/{id}/bookmarks', [FolderController::class, 'getFolderBookmark'], false);
 Route::get('/folder/{id}/info', [FolderController::class, 'getFolderInfo'], true);
 
 Route::get('/bookmarks/', [BookmarkController::class, 'getAllBookmark'], true);

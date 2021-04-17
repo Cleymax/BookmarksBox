@@ -3,7 +3,8 @@
 namespace App\Router;
 
 use App\Security\Auth;
-use App\View\View;
+use App\Services\FlashService;
+use App\Views\View;
 
 class Router
 {
@@ -20,7 +21,7 @@ class Router
 
     public function addRoute(Route $route): Route
     {
-        $this->routes[$route->getUri()] = $route;
+        $this->routes[] = $route;
         return $route;
     }
 
@@ -65,7 +66,6 @@ class Router
                         if ($action_size >= 2) {
                             $controller_path = $action[0];
                             $function = $action[1];
-                            require_once ROOT_PATH . '/../app/controllers/' . $controller_path . '.php';
                             $controller = new $controller_path();
                             if (method_exists($controller, $function)) {
                                 $this->call_functions($mmm, [$controller, $function]);
@@ -87,7 +87,8 @@ class Router
     {
         if (empty($prams)) {
             if (is_array($callback)) {
-                $return = $callback[0]->$callback[1]();
+                $function = $callback[1];
+                $return = $callback[0]->$function();
             } else {
                 $return = $callback();
             }
@@ -96,14 +97,18 @@ class Router
         }
         if (is_string($return)) {
             echo $return;
-        } else if ($return instanceof \App\Views\View) {
-//            TODO RENDDER VIEW
+        } else if ($return instanceof View) {
+            ob_start();
+            require_once(dirname(ROOT_PATH) . '/resources/views/' . str_replace('.', DIRECTORY_SEPARATOR, $return->getName()) . '.php');
+            $content = ob_get_clean();
+            require_once(dirname(ROOT_PATH) . '/resources/layouts/' . $return->getLayout() . '.php');
         }
+        FlashService::onRequest();
     }
 
     public static function need_login(): void
     {
-        http_response_code(401);
+        http_response_code(307);
         header('Location: /auth/login');
         die();
     }

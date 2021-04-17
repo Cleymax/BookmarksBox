@@ -6,7 +6,7 @@ use App\Views\View;
 
 /**
  * Class Route, represent a endpoint of the website, api.
- * @package App\Router
+ * @package app\Router
  * @see \App\Router\Router
  * @author Clément PERRIN <clement.perrin@etu.univ-smb.fr>
  */
@@ -118,7 +118,7 @@ class Route
      * @param string $uri
      * @param $action
      * @param bool $auth
-     * @return \App\Router\Route
+     * @return Route
      */
     public static function get(string $uri, $action, bool $auth = false): Route
     {
@@ -132,7 +132,7 @@ class Route
      * @param bool $auth
      * @return \App\Router\Route
      */
-    public static function post(string $uri, $action, bool $auth = false): Route
+    public static function post(string $uri, $action, bool $auth = false): self
     {
         return self::addRoute('POST', $uri, $action, $auth);
     }
@@ -144,7 +144,7 @@ class Route
      * @param bool $auth
      * @return \App\Router\Route
      */
-    public static function put(string $uri, $action, bool $auth = false): Route
+    public static function put(string $uri, $action, bool $auth = false): self
     {
         return self::addRoute('PUT', $uri, $action, $auth);
     }
@@ -156,7 +156,7 @@ class Route
      * @param bool $auth
      * @return \App\Router\Route
      */
-    public static function delete(string $uri, $action, bool $auth = false): Route
+    public static function delete(string $uri, $action, bool $auth = false): self
     {
         return self::addRoute('DELETE', $uri, $action, $auth);
     }
@@ -168,7 +168,7 @@ class Route
      * @param bool $auth
      * @return \App\Router\Route
      */
-    public static function any(string $uri, $action, bool $auth = false): Route
+    public static function any(string $uri, $action, bool $auth = false): self
     {
         return self::addRoute(self::$METHODS, $uri, $action, $auth);
     }
@@ -180,7 +180,7 @@ class Route
      * @param bool $auth
      * @return \App\Router\Route
      */
-    public static function view(string $uri, View $view, bool $auth = false): Route
+    public static function view(string $uri, View $view, bool $auth = false): self
     {
         return self::addRoute('GET', $uri, function () use ($view) {
             return $view;
@@ -194,7 +194,7 @@ class Route
      * @param bool $auth
      * @return \App\Router\Route
      */
-    public static function redirect(string $uri, string $destination, bool $auth = false)
+    public static function redirect(string $uri, string $destination, bool $auth = false): self
     {
         return self::addRoute(self::$METHODS, $uri, function () use ($destination) {
             http_response_code(302);
@@ -210,7 +210,7 @@ class Route
      * @param bool $auth
      * @return \App\Router\Route
      */
-    public static function addRoute($methods, string $uri, $action = null, bool $auth = false): Route
+    public static function addRoute($methods, string $uri, $action = null, bool $auth = false): self
     {
         return Router::get()->addRoute(new Route($uri, $methods, $action, $auth));
     }
