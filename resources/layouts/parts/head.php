@@ -8,5 +8,10 @@
     <title><?= $title ?> | BookmarkBox</title>
 
     <!--  css  -->
-    <link rel="stylesheet" href="assets/css/app.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="/css/app.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="/js/turbolinks.js"></script>
+    <script src="/js/main.js"></script>
 </head>

@@ -1,10 +1,8 @@
 <?php
 
+namespace App\Controllers;
 
-class UserController
+class UserController extends Controller
 {
-    public function settings(int $id)
-    {
-        echo "Parramètres de $id";
-    }
+
 }
