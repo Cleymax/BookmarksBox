@@ -1,5 +1,6 @@
 <?php
-namespace App\View;
+
+namespace App\Views;
 
 class View
 {
@@ -11,7 +12,7 @@ class View
      * @param string $name
      * @param string $layout
      */
-    public function __construct(string $name, string $layout)
+    private function __construct(string $name, string $layout)
     {
         $this->name = $name;
         $this->layout = $layout;
@@ -32,4 +33,10 @@ class View
     {
         return $this->layout;
     }
+
+    public static function new(string $name, string $layout = 'default'): View
+    {
+        return new View($name, $layout);
+    }
+
 }

@@ -6,7 +6,7 @@
     "dev": "concurrently \"yarn watch\" \"yarn live-server\"",
     "watch": "node-sass --output-style expanded --source-map true -w -r resources/scss -o public/css",
     "server": "live-server --host=0.0.0.0 --ignore=package.json",
-    "build": "node-sass --output-style compressed --source-map false -r resources/scss -o public/css"
+    "build": "node-sass --output-style compressed -x -r resources/scss -o public/css"
   },
   "repository": {
     "type": "git",

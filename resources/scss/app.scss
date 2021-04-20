@@ -29,7 +29,7 @@
   --secondary: #ffffff;
   --border: #EDEDED;
   --background: #353535;
-  --dark-red: #B00000;
+  --dark-red: #ff7070;
 }
 
 body {
@@ -38,8 +38,13 @@ body {
   color: var(--dark);
 }
 
+.turbolinks-progress-bar {
+  height: 5px;
+  background-color: var(--primary);
+}
 
 //MODULES
+@import "modules/alert";
 @import "modules/button";
 @import "modules/card";
 @import "modules/input";
