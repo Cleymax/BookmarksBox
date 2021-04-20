@@ -1,10 +1,9 @@
 // TOOLS
-@import "tools/reset";
-@import "tools/mixins";
-@import "tools/typography";
+@import "./tools/reset";
+@import "./tools/mixins";
+@import "./tools/typography";
 
 //GENERAL
-
 :root {
   --white: #ffff;
   --dark: #0C0C0C;

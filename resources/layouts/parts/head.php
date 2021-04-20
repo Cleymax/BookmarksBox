@@ -15,14 +15,14 @@ use App\Services\FlashService;
     <meta name="description" content="A teams bookmarkings for everyone !">
     <meta name="keywords" content="bookmark,box,bookmarksbox,free,opensource">
 
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="BookmarksBox" />
-    <meta property="og:title" content="BookmarksBox — The best free teams bookmarkings" />
+    <meta property="og:type" content="website"/>
+    <meta property="og:site_name" content="BookmarksBox"/>
+    <meta property="og:title" content="BookmarksBox — The best free teams bookmarkings"/>
     <meta property="og:description" content="A teams bookmarkings for everyone !"/>
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@bookmarksbox" />
-    <meta name="twitter:creator" content="@bookmarksbox" />
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:site" content="@bookmarksbox"/>
+    <meta name="twitter:creator" content="@bookmarksbox"/>
 
     <!--  css  -->
     <link rel="stylesheet" href="<?= $_ENV['BASE_URL'] ?>/css/app.css">
