@@ -1,17 +1,44 @@
+<?php
+
+use App\Services\FlashService;
+
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+          content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><?= $title ?> | BookmarkBox</title>
 
-    <!--  css  -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="/css/app.css">
+    <meta name="description" content="A teams bookmarkings for everyone !">
+    <meta name="keywords" content="bookmark,box,bookmarksbox,free,opensource">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="/js/turbolinks.js"></script>
-    <script src="/js/main.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="BookmarksBox" />
+    <meta property="og:title" content="BookmarksBox — The best free teams bookmarkings" />
+    <meta property="og:description" content="A teams bookmarkings for everyone !"/>
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@bookmarksbox" />
+    <meta name="twitter:creator" content="@bookmarksbox" />
+
+    <!--  css  -->
+    <link rel="stylesheet" href="<?= $_ENV['BASE_URL'] ?>/css/app.css">
 </head>
+<body>
+<?php
+if (FlashService::has()) {
+    ?>
+    <div class="alert-container">
+        <?php
+        foreach (FlashService::get() as $flash) { ?>
+            <alert-message type="<?= $flash['type'] ?>"
+                <?php if ($flash['duration'] != 'none'){ ?> duration="<?php echo $flash['duration'];
+            } ?>"><?= $flash['text'] ?></alert-message> <?php }
+        ?>
+    </div>
+    <?php
+} ?>
+

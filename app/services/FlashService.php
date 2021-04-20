@@ -12,52 +12,56 @@ class FlashService
     /**
      * Add a success message.
      * @param string $message
+     * @param int|null $duration
      */
-    public static function success(string $message)
+    public static function success(string $message, int $duration = null)
     {
-        self::add('success', $message);
+        self::add('success', $message, $duration);
     }
 
     /**
      * Add a information message.
      * @param string $message
+     * @param int|null $duration
      */
-    public static function info(string $message)
+    public static function info(string $message, int $duration = null)
     {
-        self::add('info', $message);
+        self::add('info', $message, $duration);
     }
 
     /**
      * Add a error message.
      * @param string $message
+     * @param int|null $duration
      */
-    public static function error(string $message)
+    public static function error(string $message, int $duration = null)
     {
-        self::add('error', $message);
+        self::add('error', $message, $duration);
     }
 
     /**
      * Add a message with a custom type.
      * @param string $type
      * @param string $message
+     * @param int|null $duration
      */
-    public static function add(string $type, string $message): void
+    public static function add(string $type, string $message, ?int $duration): void
     {
-        $_SESSION['flash'][$type] = $message;
+        $message = [
+            'text' => $message,
+            'type' => $type,
+            'duration' => $duration ?? 'none'
+        ];
+        $_SESSION['flash'][] = $message;
     }
 
     /**
-     * Test if a flash message exist with his type.
-     * @param string $type
+     * Test if a flash message
      * @return bool
      */
-    public static function has(string $type = ''): bool
+    public static function has(): bool
     {
-        if ($type == '') {
-            return !empty($_SESSION['flash']);
-        } else {
-            return isset($_SESSION['flash'][$type]);
-        }
+        return !empty($_SESSION['flash']);
     }
 
     /**
@@ -65,16 +69,16 @@ class FlashService
      */
     public static function onRequest(): void
     {
+        $_SESSION['flash'] = [];
         unset($_SESSION['flash']);
     }
 
     /**
-     * Get a flash message.
-     * @param string $type
-     * @return array|string
+     * Get the flash messages.
+     * @return array
      */
-    public static function get(string $type = '')
+    public static function get(): array
     {
-        return $type == '' ? $_SESSION['flash'] : $_SESSION['flash'][$type];
+        return $_SESSION['flash'];
     }
 }

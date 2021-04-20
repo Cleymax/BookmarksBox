@@ -6,7 +6,7 @@ use App\Views\View;
 
 abstract class Controller
 {
-    public function render(View $view, string $title,  array $data = [])
+    public function render(View $view, string $title, array $data = [])
     {
         extract($data);
         ob_start();

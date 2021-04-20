@@ -15,7 +15,7 @@ use App\Security\Auth;
 define('ROOT_PATH', dirname(__FILE__));
 
 require_once ROOT_PATH . '/../vendor/autoload.php';
-require_once ROOT_PATH . '/../app/Bootsrap.php';
+require_once ROOT_PATH . '/../app/Bootstrap.php';
 
 Route::get('/auth/login', [AuthController::class, 'loginView']);
 Route::post('/auth/login', [AuthController::class, 'login']);
