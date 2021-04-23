@@ -17,19 +17,18 @@ define('ROOT_PATH', dirname(__FILE__));
 require_once ROOT_PATH . '/../vendor/autoload.php';
 require_once ROOT_PATH . '/../app/Bootstrap.php';
 
-Route::get('/auth/login', [AuthController::class, 'loginView']);
+Route::get('/auth/login', [AuthController::class, 'loginView'], false, 'login');
 Route::post('/auth/login', [AuthController::class, 'login']);
 
-Route::get('/auth/register', [AuthController::class, 'registerView']);
+Route::get('/auth/register', [AuthController::class, 'registerView'],false, 'register');
 Route::post('/auth/register', [AuthController::class, 'register']);
 
-Route::get('/auth/2fa', [AuthController::class, 'twofaView']);
-Route::post('/auth/2fa', [AuthController::class, 'twofa']);
+Route::get('/auth/2fa', [AuthController::class, 'twofaView'], false, '2fa');
+Route::post('/auth/2fa', [AuthController::class, 'twofa'], false);
 
-Route::get('/auth/logout', [AuthController::class, 'logoutView'], true);
 Route::get('/auth/logout', function () {
     Auth::logout();
-}, true);
+}, true, 'logout');
 
 Route::get('/profile', [UserController::class, 'profileView'], true);
 Route::post('/profile', [UserController::class, 'profile'], true);
@@ -37,7 +36,7 @@ Route::post('/profile', [UserController::class, 'profile'], true);
 Route::get('/settings', [UserController::class, 'settingsView'], true);
 Route::post('/settings', [UserController::class, 'settings'], true);
 
-Route::get('/dashboard', [DashboardController::class, 'dashboard'], true);
+Route::get('/dashboard', [DashboardController::class, 'dashboard'], true, 'dashboard');
 Route::get('/favorite', [DashboardController::class, 'favorite'], true);
 
 Route::get('/folder/{id}', [FolderController::class, 'folderView'], true);

@@ -17,13 +17,24 @@
         </div>
 
         <div class="header-right">
-            <label for="theme" class="switch" style="margin-right: 10px">
-                <input type="checkbox" id="theme">
-                <span class="slider round"></span>
-                Thème
-            </label>
-            <a href="<?=$_ENV['BASE_URL']?>/auth/login" class="btn btn-secondary btn-rounded" accesskey="c"><span class="material-icons">login</span>Connexion</a>
-            <a href="<?=$_ENV['BASE_URL']?>/auth/register" class="btn btn-rounded btn-outlined btn-white" accesskey="i"><span class="material-icons">how_to_reg</span>Inscription
-            </a>
+            <?php
+
+            use App\Router\Router;
+            use App\Security\Auth;
+
+            if (!Auth::check()) {
+                ?>
+                <a href="<?= Router::get_url('login') ?>" class="btn btn-secondary btn-rounded" accesskey="c"><span
+                            class="material-icons">login</span>Connexion</a>
+                <a href="<?= Router::get_url('register') ?>" class="btn btn-rounded btn-outlined btn-white"
+                   accesskey="i"><span class="material-icons">how_to_reg</span>Inscription</a>
+                <?php
+            } else {
+                ?>
+                <a href="<?= Router::get_url('logout') ?>" class="btn btn-rounded btn-outlined btn-white" accesskey="i"><span
+                            class="material-icons">logout</span>Déconnexion</a>
+                <?php
+            }
+            ?>
         </div>
     </header>

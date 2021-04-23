@@ -2,6 +2,9 @@
 
 namespace App\Controllers;
 
+use App\Router\Router;
+use App\Security\AuthException;
+use App\Services\FlashService;
 use App\Views\View;
 
 abstract class Controller
@@ -24,5 +27,23 @@ abstract class Controller
     {
         header("Content-Type: application/json");
         echo json_encode($json);
+    }
+
+    public function redirect(string $s)
+    {
+        foreach (Router::get()->getRoutes() as $route) {
+            if ($route->getName() == $s) {
+                header('Location: /' . $route->getUri());
+                return;
+            }
+        }
+        header('Location: ' . $s);
+    }
+
+    public function check(?string $value, string $message): void
+    {
+        if ($value == null || $value == '' || trim($value) == '') {
+            throw new AuthException($message);
+        }
     }
 }

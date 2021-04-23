@@ -13,9 +13,14 @@
     }
   ],
   "require": {
+    "php": ">=7.2",
     "filp/whoops": "^2.9",
     "vlucas/phpdotenv": "^5.3",
-    "ext-json": "*"
+    "sonata-project/google-authenticator": "2.2.0",
+    "ext-json": "*",
+    "ext-pdo": "*",
+    "ext-ldap": "*",
+    "ext-readline": "*"
   },
   "require-dev": {
     "symfony/var-dumper": "^5.2",

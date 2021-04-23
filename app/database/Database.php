@@ -82,6 +82,8 @@ class Database
      */
     public static function set(self $database)
     {
-        self::$instance = new \PDO("pgsql:host=$database->host;port=$database->port;dbname=$database->name", $database->user, $database->password);
+        self::$instance = new \PDO("pgsql:host=$database->host;port=$database->port;dbname=$database->name", $database->user, $database->password, [
+            \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_OBJ,
+        ]);
     }
 }

@@ -27,14 +27,21 @@
                         </label>
                         <span id="afficher-passwd" aria-hidden="true">Afficher le mot de passe</span>
                     </div>
+                    <div style="margin-top: 10px">
+                        <label for="remember" class="switch" style="margin-right: 10px">
+                            <input type="checkbox" id="remember" name="remember" value="off" aria-labelledby="remember-label">
+                            <span class="slider round"></span>
+                        </label>
+                        <span id="remember-label" aria-hidden="true">Se souvenir de moi</span>
+                    </div>
                 </div>
                 <div class="btn-container">
                     <div class="button">
-                        <button class="btn" aria-label="Connecion" title="Connexion"><span class="material-icons">login</span>Connexion</button>
+                        <button class="btn" aria-label="Connecion" name="login" value="standard" title="Connexion"><span class="material-icons">login</span>Connexion</button>
                     </div>
                     <div class="line-separator"></div>
                     <div class="button">
-                        <button class="btn btn-yellow" aria-label="IUT d'Annecy" title="Connexion avec votre compte de l'IUT d'Annecy"><span class="material-icons">school</span>IUT d'Annecy
+                        <button class="btn btn-yellow" aria-label="IUT d'Annecy"  name="login"  value="iutannecy" title="Connexion avec votre compte de l'IUT d'Annecy"><span class="material-icons">school</span>IUT d'Annecy
                         </button>
                     </div>
                     <div class="line-separator"></div>

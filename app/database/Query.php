@@ -23,6 +23,11 @@ class Query
     private $params = [];
     private $values = [];
     private $returning = [];
+    private $response;
+    /**
+     * @var \PDOStatement
+     */
+    private $request;
 
     /**
      * Query constructor.
@@ -336,15 +341,35 @@ class Query
         return join(' ', $parts);
     }
 
+    public function execute()
+    {
+        try {
+            $this->request = $this->pdo->prepare($this->__toString() . ';');
+            $this->response = $this->request->execute($this->params);
+        } catch (\Exception $e) {
+            dd($e);
+        }
+    }
+
+
+    public function rowCount(): int
+    {
+        if (!$this->response) {
+            $this->execute();
+        }
+        return $this->request->rowCount();
+    }
+
     /**
      *  Retrieve the first element returned by the request.
      * @return bool|object|array
      */
     public function first()
     {
-        $request = $this->pdo->prepare($this->__toString() . ';');
-        $request->execute($this->params);
-        return $request->fetchObject();
+        if (!$this->response) {
+            $this->execute();
+        }
+        return $this->request->fetchObject();
     }
 
     /**
@@ -353,8 +378,9 @@ class Query
      */
     public function all(): array
     {
-        $request = $this->pdo->prepare($this->__toString() . ';');
-        $request->execute($this->params);
-        return $request->fetchAll(\PDO::FETCH_OBJ);
+        if (!$this->response) {
+            $this->execute();
+        }
+        return $this->request->fetchAll(\PDO::FETCH_OBJ);
     }
 }

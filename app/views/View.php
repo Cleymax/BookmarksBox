@@ -2,6 +2,11 @@
 
 namespace App\Views;
 
+/**
+ * Represent a view in the MVC model.
+ * Class View
+ * @package App\Views
+ */
 class View
 {
     private $name;
@@ -34,9 +39,14 @@ class View
         return $this->layout;
     }
 
+    /**
+     * Create a new View.
+     * @param string $name
+     * @param string $layout
+     * @return \App\Views\View
+     */
     public static function new(string $name, string $layout = 'default'): View
     {
         return new View($name, $layout);
     }
-
 }

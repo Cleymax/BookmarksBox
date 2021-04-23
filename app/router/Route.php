@@ -40,15 +40,23 @@ class Route
     public $wheres = [];
 
     /**
+     * Name of the route.
+     * @var string
+     */
+    public $name;
+
+    /**
      * Route constructor.
      * @param string $uri
      * @param array|string $methods
      * @param array|\Closure $action
+     * @param string $name
      * @param bool $auth the user need to be not null. The default value is false
      */
-    public function __construct(string $uri, $methods, $action, bool $auth = false)
+    public function __construct(string $uri, $methods, $action, string $name = '', bool $auth = false)
     {
         $this->uri = trim($uri, '/');
+        $this->name = $name;
         $this->methods = $methods;
         $this->action = $action;
         $this->auth = $auth;
@@ -114,77 +122,92 @@ class Route
     }
 
     /**
+     * Get the name of the route.
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
      * Register a new GET route with the router.
      * @param string $uri
      * @param $action
+     * @param string $name
      * @param bool $auth
      * @return Route
      */
-    public static function get(string $uri, $action, bool $auth = false): Route
+    public static function get(string $uri, $action, bool $auth = false, string $name = ''): Route
     {
-        return self::addRoute('GET', $uri, $action, $auth);
+        return self::addRoute('GET', $uri, $action, $name, $auth);
     }
 
     /**
      * Register a new POST route with the router.
      * @param string $uri
      * @param $action
+     * @param string $name
      * @param bool $auth
      * @return \App\Router\Route
      */
-    public static function post(string $uri, $action, bool $auth = false): self
+    public static function post(string $uri, $action, bool $auth = false, string $name = ''): self
     {
-        return self::addRoute('POST', $uri, $action, $auth);
+        return self::addRoute('POST', $uri, $action, $name, $auth);
     }
 
     /**
      * Register a new PUT route with the router.
      * @param string $uri
      * @param $action
+     * @param string $name
      * @param bool $auth
      * @return \App\Router\Route
      */
-    public static function put(string $uri, $action, bool $auth = false): self
+    public static function put(string $uri, $action, bool $auth = false, string $name = ''): self
     {
-        return self::addRoute('PUT', $uri, $action, $auth);
+        return self::addRoute('PUT', $uri, $action, $name, $auth);
     }
 
     /**
      * Register a new DELETE route with the router.
      * @param string $uri
      * @param $action
+     * @param string $name
      * @param bool $auth
      * @return \App\Router\Route
      */
-    public static function delete(string $uri, $action, bool $auth = false): self
+    public static function delete(string $uri, $action, bool $auth = false, string $name = ''): self
     {
-        return self::addRoute('DELETE', $uri, $action, $auth);
+        return self::addRoute('DELETE', $uri, $action, $name, $auth);
     }
 
     /**
      * Register a new route responding to all verbs.
      * @param string $uri
      * @param $action
+     * @param string $name
      * @param bool $auth
      * @return \App\Router\Route
      */
-    public static function any(string $uri, $action, bool $auth = false): self
+    public static function any(string $uri, $action, bool $auth = false, string $name = ''): self
     {
-        return self::addRoute(self::$METHODS, $uri, $action, $auth);
+        return self::addRoute(self::$METHODS, $uri, $action, $name, $auth);
     }
 
     /**
      * Register a new route that returns a view.
      * @param string $uri
      * @param \App\Views\View $view
+     * @param string $name
      * @param bool $auth
      * @return \App\Router\Route
      */
-    public static function view(string $uri, View $view, bool $auth = false): self
+    public static function view(string $uri, View $view, bool $auth = false, string $name = ''): self
     {
         return self::addRoute('GET', $uri, function () use ($view) {
             return $view;
-        }, $auth);
+        }, $name, $auth);
     }
 
     /**
@@ -207,11 +230,12 @@ class Route
      * @param $methods
      * @param string $uri
      * @param null $action
+     * @param string $name
      * @param bool $auth
      * @return \App\Router\Route
      */
-    public static function addRoute($methods, string $uri, $action = null, bool $auth = false): self
+    public static function addRoute($methods, string $uri, $action = null, string $name = '', bool $auth = false): self
     {
-        return Router::get()->addRoute(new Route($uri, $methods, $action, $auth));
+        return Router::get()->addRoute(new Route($uri, $methods, $action, $name, $auth));
     }
 }
