@@ -108,9 +108,28 @@ class Router
 
     public static function need_login(): void
     {
-        http_response_code(307);
-        header('Location: /auth/login');
+        if (isset($_SESSION['user']) && !empty($_SESSION['user']) && !$_SESSION['user']['logged']) {
+            FlashService::add('warning', "Merci d'entrer votre code de double authentification !", 15);
+            header('Location: /auth/2fa');
+        } else {
+            FlashService::error("Tu dois être connecté pour accèder à ceci !", 5);
+            header('Location: /auth/login');
+        }
         die();
+    }
+
+    public static function get_url(string $s, array $params = []): string
+    {
+        $data = '';
+        if (!empty($data)) {
+            $data = http_build_query($params);
+        }
+        foreach (Router::get()->getRoutes() as $route) {
+            if ($route->getName() == $s) {
+                return $_ENV['BASE_URL'] . '/' . $route->getUri() . $data;
+            }
+        }
+        return $_ENV['BASE_URL'] . $s . $data;
     }
 
     public static function not_found(): void
