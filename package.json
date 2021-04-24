@@ -6,7 +6,12 @@
     "dev": "concurrently \"yarn watch\" \"yarn live-server\"",
     "watch": "node-sass --output-style expanded --source-map true -w -r resources/scss -o public/css",
     "server": "live-server --host=0.0.0.0 --ignore=package.json",
-    "build": "node-sass --output-style compressed -x -r resources/scss -o public/css"
+    "build": "node-sass --output-style compressed -x -r resources/scss -o public/css",
+    "build-js": "cross-env NODE_ENV=production webpack --progress --config webpack.prod.js",
+    "dev-js": "cross-env NODE_ENV=development webpack --progress --config webpack.dev.js",
+    "watch-js": "cross-env NODE_ENV=development webpack --progress --watch --config webpack.dev.js",
+    "lint": "eslint resources/js/**/*.js",
+    "lint:fix": "eslint resources/js/**/*.js --fix"
   },
   "repository": {
     "type": "git",
@@ -23,8 +28,24 @@
   },
   "homepage": "https://github.com/Cleymax/BookmarksBox#readme",
   "devDependencies": {
+    "@babel/core": "^7.13.16",
+    "@babel/preset-env": "^7.13.15",
+    "babel-loader": "^8.2.2",
     "concurrently": "^6.0.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^7.25.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-loader": "^4.0.2",
+    "eslint-plugin-import": "^2.22.1",
     "live-server": "^1.2.1",
-    "node-sass": "^5.0.0"
+    "node-sass": "^5.0.0",
+    "terser-webpack-plugin": "^5.1.1",
+    "webpack": "^5.35.1",
+    "webpack-cli": "^4.6.0",
+    "webpack-merge": "^5.7.3",
+    "webpack-node-externals": "^3.0.0"
+  },
+  "dependencies": {
+    "jquery": "^3.6.0"
   }
 }
