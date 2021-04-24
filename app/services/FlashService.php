@@ -9,7 +9,6 @@ namespace App\Services;
  */
 class FlashService
 {
-    private static $flashs = [];
 
     /**
      * Add a success message.
@@ -54,8 +53,7 @@ class FlashService
             'type' => $type,
             'duration' => $duration ?? 'none'
         ];
-        self::$flashs[] = $message;
-        setcookie('flash', json_encode(self::$flashs), time() + 1, '/');
+        $_SESSION['flash'][] = $message;
     }
 
     /**
@@ -64,7 +62,7 @@ class FlashService
      */
     public static function has(): bool
     {
-        return isset($_COOKIE['flash']);
+        return isset($_SESSION['flash']);
     }
 
     /**
@@ -73,6 +71,11 @@ class FlashService
      */
     public static function get(): array
     {
-        return json_decode($_COOKIE['flash'], true);
+        return $_SESSION['flash'];
+    }
+
+    public static function request()
+    {
+        unset($_SESSION['flash']);
     }
 }

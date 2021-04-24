@@ -11,6 +11,7 @@ use App\Controllers\UserController;
 use App\Router\Route;
 use App\Router\Router;
 use App\Security\Auth;
+use App\Services\CsrfService;
 
 define('ROOT_PATH', dirname(__FILE__));
 
@@ -20,7 +21,7 @@ require_once ROOT_PATH . '/../app/Bootstrap.php';
 Route::get('/auth/login', [AuthController::class, 'loginView'], false, 'login');
 Route::post('/auth/login', [AuthController::class, 'login']);
 
-Route::get('/auth/register', [AuthController::class, 'registerView'],false, 'register');
+Route::get('/auth/register', [AuthController::class, 'registerView'], false, 'register');
 Route::post('/auth/register', [AuthController::class, 'register']);
 
 Route::get('/auth/2fa', [AuthController::class, 'twofaView'], false, '2fa');

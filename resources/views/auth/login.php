@@ -1,6 +1,7 @@
     <div class="container card">
         <h1>Se connecter</h1>
         <form method="post">
+           <?= \App\Services\CsrfService::html() ?>
             <div class="form-group">
                 <div class="input-auth">
                     <label for="username" class="textfield">

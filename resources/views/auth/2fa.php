@@ -1,6 +1,7 @@
     <div class="container card">
         <h1>2FA</h1>
         <form method="post">
+            <?= \App\Services\CsrfService::html() ?>
             <div class="form-group">
                 <div class="input-auth">
                     <p class="label-2fa">Entrez votre code de double authentification.</p>

@@ -22,6 +22,7 @@ class AuthController extends Controller
             return;
         }
         try {
+            $this->checkCsrf();
             $this->check($_POST['username'], 'Merci de rentrer un nom d\'utilisateur correct !');
             $this->check($_POST['password'], 'Merci de rentrer votre mot de passe !');
             $remember_me = isset($_POST['remember']) && $_POST['remember'] == 'on';
@@ -31,7 +32,7 @@ class AuthController extends Controller
                 FlashService::success("Connexion réussi.", 10);
                 $this->redirect("dashboard");
             }
-        } catch (AuthException $e) {
+        } catch (\Exception $e) {
             FlashService::error($e->getMessage());
             http_response_code(400);
             $this->render(View::new('auth.login'), 'Connexion');
@@ -55,6 +56,7 @@ class AuthController extends Controller
             return;
         }
         try {
+            $this->checkCsrf();
             $this->check($_POST['code'], 'Merci de rentrer un code corect !');
             $result = Auth::totp($_POST['code']);
             if (!$result) {
@@ -65,7 +67,7 @@ class AuthController extends Controller
                 FlashService::success("Connexion réussi.", 10);
                 $this->redirect("dashboard");
             }
-        } catch (AuthException $e) {
+        } catch (\Exception $e) {
             FlashService::error($e->getMessage());
             http_response_code(400);
             $this->render(View::new('auth.2fa'), 'Double authentification');
