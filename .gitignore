@@ -228,3 +228,4 @@ temp/
 # End of https://www.toptal.com/developers/gitignore/api/jetbrains+all,node,composer
 
 public/css/*
+public/js/*
