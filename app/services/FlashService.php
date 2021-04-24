@@ -9,6 +9,7 @@ namespace App\Services;
  */
 class FlashService
 {
+
     /**
      * Add a success message.
      * @param string $message
@@ -61,16 +62,7 @@ class FlashService
      */
     public static function has(): bool
     {
-        return !empty($_SESSION['flash']);
-    }
-
-    /**
-     * Call when a request is called.
-     */
-    public static function onRequest(): void
-    {
-        $_SESSION['flash'] = [];
-        unset($_SESSION['flash']);
+        return isset($_SESSION['flash']);
     }
 
     /**
@@ -80,5 +72,10 @@ class FlashService
     public static function get(): array
     {
         return $_SESSION['flash'];
+    }
+
+    public static function request()
+    {
+        unset($_SESSION['flash']);
     }
 }

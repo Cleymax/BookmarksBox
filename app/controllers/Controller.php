@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Router\Router;
 use App\Security\AuthException;
+use App\Services\CsrfService;
 use App\Services\FlashService;
 use App\Views\View;
 
@@ -38,12 +39,24 @@ abstract class Controller
             }
         }
         header('Location: ' . $s);
+        die();
     }
 
     public function check(?string $value, string $message): void
     {
         if ($value == null || $value == '' || trim($value) == '') {
-            throw new AuthException($message);
+            throw new \Exception($message);
+        }
+    }
+
+    public function checkCsrf()
+    {
+        if (!isset($_POST['_csrf_token']) || $_POST['_csrf_token'] == null || $_POST['_csrf_token'] == '') {
+            throw new \Exception("Erreur lors de l'envoie de la requete ! Réésayez !");
+        }
+
+        if(!CsrfService::verify($_POST['_csrf_token'])){
+            throw new \Exception("Erreur lors de l'envoie de la requete ! Réésayez !");
         }
     }
 }

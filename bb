@@ -7,6 +7,7 @@ use Dotenv\Dotenv;
 
 require __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/app/tools/Str.php';
+require_once __DIR__ . '/app/database/Database.php';
 
 $argv = $argv ?? $_SERVER['argv'] ?? [];
 array_shift($argv);

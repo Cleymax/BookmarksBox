@@ -103,7 +103,7 @@ class Router
             $content = ob_get_clean();
             require_once(dirname(ROOT_PATH) . '/resources/layouts/' . $return->getLayout() . '.php');
         }
-        FlashService::onRequest();
+        FlashService::request();
     }
 
     public static function need_login(): void

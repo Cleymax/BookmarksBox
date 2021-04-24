@@ -1,6 +1,7 @@
     <div class="container card">
         <h1>S'inscrire</h1>
         <form method="post">
+            <?= \App\Services\CsrfService::html() ?>
             <div class="form-group">
                 <div class="input-register">
                     <label for="mail" class="textfield">
