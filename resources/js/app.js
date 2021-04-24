@@ -1,15 +1,17 @@
+import 'regenerator-runtime/runtime';
 import $ from 'jquery';
 import Alert from './elements/Alert';
 
 window.customElements.define('alert-message', Alert);
 
 $(document).ready(() => {
+  const themeswitch = $('#theme');
   const theme = localStorage.getItem('theme');
   if (theme != null) {
-    $('#theme').prop('checked', theme !== 'theme-light');
+    themeswitch.prop('checked', theme !== 'theme-light');
     $('body').addClass(theme);
   }
-  $('#theme').click(() => {
+  themeswitch.click(() => {
     const body = $('body');
     if (body.hasClass('theme-light')) {
       body.removeClass('theme-light');
