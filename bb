@@ -24,15 +24,22 @@ switch ($argv[0]) {
         } else {
             dd("Cancel");
         }
+    case"env":
+        if (!file_exists('.env')) {
+            copy('.env.example', '.env');
+            dd("Env file created !");
+        } else {
+            dd("Env file already exist !");
+        }
     case "database":
         Database::set(
-            new Database(
-                $_ENV['DB_DATABASE'],
-                $_ENV['DB_USER'] ?? 'postgres',
-                $_ENV['DB_PASSWORD'] ?? 'postgres',
-                $_ENV['DB_HOST'] ?? 'localhost',
-                $_ENV['DB_PORT'] ?? '5432'
-            )
+                new Database(
+                        $_ENV['DB_DATABASE'],
+                        $_ENV['DB_USER'] ?? 'postgres',
+                        $_ENV['DB_PASSWORD'] ?? 'postgres',
+                        $_ENV['DB_HOST'] ?? 'localhost',
+                        $_ENV['DB_PORT'] ?? '5432'
+                )
         );
         dd(Database::get()->getAttribute(PDO::ATTR_CONNECTION_STATUS));
     default:
