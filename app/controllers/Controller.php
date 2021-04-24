@@ -38,6 +38,7 @@ abstract class Controller
             }
         }
         header('Location: ' . $s);
+        die();
     }
 
     public function check(?string $value, string $message): void
