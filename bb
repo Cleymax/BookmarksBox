@@ -32,6 +32,17 @@ switch ($argv[0]) {
         } else {
             dd("Env file already exist !");
         }
+    case "mode":
+        if (sizeof($argv) != 2) {
+            dd("php bb mode <dev,production>");
+        }
+        if ($argv[1] == 'dev') {
+            file_put_contents('.env', str_replace('MODE=' . $_ENV['MODE'], 'MODE=dev', file_get_contents('.env')));
+            dd("Website mode: dev");
+        }else {
+            file_put_contents('.env', str_replace('MODE=' . $_ENV['MODE'], 'MODE=production', file_get_contents('.env')));
+            dd("Website mode: production");
+        }
     case "database":
         Database::set(
                 new Database(

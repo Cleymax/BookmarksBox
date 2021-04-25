@@ -3,6 +3,7 @@
 namespace App\Security;
 
 use App\Database\Query;
+use App\Services\DebugBarService;
 use App\Services\FlashService;
 use Sonata\GoogleAuthenticator\GoogleAuthenticator;
 

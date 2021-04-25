@@ -47,6 +47,6 @@ class CsrfService
 
     public static function html(): string
     {
-        echo "<input type='hidden' name='_csrf_token' value='" . self::generate() . "'>";
+        return "<input type='hidden' name='_csrf_token' value='" . self::generate() . "'>";
     }
 }

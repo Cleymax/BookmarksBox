@@ -1,0 +1,309 @@
+/* Hide debugbar when printing a page */
+@media print {
+  div.phpdebugbar {
+    display: none;
+  }
+}
+
+div.phpdebugbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-top: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background: #fff;
+  z-index: 10000;
+  font-size: 14px;
+  color: #000;
+  text-align: left;
+  line-height: 1;
+  letter-spacing: normal;
+  direction: ltr;
+}
+
+div.phpdebugbar a,
+div.phpdebugbar-openhandler {
+  cursor: pointer;
+}
+
+div.phpdebugbar-drag-capture {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10001;
+  background: none;
+  display: none;
+  cursor: ns-resize;
+}
+
+div.phpdebugbar-closed {
+    width: auto;
+}
+
+div.phpdebugbar * {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-weight: normal;
+  text-decoration: none;
+  clear: initial;
+  width: auto;
+  -moz-box-sizing: content-box;
+       box-sizing: content-box;
+}
+
+div.phpdebugbar ol, div.phpdebugbar ul {
+  list-style: none;
+}
+
+div.phpdebugbar table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+div.phpdebugbar input[type='text'], div.phpdebugbar input[type='password'] {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background: #fff;
+  font-size: 14px;
+  color: #000;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+div.phpdebugbar code, div.phpdebugbar pre, div.phpdebugbar samp {
+  background: none;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 1em;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+div.phpdebugbar code, div.phpdebugbar pre {
+  color: #000;
+}
+
+div.phpdebugbar pre.sf-dump {
+  color: #a0a000;
+  outline: 0;
+}
+
+a.phpdebugbar-restore-btn {
+  float: left;
+  padding: 5px 8px;
+  font-size: 14px;
+  color: #555;
+  text-decoration: none;
+  border-right: 1px solid #ddd;
+}
+
+div.phpdebugbar-resize-handle {
+  display: none;
+  height: 4px;
+  margin-top: -4px;
+  width: 100%;
+  border-bottom: 1px solid #ccc;
+  cursor: ns-resize;
+  background-color: #fa5661;
+}
+
+div.phpdebugbar-closed, div.phpdebugbar-minimized{
+  border-top: 1px solid #ccc;
+}
+/* -------------------------------------- */
+
+div.phpdebugbar-header, a.phpdebugbar-restore-btn {
+  background: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjxzdmcKICAgeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIgogICB4bWxuczpjYz0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbnMjIgogICB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiCiAgIHhtbG5zOnN2Zz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIKICAgdmVyc2lvbj0iMS4xIgogICB2aWV3Qm94PSIwIDAgNTUuOTEgNTQuNCIKICAgZGF0YS1uYW1lPSJDYWxxdWUgMSIKICAgaWQ9IkNhbHF1ZV8xIj4KICA8dGl0bGUKICAgICBpZD0idGl0bGUxMSI+Qm9va21hcmtzQm94PC90aXRsZT4KICA8bWV0YWRhdGEKICAgICBpZD0ibWV0YWRhdGExNSI+CiAgICA8cmRmOlJERj4KICAgICAgPGNjOldvcmsKICAgICAgICAgcmRmOmFib3V0PSIiPgogICAgICAgIDxkYzpmb3JtYXQ+aW1hZ2Uvc3ZnK3htbDwvZGM6Zm9ybWF0PgogICAgICAgIDxkYzp0eXBlCiAgICAgICAgICAgcmRmOnJlc291cmNlPSJodHRwOi8vcHVybC5vcmcvZGMvZGNtaXR5cGUvU3RpbGxJbWFnZSIgLz4KICAgICAgICA8ZGM6dGl0bGU+Qm9va21hcmtzQm94PC9kYzp0aXRsZT4KICAgICAgPC9jYzpXb3JrPgogICAgPC9yZGY6UkRGPgogIDwvbWV0YWRhdGE+CiAgPGRlZnMKICAgICBpZD0iZGVmczQiPgogICAgPHN0eWxlCiAgICAgICBpZD0ic3R5bGUyIj4uY2xzLTF7ZmlsbDojMDEwMTAxO30uY2xzLTJ7ZmlsbDojYjAxOTE3O308L3N0eWxlPgogIDwvZGVmcz4KICA8ZwogICAgIGlkPSJib3giPgogICAgPHBhdGgKICAgICAgIGlkPSJwYXRoNiIKICAgICAgIGQ9Im0gMzMuNDE2MDE2LC0wLjAxNzU3ODEzIGMgLTAuMTc3MTkzLDAuMDI0ODA2OTkgLTAuMzQ3NTM0LDAuMTA5MTkyMzggLTAuNDc2NTYzLDAuMjQ4MDQ2ODggbCAtNiw2LjAwMDAwMDA1IC02LC02LjAwMDAwMDA1IEMgMjAuNzkwNzMzLDAuMDgyNDgyOTggMjAuNTkwNjYxLC03LjM1NmUtNCAyMC4zODA4NTksMCAyMC4yNDg5MjQsMS4wMjExZS00IDIwLjExNzk2NSwwLjAzMDc1ODk4IDIwLDAuMDg5ODQzNzUgTCAxMy43MjA3MDMsMy40NzA3MDMxIGMgLTAuMTgzMjAzLDAuMTA1NzMzMyAtMC4zMTk5ODQsMC4yNzU5MzkzIC0wLjM4MDg1OSwwLjQ3ODUxNTcgLTAuMDYxMjQsMC4xOTk5NTYzIC0wLjAzOTA3LDAuNDE3NjkyNSAwLjA2MDU1LDAuNjAxNTYyNCAwLjEzODk3NCwwLjI1NzQ3MjIgMC40MDY2MzcsMC40MTg0NjEyIDAuNjk5MjE4LDAuNDE5OTIxOSAwLjEzMjA2NiwwLjAwMTA0IDAuMjYzMjg5LC0wLjAyOTY4IDAuMzgwODYsLTAuMDg5ODQ0IEwgMjAuMjUsMS43NSAyNS42Njk5MjIsNy4xNzk2ODc1IDcuNDcwNzAzMSwxNy4wMDk3NjYgMi4xMDkzNzUsMTEuNjA5Mzc1IDExLjY2OTkyMiw2LjQ3MDcwMzEgQyAxMS44NTUzNTEsNi4zNzIzNzQxIDExLjk5MzQ2NSw2LjIwMTkwOTIgMTIuMDUwNzgxLDYgMTIuMTg5MzIxLDUuNDk3NTgwMSAxMS44MTAyMzIsNS4wMDEwNDAzIDExLjI4OTA2Miw1IDExLjE1NzEyNyw1LjAwMDEwMjEgMTEuMDI4MTIxLDUuMDMwNzU5IDEwLjkxMDE1Niw1LjA4OTg0NCBMIDAuNDE5OTIxODgsMTAuNzIwNzAzIGMgLTAuMjI0MTYwMDEsMC4xMTM2NDkgLTAuMzc3Nzk2MzksMC4zMzA4NDYgLTAuNDEwMTU2MjUsMC41ODAwNzggLTAuMDQwOTM1NzEsMC4yNDg5MDYgMC4wNDE3MjkwMiwwLjUwMTkzIDAuMjIwNzAzMTIsMC42Nzk2ODggbCA2LjAwMDAwMDA1LDYgLTYuMDAwMDAwMDUsNiBjIC0wLjE4MDMwMzU3LDAuMTcyNzggLTAuMjYzNDg2NDcsMC40MjM4OSAtMC4yMjA3MDMxMiwwLjY2OTkyMiAwLjAzNDE1NzQ5LDAuMjUxMDMxIDAuMTg2NzkyMjUsMC40NzAyOTQgMC40MTAxNTYyNSwwLjU4OTg0MyBsIDYuMTA5Mzc1MDIsMy4zMTA1NDcgdiAxNC41ODAwNzggYyAwLjAwNjE2LDAuMDE2MSAwLjAwNjE2LDAuMDMyNzMgMCwwLjA0ODgzIHYgMC4wNTA3OCAwLjA0ODgzIGggMC4wNzAzMTIgTCAyNi40MjU3ODEsNTQuMTUyMzQzIGMgMCwwIDAuMTY3OTAzLDAuMTE2NyAwLjMyNDIxNywwLjEzNjczMyBoIDAuNTI5Mjk3IGMgMC4xMDk4MTYsLTAuMDEzODcgMC4yNDM5LC0wLjExNDc4IDAuMzY1MjM1LC0wLjE3MTg4IGwgMTkuMzMzOTg1LC0xMC40Mjc3MzQgMC4wNjI1LC0wLjA1NDY5IDAuMDM1MTYsLTAuMDQxMDIgYyAwLjAwMzgsLTAuMDE2NDUgMC4wMDc3LC0wLjA1Nzc3IDAuMDAzOSwtMC4wNzQyMiAwLjAwNDksLTAuMDI2NDQgMC4wMDQ5LC0wLjA1MzY0IDAsLTAuMDgwMDggbCAtMC4wMTk1MywtMi40MDYyNSAtMS42MjMwNDcsLTEuMDU0Njg3IDAuMDExNzIsMi40OTIxODcgLTE3LjY3OTY4OCw5Ljc4OTA2MyBWIDMwLjUzOTA2MiBsIDUuNDcwNzAzLDUuNDgwNDY5IHYgLTIuMjc5Mjk3IGwgLTAuMzkwNjMsLTAuMzgwODU5IC00LjUyOTI5NywtNC41NDg4MjggNC41ODM5ODQsLTIuODgwODU5IC0wLjAwMzksLTEuOTY4NzUgTCAyNywyNy42ODk0NTMgOSwxNy45ODA0NjkgMjcsOC4yNTk3NjU2IGwgMTQuNDkzNDEzLDcuODkzODAzNCAzLjMzNjY2NiwtMC4wMjI3MSAtMTYuNTI5Mjk4LC04Ljk1MTE2NzUgNS4zNjkxNDEsLTUuNDAwMzkwNiAxOC4xNDA2MjUsOS44MzAwNzgxIC00LjQ5MDIzNCw0LjU0Mjk2OSAyLjI1NTg1OCwwLjAyMTUyIDQuMTU0Mjk4LC00LjE5MzM1OSBjIDAuMTcwOTEzLC0wLjE4MjYxIDAuMjUwMzExLC0wLjQzMTU3MiAwLjIxODc1LC0wLjY3OTY4OCAtMC4wMzg2NSwtMC4yNDY3MzEgLTAuMTkwNDQ5LC0wLjQ2MTMzOCAtMC40MTAxNTcsLTAuNTgwMDc4IEwgMzMuOTM5NDUzLDAuMDg5ODQzNzUgYyAtMC4xNjIyLC0wLjA5ODA4MjQ0IC0wLjM0NjI0NSwtMC4xMzIyMjg4NiAtMC41MjM0MzcsLTAuMTA3NDIxODggeiBNIDQ3LjI4MTI1LDE2LjIzNDM3NSA0NC44MzAwNzksMTYuMTMwODU1IHYgMCAwIHogbSAtMzkuODQxNzk2OSwyLjc3NTM5MSAxOC4yMzA0Njg5LDkuODAwNzgxIC01LjQxMDE1Niw1LjQxMDE1NiAtMTIuNTg5ODQ0MSwtNi43NSB2IC0wLjA2MDU1IGwgLTUuNTg5ODQzOCwtMyB6IG0gMC42Nzk2ODc1LDEwLjQ2MDkzNyAxMS45MDAzOTA0LDYuNDQ5MjE5IGMgMC4xMTU1MjksMC4wNjY1MSAwLjI0NzU1NywwLjEwMDYzOSAwLjM4MDg2LDAuMDk5NjEgMC4yMTE3MjQsMy45M2UtNCAwLjQxNDgxNCwtMC4wODY2NCAwLjU2MDU0NywtMC4yNDAyMzQgbCA1LjIxODc1LC01LjIxODc1IFYgNTIuMjU5NzY2IEwgOC4xMTkxNDA2LDQyLjQ3MDcwMyBaIgogICAgICAgc3R5bGU9ImZpbGw6IzAxMDEwMSIgLz4KICA8L2c+CiAgPGcKICAgICBpZD0iYm9va21hcmsiPgogICAgPHBhdGgKICAgICAgIGlkPSJwYXRoOSIKICAgICAgIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0wLjMzIC0wLjUzKSIKICAgICAgIGQ9Ik01NS40MywxNi42NkgzNGEuNzcuNzcsMCwwLDAtLjguNzN2MjcuMUExLjQ0LDEuNDQsMCwwLDAsMzQsNDUuNzhhMS43NywxLjc3LDAsMCwwLDEuNjctLjExbDktNS44MSw5LDUuODFhMS43NywxLjc3LDAsMCwwLDEuNjcuMTEsMS40NSwxLjQ1LDAsMCwwLC44OC0xLjI5VjE3LjM5QS43Ny43NywwLDAsMCw1NS40MywxNi42NlptLS44LDI3LjgzLTkuNDYtNi4xMWEuODkuODksMCwwLDAtLjk0LDBsLTkuNDYsNi4xMVYxOC4xMUg1NC42M1oiCiAgICAgICBjbGFzcz0iY2xzLTIiIC8+CiAgPC9nPgo8L3N2Zz4K") no-repeat 5px 4px / 25px 25px;
+}
+div.phpdebugbar-header {
+  padding-left: 29px;
+  min-height: 26px;
+  line-height: 26px;
+}
+div.phpdebugbar-header:before, div.phpdebugbar-header:after {
+  display: table;
+  line-height: 0;
+  content: "";
+}
+div.phpdebugbar-header:after {
+  clear: both;
+}
+div.phpdebugbar-header-left {
+  float: left;
+}
+div.phpdebugbar-header-right {
+  float: right;
+}
+div.phpdebugbar-header > div > * {
+  padding: 5px 5px;
+  font-size: 14px;
+  color: #555;
+  text-decoration: none;
+}
+div.phpdebugbar-header-left > * {
+  float: left;
+}
+div.phpdebugbar-header-right > * {
+  float: right;
+}
+div.phpdebugbar-header-right > select {
+  padding: 0;
+}
+
+/* -------------------------------------- */
+
+span.phpdebugbar-indicator,
+a.phpdebugbar-indicator,
+a.phpdebugbar-close-btn {
+  border-right: 1px solid #ddd;
+}
+
+a.phpdebugbar-tab.phpdebugbar-active {
+  color: white;
+  background-color: rgb(110, 110, 110);
+}
+  a.phpdebugbar-tab span.phpdebugbar-badge {
+    display: none;
+    margin-left: 5px;
+    font-size: 11px;
+    line-height: 14px;
+    padding: 0 6px;
+    background: #ececec;
+    border-radius: 4px;
+    color: #343434;
+    font-weight: normal;
+    text-shadow: none;
+    vertical-align: middle;
+  }
+  a.phpdebugbar-tab i {
+    /*display: none;*/
+    vertical-align: middle;
+    margin-right: 5px;
+  }
+  a.phpdebugbar-tab span.phpdebugbar-badge.phpdebugbar-visible {
+    display: inline;
+  }
+  a.phpdebugbar-tab span.phpdebugbar-badge.phpdebugbar-important {
+    background: #ed6868;
+    color: white;
+  }
+
+a.phpdebugbar-close-btn, a.phpdebugbar-open-btn, a.phpdebugbar-restore-btn, a.phpdebugbar-minimize-btn , a.phpdebugbar-maximize-btn {
+  width: 16px;
+  height: 16px;
+}
+
+a.phpdebugbar-minimize-btn , a.phpdebugbar-maximize-btn {
+  padding-right: 0 !important;
+}
+
+a.phpdebugbar-maximize-btn { display: none}
+
+a.phpdebugbar-minimize-btn { display: block}
+
+div.phpdebugbar-minimized a.phpdebugbar-maximize-btn { display: block}
+
+div.phpdebugbar-minimized a.phpdebugbar-minimize-btn { display: none}
+
+a.phpdebugbar-minimize-btn {
+  background:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201792%201792%22%20id%3D%22chevron-down%22%3E%3Cpath%20d%3D%22M1683%20808l-742%20741q-19%2019-45%2019t-45-19l-742-741q-19-19-19-45.5t19-45.5l166-165q19-19%2045-19t45%2019l531%20531%20531-531q19-19%2045-19t45%2019l166%20165q19%2019%2019%2045.5t-19%2045.5z%22%2F%3E%3C%2Fsvg%3E) no-repeat 6px 6px / 14px 14px;
+}
+
+a.phpdebugbar-maximize-btn {
+  background:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201792%201792%22%20id%3D%22chevron-up%22%3E%3Cpath%20d%3D%22M1683%201331l-166%20165q-19%2019-45%2019t-45-19l-531-531-531%20531q-19%2019-45%2019t-45-19l-166-165q-19-19-19-45.5t19-45.5l742-741q19-19%2045-19t45%2019l742%20741q19%2019%2019%2045.5t-19%2045.5z%22%2F%3E%3C%2Fsvg%3E) no-repeat 6px 6px / 14px 14px;
+}
+
+a.phpdebugbar-close-btn {
+  background: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201792%201792%22%20id%3D%22close%22%3E%3Cpath%20d%3D%22M1490%201322q0%2040-28%2068l-136%20136q-28%2028-68%2028t-68-28l-294-294-294%20294q-28%2028-68%2028t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28%2068-28t68%2028l294%20294%20294-294q28-28%2068-28t68%2028l136%20136q28%2028%2028%2068t-28%2068l-294%20294%20294%20294q28%2028%2028%2068z%22%2F%3E%3C%2Fsvg%3E) no-repeat 9px 6px / 14px 14px;
+}
+
+a.phpdebugbar-open-btn {
+  background: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201792%201792%22%20id%3D%22folder-open%22%3E%3Cpath%20d%3D%22M1815%20952q0%2031-31%2066l-336%20396q-43%2051-120.5%2086.5t-143.5%2035.5h-1088q-34%200-60.5-13t-26.5-43q0-31%2031-66l336-396q43-51%20120.5-86.5t143.5-35.5h1088q34%200%2060.5%2013t26.5%2043zm-343-344v160h-832q-94%200-197%2047.5t-164%20119.5l-337%20396-5%206q0-4-.5-12.5t-.5-12.5v-960q0-92%2066-158t158-66h320q92%200%20158%2066t66%20158v32h544q92%200%20158%2066t66%20158z%22%2F%3E%3C%2Fsvg%3E) no-repeat 8px 6px / 14px 14px;
+}
+
+.phpdebugbar-indicator {
+  position: relative;
+  cursor: pointer;
+}
+  .phpdebugbar-indicator span.phpdebugbar-text {
+    margin-left: 5px;
+  }
+  .phpdebugbar-indicator span.phpdebugbar-tooltip {
+    display: none;
+    position: absolute;
+    top: -30px;
+    background: #efefef;
+    opacity: .7;
+    border: 1px solid #ccc;
+    color: #555;
+    font-size: 11px;
+    padding: 2px 3px;
+    z-index: 1000;
+    text-align: center;
+    width: 200%;
+    right: 0;
+  }
+  .phpdebugbar-indicator:hover span.phpdebugbar-tooltip:not(.phpdebugbar-disabled) {
+    display: block;
+  }
+
+select.phpdebugbar-datasets-switcher {
+  float: right;
+  display: none;
+  margin: 2px 0 0 7px;
+  max-width: 200px;
+  max-height: 23px;
+  padding: 0;
+}
+
+/* -------------------------------------- */
+
+div.phpdebugbar-body {
+  border-top: 1px solid #ccc;
+  display: none;
+  position: relative;
+  height: 300px;
+}
+
+/* -------------------------------------- */
+
+div.phpdebugbar-panel {
+  display: none;
+  height: 100%;
+  overflow: auto;
+  width: 100%;
+}
+div.phpdebugbar-panel.phpdebugbar-active {
+  display: block;
+}
+
+/* -------------------------------------- */
+
+div.phpdebugbar-mini-design a.phpdebugbar-tab {
+  position: relative;
+  border-right: 1px solid #ddd;
+}
+  div.phpdebugbar-mini-design a.phpdebugbar-tab span.phpdebugbar-text {
+    display: none;
+  }
+  div.phpdebugbar-mini-design a.phpdebugbar-tab:hover span.phpdebugbar-text {
+    display: block;
+    position: absolute;
+    top: -30px;
+    background: #efefef;
+    opacity: .7;
+    border: 1px solid #ccc;
+    color: #555;
+    font-size: 11px;
+    padding: 2px 3px;
+    z-index: 1000;
+    text-align: center;
+    right: 0;
+  }
+  div.phpdebugbar-mini-design a.phpdebugbar-tab i {
+    display:inline-block;
+  }
