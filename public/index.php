@@ -32,7 +32,6 @@ Route::get('/auth/logout', function () {
 }, true, 'logout');
 
 Route::get('/profile', [UserController::class, 'profileView'], true);
-Route::post('/profile', [UserController::class, 'profile'], true);
 
 Route::get('/settings', [UserController::class, 'settingsView'], true);
 Route::post('/settings', [UserController::class, 'settings'], true);

@@ -305,7 +305,7 @@ class Query
                 $parts[] = '*';
             }
         }
-        if (!$this->isUpdate()) {
+        if (!$this->isUpdate() && !$this->isInsert()) {
             $parts[] = 'FROM';
         }
         $parts[] = $this->table;

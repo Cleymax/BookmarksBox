@@ -38,7 +38,8 @@ class Auth
             $query = (new Query())
                 ->insert("email", "username", "password")
                 ->into("users")
-                ->values([$mail, $username, $password])
+                ->values(["?", "?", "?"])
+                ->params([$mail, $username, $password])
                 ->returning('id');
 
             $response = $query->first();
@@ -159,7 +160,7 @@ class Auth
         return isset($_SESSION['user']) && !empty($_SESSION['user']) && $_SESSION['user']['logged'];
     }
 
-    private static function user(): object
+    public static function user(): object
     {
         return (object)$_SESSION['user'];
     }
