@@ -86,7 +86,7 @@ class AuthController extends Controller
             $this->check($_POST['mail'], 'Merci de rentrer un email correct !');
             $this->check($_POST['username'], 'Merci de rentrer un nom d\'utilisateur correct !');
             $this->check($_POST['password'], 'Merci de rentrer votre mot de passe !');
-            $this->check($_POST['confirm', 'Merci de bien vouloir confirmer votre mot de passe !']);
+            $this->check($_POST['confirm'], 'Merci de bien vouloir confirmer votre mot de passe !');
 
             if (Auth::register($_POST['mail'], $_POST['username'], $_POST['password'], $_POST['confirm'])) {
                 $this->redirect("dashboard");
