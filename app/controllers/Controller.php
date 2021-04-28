@@ -3,15 +3,15 @@
 namespace App\Controllers;
 
 use App\Router\Router;
-use App\Security\AuthException;
 use App\Services\CsrfService;
-use App\Services\FlashService;
+use App\Services\Debugbar\DebugBarService;
 use App\Views\View;
 
 abstract class Controller
 {
     public function render(View $view, string $title, array $data = [])
     {
+        $render = DebugBarService::getDebugBar()->getJavascriptRenderer('/debugbar/');
         extract($data);
         ob_start();
         require_once(dirname(ROOT_PATH) . '/resources/views/' . str_replace('.', DIRECTORY_SEPARATOR, $view->getName()) . '.php');
@@ -39,6 +39,7 @@ abstract class Controller
             }
         }
         header('Location: ' . $s);
+        DebugBarService::getDebugBar()->collect();
         die();
     }
 
@@ -55,7 +56,7 @@ abstract class Controller
             throw new \Exception("Erreur lors de l'envoie de la requete ! Réésayez !");
         }
 
-        if(!CsrfService::verify($_POST['_csrf_token'])){
+        if (!CsrfService::verify($_POST['_csrf_token'])) {
             throw new \Exception("Erreur lors de l'envoie de la requete ! Réésayez !");
         }
     }

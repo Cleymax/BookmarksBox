@@ -20,7 +20,8 @@
     "ext-json": "*",
     "ext-pdo": "*",
     "ext-ldap": "*",
-    "ext-readline": "*"
+    "ext-readline": "*",
+    "maximebf/debugbar": "^1.16"
   },
   "require-dev": {
     "symfony/var-dumper": "^5.2",
