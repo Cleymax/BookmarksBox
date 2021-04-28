@@ -1,0 +1,89 @@
+.navbar{
+  background-color:  var(--white);
+  color: var(--dark);
+  box-shadow: 6px 0px 6px rgba(0, 0, 0, 0.25);
+}
+
+.nav-container{
+  display: flex;
+  flex-direction: column;
+  & li{
+    display: flex;
+    align-items: center;
+  }
+  & span{
+    margin: 10px;
+  }
+  & li:hover{
+    background-color: var(--current);
+  }
+  & .items-secondary{
+    margin-left: 20px;
+  }
+  & .picture{
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    background-color: black;
+  }
+}
+
+.flex-row{
+  display: flex;
+  flex-direction: row;
+}
+
+.img{
+  width: 150px;
+  height: 150px;
+  background-color: var(--green);
+}
+
+.items-container{
+  margin: 20px 60px 20px;
+  width: 100%;
+  .search{
+    margin-bottom: 20px;
+    & label{
+      width: 100%;
+    }
+  }
+  .grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(250px,1fr));
+    grid-gap: calc(50px);
+    grid-auto-flow: dense;
+    & .bookmarks{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    & .bookmarks div{
+      margin-bottom: 15px;
+    }
+  }
+}
+
+.info-container{
+  position: absolute;
+  right: 0;
+  width: 20%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color:  var(--white);
+  color: var(--dark);
+  box-shadow: 6px 0px 6px rgba(0, 0, 0, 0.25);
+  & img{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 80px;
+  }
+  & svg{
+    position: absolute;
+    right: 0;
+    margin: 15px;
+    height: 30px;
+    width: 30px;
+  }
+}

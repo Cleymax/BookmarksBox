@@ -64,7 +64,7 @@ class Router
                             }
                         }
                     }
-                    if ($route->isAuth() && !Auth::check() && Auth::remember_me()) {
+                    if ($route->isAuth() && !Auth::check() && !Auth::remember_me()) {
                         $this->need_login();
                     }
                     $action = $route->getAction();
