@@ -3,11 +3,13 @@
 namespace App\Router;
 
 use App\Security\Auth;
+use App\Services\Debugbar\DebugBarService;
 use App\Services\FlashService;
 use App\Views\View;
 
 class Router
 {
+    private static $current;
     private static $instance;
     private $routes = [];
 
@@ -17,6 +19,11 @@ class Router
             self::$instance = new Router();
         }
         return self::$instance;
+    }
+
+    public static function get_current()
+    {
+        return self::$current;
     }
 
     public function addRoute(Route $route): Route
@@ -57,7 +64,7 @@ class Router
                             }
                         }
                     }
-                    if ($route->isAuth() && !Auth::check()) {
+                    if ($route->isAuth() && !Auth::check() && Auth::remember_me()) {
                         $this->need_login();
                     }
                     $action = $route->getAction();
@@ -68,13 +75,13 @@ class Router
                             $function = $action[1];
                             $controller = new $controller_path();
                             if (method_exists($controller, $function)) {
-                                $this->call_functions($mmm, [$controller, $function]);
+                                $this->call_functions($mmm, [$controller, $function], $route);
                             } else {
                                 $this->not_found();
                             }
                         }
                     } else {
-                        $this->call_functions($mmm, $action);
+                        $this->call_functions($mmm, $action, $route);
                     }
                     return;
                 }
@@ -83,8 +90,9 @@ class Router
         $this->not_found();
     }
 
-    private function call_functions(array $prams, $callback)
+    private function call_functions(array $prams, $callback, Route $route)
     {
+        self::$current = $route;
         if (empty($prams)) {
             if (is_array($callback)) {
                 $function = $callback[1];
@@ -115,6 +123,7 @@ class Router
             FlashService::error("Tu dois être connecté pour accèder à ceci !", 5);
             header('Location: /auth/login');
         }
+        DebugBarService::getDebugBar()->collect();
         die();
     }
 
