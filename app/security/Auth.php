@@ -91,6 +91,39 @@ class Auth
         }
     }
 
+    public static function remember_me(): bool{
+        if(!empty($_COOKIE) && isset($_COOKIE[self::SESSION_NAME . '_RM'])){
+           $parts = explode("-", $_COOKIE[self::SESSION_NAME . '_RM']);
+
+           if(sizeof($parts) != 2 || !is_numeric($parts[0])){
+              return false;
+           }
+           
+           $id = intval($parts[0]);
+
+           $query = (new Query())
+                ->select("email", "password")
+                ->from("users")
+                ->where("id = ?")
+                ->limit(1)
+                ->params([$id]);
+
+            $response = $query->first();
+            $mail = $response->email;
+            $password = $response->password;
+
+            if(sha1($mail . $password) == $parts[1]){
+                $_SESSION['user'] = array(
+                    'id' => $id,
+                    'email' => $mail,
+                    'logged' => true
+                );
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static function totp($code): bool
     {
         preg_match('/[0-9]{6}/', $code, $matches, PREG_OFFSET_CAPTURE);
@@ -119,11 +152,6 @@ class Auth
         $_SESSION['user'] = [];
         FlashService::success("Déconnexion réusis !");
         header('Location: /auth/login');
-    }
-
-    public static function remember_me()
-    {
-
     }
 
     public static function check(): bool
