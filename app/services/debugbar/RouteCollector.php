@@ -13,17 +13,17 @@ class RouteCollector extends DataCollector implements Renderable
     /**
      * {@inheritDoc}
      */
-    public function collect()
+    public function collect(): array
     {
         return Router::get_current() != null ? $this->getRouteInformation(Router::get_current()) : [];
     }
 
-    function getName()
+    function getName(): string
     {
         return 'route';
     }
 
-    function getWidgets()
+    function getWidgets(): array
     {
         $name = $this->getName();
         $widgets = [

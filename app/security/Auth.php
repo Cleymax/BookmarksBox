@@ -3,7 +3,6 @@
 namespace App\Security;
 
 use App\Database\Query;
-use App\Services\DebugBarService;
 use App\Services\FlashService;
 use Sonata\GoogleAuthenticator\GoogleAuthenticator;
 
@@ -13,24 +12,24 @@ class Auth
 
     public static function register(string $mail, string $username, string $password, string $confirm): bool
     {
-        if($_POST['password'] != $_POST['confirm']){
+        if ($_POST['password'] != $_POST['confirm']) {
             FlashService::error("Votre mot de passe n'est pas identique");
         }
 
         preg_match('/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/', $password, $matches, PREG_OFFSET_CAPTURE);
         if (empty($matches)) {
             throw new AuthException('Votre mot de passe doit faire 6 caractères avec un chiffre et une majuscule !');
-        }else{
+        } else {
             $query = (new Query())
                 ->select("id", "email", "username")
                 ->from("users")
                 ->where("email = ? or username = ?")
                 ->limit(1)
                 ->params([$mail, $username]);
-            
+
             $count = $query->rowCount();
 
-            if($count == 1){
+            if ($count == 1) {
                 throw new AuthException('Votre mail ou votre nom d\' utilisateur est déjà utilisé');
             }
 
@@ -51,7 +50,7 @@ class Auth
             );
 
             return true;
-        }     
+        }
     }
 
     public static function login(string $email, string $password, bool $remember = false): bool
@@ -61,9 +60,9 @@ class Auth
             throw new AuthException('Votre mot de passe doit faire 6 caractères avec un chiffre et une majuscule !');
         }
 
-        if($_POST['login'] == 'iutannecy'){
+        if ($_POST['login'] == 'iutannecy') {
 
-        }else {
+        } else {
             $query = (new Query())
                 ->select("id", "verify", "password", "email", "last_name", "first_name", "totp")
                 ->from("users")
@@ -91,17 +90,18 @@ class Auth
         }
     }
 
-    public static function remember_me(): bool{
-        if(!empty($_COOKIE) && isset($_COOKIE[self::SESSION_NAME . '_RM'])){
-           $parts = explode("-", $_COOKIE[self::SESSION_NAME . '_RM']);
+    public static function remember_me(): bool
+    {
+        if (!empty($_COOKIE) && isset($_COOKIE[self::SESSION_NAME . '_RM'])) {
+            $parts = explode("-", $_COOKIE[self::SESSION_NAME . '_RM']);
 
-           if(sizeof($parts) != 2 || !is_numeric($parts[0])){
-              return false;
-           }
-           
-           $id = intval($parts[0]);
+            if (sizeof($parts) != 2 || !is_numeric($parts[0])) {
+                return false;
+            }
 
-           $query = (new Query())
+            $id = intval($parts[0]);
+
+            $query = (new Query())
                 ->select("email", "password")
                 ->from("users")
                 ->where("id = ?")
@@ -112,7 +112,7 @@ class Auth
             $mail = $response->email;
             $password = $response->password;
 
-            if(sha1($mail . $password) == $parts[1]){
+            if (sha1($mail . $password) == $parts[1]) {
                 $_SESSION['user'] = array(
                     'id' => $id,
                     'email' => $mail,

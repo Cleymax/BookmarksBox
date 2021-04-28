@@ -12,11 +12,10 @@ require_once __DIR__ . '/app/database/Database.php';
 $argv = $argv ?? $_SERVER['argv'] ?? [];
 array_shift($argv);
 
-$env = Dotenv::createImmutable(__DIR__);
-$env->load();
-
 switch ($argv[0]) {
     case "key":
+        $env = Dotenv::createImmutable(__DIR__);
+        $env->load();
         dump("Are you sure to generate a new salt key ? (y/N)");
         $ready = readline();
         if ($ready && $ready == 'y') {
@@ -33,6 +32,8 @@ switch ($argv[0]) {
             dd("Env file already exist !");
         }
     case "mode":
+        $env = Dotenv::createImmutable(__DIR__);
+        $env->load();
         if (sizeof($argv) != 2) {
             dd("php bb mode <dev,production>");
         }
@@ -44,6 +45,8 @@ switch ($argv[0]) {
             dd("Website mode: production");
         }
     case "database":
+        $env = Dotenv::createImmutable(__DIR__);
+        $env->load();
         Database::set(
                 new Database(
                         $_ENV['DB_DATABASE'],

@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Security\Auth;
-use App\Security\AuthException;
 use App\Services\FlashService;
 use App\Views\View;
 
@@ -76,12 +75,12 @@ class AuthController extends Controller
 
     public function register()
     {
-        if(Auth::check()) {
+        if (Auth::check()) {
             $this->redirect("dashboard");
             return;
         }
 
-        try{
+        try {
             $this->checkCsrf();
             $this->check($_POST['mail'], 'Merci de rentrer un email correct !');
             $this->check($_POST['username'], 'Merci de rentrer un nom d\'utilisateur correct !');
