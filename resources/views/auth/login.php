@@ -30,7 +30,7 @@
                     </div>
                     <div style="margin-top: 10px">
                         <label for="remember" class="switch" style="margin-right: 10px">
-                            <input type="checkbox" id="remember" name="remember" value="off" aria-labelledby="remember-label">
+                            <input type="checkbox" id="remember" name="remember" aria-labelledby="remember-label">
                             <span class="slider round"></span>
                         </label>
                         <span id="remember-label" aria-hidden="true">Se souvenir de moi</span>

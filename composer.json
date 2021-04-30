@@ -21,6 +21,7 @@
     "ext-pdo": "*",
     "ext-ldap": "*",
     "ext-readline": "*",
+    "phpmailer/phpmailer": "^6.4",
     "maximebf/debugbar": "^1.16"
   },
   "require-dev": {

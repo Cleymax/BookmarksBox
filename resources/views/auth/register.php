@@ -16,7 +16,7 @@
                 <label for="username" class="textfield">
                     <input type="text" id="username" autocomplete="username" name="username" spellcheck="false"
                            aria-label="Nom d'utilisateur" required aria-required="true"
-                           title="Nom d'utilisateur"
+                           title="Nom d'utilisateur" pattern="\w{2,12}"
                            autocapitalize="none" dir="ltr">
                     <span aria-hidden="true">Nom d'utilisateur</span>
                 </label>

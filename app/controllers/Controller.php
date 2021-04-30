@@ -35,7 +35,7 @@ abstract class Controller
         foreach (Router::get()->getRoutes() as $route) {
             if ($route->getName() == $s) {
                 header('Location: /' . $route->getUri());
-                return;
+                die();
             }
         }
         header('Location: ' . $s);
@@ -43,10 +43,29 @@ abstract class Controller
         die();
     }
 
-    public function check(?string $value, string $message): void
+    public function checkPost(string $value, string $message, ?string $regex = null): void
     {
-        if ($value == null || $value == '' || trim($value) == '') {
+        if (!isset($_POST[$value]) || $_POST[$value] == null || $_POST[$value] == '') {
             throw new \Exception($message);
+        }
+        if (!is_null($regex)) {
+            preg_match("@$regex@", $_POST[$value], $matchs);
+            if (empty($matchs)) {
+                throw new \Exception($message);
+            }
+        }
+    }
+
+    public function checkGet(string $value, string $message, ?string $regex = null): void
+    {
+        if (!isset($_GET[$value]) || $_GET[$value] == null || $_GET[$value] == '') {
+            throw new \Exception($message);
+        }
+        if (!is_null($regex)) {
+            preg_match("@$regex@", $_GET[$value], $matchs);
+            if (empty($matchs)) {
+                throw new \Exception($message);
+            }
         }
     }
 
