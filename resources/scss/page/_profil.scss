@@ -1,0 +1,28 @@
+.container-profil{
+  margin: 5% 15% 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  & .profil{
+    width: 200px;
+    border-radius: 50%;
+  }
+  & .margin-top10{
+    margin-top: 10px;
+  }
+  .activity{
+    display: flex;
+    flex-direction: column;
+    align-items: normal;
+    & .profil-title{
+      margin-bottom: 20px;
+    }
+    & .activity-items{
+      display: flex;
+      flex-direction: row;
+
+    }
+  }
+}
+
+
