@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Database\Query;
 use App\Security\Auth;
 use App\Services\FlashService;
 use App\Views\View;
@@ -10,7 +11,7 @@ class AuthController extends Controller
 {
     public function loginView()
     {
-        $this->render(View::new('auth.login'), 'Connexion');
+        $this->render(View::new('auth.login'), 'Connexion', ['username' => $_GET['username'] ?? '']);
     }
 
     public function login()
@@ -29,7 +30,11 @@ class AuthController extends Controller
                 $this->redirect("2fa");
             } else {
                 FlashService::success("Connexion réussi.", 10);
-                $this->render(View::new('dashboard'), 'Accueil');
+                if (!isset($_POST['redirect_to'])) {
+                    $this->redirect('dashboard');
+                } else {
+                    $this->redirect($_GET['redirect_to']);
+                }
             }
         } catch (\Exception $e) {
             FlashService::error($e->getMessage());
@@ -111,8 +116,9 @@ class AuthController extends Controller
             $this->checkGet('key', 'Lien de verification éronné !', '\w{32}');
 
             if (Auth::verify($_GET['id'], $_GET['key'])) {
+                $username = (new Query())->select('username')->from('users')->where('id =?')->params([intval($_GET['id'])])->first()->username;
                 FlashService::success("Compte vérifié avec succès !");
-                $this->redirect('login');
+                $this->redirect('login?username=' . $username);
             }
         } catch (\Exception $e) {
             FlashService::error($e->getMessage());
