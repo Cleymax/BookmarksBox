@@ -6,6 +6,7 @@ use App\Security\Auth;
 use App\Services\Debugbar\DebugBarService;
 use App\Services\FlashService;
 use App\Views\View;
+use function App\debug;
 
 class Router
 {
@@ -129,13 +130,10 @@ class Router
 
     public static function get_url(string $s, array $params = []): string
     {
-        $data = '';
-        if (!empty($data)) {
-            $data = http_build_query($params);
-        }
+        $data = http_build_query($params);
         foreach (Router::get()->getRoutes() as $route) {
             if ($route->getName() == $s) {
-                return $_ENV['BASE_URL'] . '/' . $route->getUri() . $data;
+                return $_ENV['BASE_URL'] . '/' . $route->getUri() . (empty($data) ? '' : '?' . $data);
             }
         }
         return $_ENV['BASE_URL'] . $s . $data;

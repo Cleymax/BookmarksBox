@@ -1,11 +1,12 @@
 @import "../tools/functions";
+
 header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  background:var(--background);
+  background: var(--background);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
 
   & a {
@@ -28,14 +29,52 @@ header {
     font-family: Roboto, serif;
   }
 
-  .header-right button:not(:last-child) {
+  .header-right a:not(:last-child) {
     margin-right: 5px;
+  }
+
+  .header-right {
+    display: inherit;
+
+    & .profile {
+      box-shadow: none;
+      padding: 8px 8px;
+      margin-right: 10px;
+
+      & > span:not(.material-icons) {
+        display: none;
+        transition: all ease .3s;
+      }
+
+      &:hover {
+        box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2),
+        0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+      }
+
+      &:hover > span:not(.material-icons) {
+        margin-left: 5px;
+        display: inherit;
+      }
+      & img {
+        border-radius: 50%;
+        height: 24px;
+        transition: all ease .3s;
+
+        &:hover, &:focus, &:active {
+
+          transform: scale(1.02);
+          box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2),
+          0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+        }
+      }
+    }
   }
 
   @include screen-down(640) {
     flex-direction: column;
     .header-right {
       padding-top: 10px;
+
       & button {
         margin: 0;
       }

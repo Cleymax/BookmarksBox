@@ -44,3 +44,8 @@ register_shutdown_function(function (DebugBar $debug) {
         $debug->collect();
     }
 }, DebugBarService::getDebugBar());
+
+function debug(string $message)
+{
+    DebugBarService::getDebugBar()['messages']->addMessage($message, 'debug');
+}

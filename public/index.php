@@ -24,6 +24,8 @@ Route::post('/auth/login', [AuthController::class, 'login']);
 Route::get('/auth/register', [AuthController::class, 'registerView'], false, 'register');
 Route::post('/auth/register', [AuthController::class, 'register']);
 
+Route::get('/auth/verify', [AuthController::class, 'verify'], false, 'verify_account');
+
 Route::get('/auth/2fa', [AuthController::class, 'twofaView'], false, '2fa');
 Route::post('/auth/2fa', [AuthController::class, 'twofa'], false);
 
@@ -31,7 +33,7 @@ Route::get('/auth/logout', function () {
     Auth::logout();
 }, true, 'logout');
 
-Route::get('/profile', [UserController::class, 'profileView'], true);
+Route::get('/profile', [UserController::class, 'profileView'], true,'profile');
 
 Route::get('/settings', [UserController::class, 'settingsView'], true);
 Route::post('/settings', [UserController::class, 'settings'], true);
