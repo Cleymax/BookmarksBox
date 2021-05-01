@@ -40,7 +40,7 @@ class Auth
 
             $password = password_hash($_ENV['SALT'] . $password, PASSWORD_BCRYPT);
 
-            $key = Str::random(31);
+            $key = Str::random(32);
 
             $query = (new Query())
                 ->insert("email", "username", "password", "verify_key")

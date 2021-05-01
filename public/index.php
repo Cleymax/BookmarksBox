@@ -11,7 +11,6 @@ use App\Controllers\UserController;
 use App\Router\Route;
 use App\Router\Router;
 use App\Security\Auth;
-use App\Services\CsrfService;
 
 define('ROOT_PATH', dirname(__FILE__));
 
@@ -33,7 +32,7 @@ Route::get('/auth/logout', function () {
     Auth::logout();
 }, true, 'logout');
 
-Route::get('/profile', [UserController::class, 'profileView'], true,'profile');
+Route::get('/profile', [UserController::class, 'profileView'], true, 'profile');
 
 Route::get('/settings', [UserController::class, 'settingsView'], true);
 Route::post('/settings', [UserController::class, 'settings'], true);
