@@ -13,7 +13,7 @@
                         <input type="text" id="username" autocomplete="username" name="username" spellcheck="false"
                                aria-label="Nom d'utilisateur ou adresse e-mail" required aria-required="true"
                                title="Nom d'utilisateur ou adresse e-mail"
-                               autocapitalize="none" dir="ltr" <?php if(isset($username) && $username == ''){ echo 'autofocus value="'. $username.'"'; } ?>>
+                               autocapitalize="none" dir="ltr" <?php if(isset($username) && $username != ''){ echo 'value="'. $username.'"'; }else{echo 'autofocus';} ?>>
                         <span aria-hidden="true">Nom d'utilisateur ou adresse e-mail</span>
                     </label>
                 </div>

@@ -14,57 +14,60 @@ class Auth
 {
     private const SESSION_NAME = 'BB';
 
+    /**
+     * @throws \App\Security\AuthException
+     */
     public static function register(string $mail, string $username, string $password, string $confirm): bool
     {
         if ($_POST['password'] != $_POST['confirm']) {
-            FlashService::error("Votre mot de passe n'est pas identique");
+            throw new AuthException('Votre mot de passe n\'est pas identique !');
         }
 
         preg_match('/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/', $password, $matches, PREG_OFFSET_CAPTURE);
         if (empty($matches)) {
             throw new AuthException('Votre mot de passe doit faire 6 caractères avec un chiffre et une majuscule !');
-        } else {
-            $query = (new Query())
-                ->select("id", "email", "username")
-                ->from("users")
-                ->where("email = ? or username = ?")
-                ->limit(1)
-                ->params([$mail, $username]);
-
-            $count = $query->rowCount();
-
-            if ($count == 1) {
-                throw new AuthException('Votre mail ou votre nom d\' utilisateur est déjà utilisé');
-            }
-
-            $password = password_hash($_ENV['SALT'] . $password, PASSWORD_BCRYPT);
-
-            $key = Str::random(32);
-
-            $query = (new Query())
-                ->insert("email", "username", "password", "verify_key")
-                ->into("users")
-                ->values(["?", "?", "?", "?"])
-                ->params([$mail, $username, $password, $key])
-                ->returning('id');
-
-            $response = $query->first();
-
-            try {
-                $link = Router::get_url('verify_account', [
-                    'id' => $response->id,
-                    'key' => $key
-                ]);
-
-                MailService::send_template('verify_account', $mail, 'Confirmation d\'adresse mail', [
-                    'link' => $link,
-                    'username' => $username
-                ]);
-            } catch (Exception $e) {
-                throw new AuthException('Erreur lors de l\'envoie de l\'email !');
-            }
-            return true;
         }
+
+        $query = (new Query())
+            ->select("id", "email", "username")
+            ->from("users")
+            ->where("email = ? or username = ?")
+            ->limit(1)
+            ->params([$mail, $username]);
+
+        $count = $query->rowCount();
+
+        if ($count == 1) {
+            throw new AuthException('Votre mail ou votre nom d\' utilisateur est déjà utilisé');
+        }
+
+        $password = password_hash($_ENV['SALT'] . $password, PASSWORD_BCRYPT);
+
+        $key = Str::random(32);
+
+        $query = (new Query())
+            ->insert("email", "username", "password", "verify_key")
+            ->into("users")
+            ->values(["?", "?", "?", "?"])
+            ->params([$mail, $username, $password, $key])
+            ->returning('id');
+
+        $response = $query->first();
+
+        try {
+            $link = Router::get_url('verify_account', [
+                'id' => $response->id,
+                'key' => $key
+            ]);
+
+            MailService::send_template('verify_account', $mail, 'Confirmation d\'adresse mail', [
+                'link' => $link,
+                'username' => $username
+            ]);
+        } catch (Exception $e) {
+            throw new AuthException('Erreur lors de l\'envoie de l\'email !');
+        }
+        return true;
     }
 
     public static function login(string $email, string $password, bool $remember = false): bool
