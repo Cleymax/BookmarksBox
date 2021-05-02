@@ -125,4 +125,63 @@ class AuthController extends Controller
             $this->redirect('login');
         }
     }
+
+    public function password_resetView()
+    {
+        $this->render(View::new('auth.password-forgot'), 'Réinitialisation de mot de passe');
+    }
+
+    public function password_reset()
+    {
+        try {
+            $this->checkCsrf();
+            $this->checkPost('mail', 'Merci de préciser une adresse mail valide !');
+            $this->checkEmail($_POST['mail'], 'Format de l\'adresse mail non valide !');
+            $force = isset($_POST['force']) && $_POST['force'] == 'on';
+            if (Auth::reset($_POST['mail'], $force)) {
+                FlashService::success("Liens envoyé par email !");
+                $this->render(View::new('auth.password-forgot'), 'Réinitialisation de mot de passe');
+            }
+        } catch (\Exception $e) {
+            FlashService::error($e->getMessage());
+            $this->render(View::new('auth.password-forgot'), 'Réinitialisation de mot de passe');
+        }
+    }
+
+    public function reset_password_view()
+    {
+        try {
+            $this->checkGet('id', 'Liens invalide !', '\d+');
+            $this->checkGet('key', 'Liens invalide !', '\w{32}');
+
+            Auth::check_reset_password($_GET['id'], $_GET['key']);
+
+            $this->render(View::new('auth.reset-password'), 'Réinitialisation de mot de passe');
+        } catch (\Exception $e) {
+            FlashService::error($e->getMessage());
+            $this->redirect('login');
+        }
+    }
+
+    public function reset_password()
+    {
+        try {
+            $this->checkCsrf();
+            $this->checkGet('id', 'Liens de réinitialisation plus valide !', '\d+');
+            $this->checkGet('key', 'Liens de réinitialisation plus valide !', '\w{32}');
+            $this->checkPost('password', 'Merci de rentrer votre nouveau mot de passe !');
+            $this->checkPost('confirm', 'Merci de bien vouloir confirmer votre nouveau mot de passe !');
+
+            if (Auth::reset_password($_POST['password'], $_POST['confirm'], $_GET['id'], $_GET['key'])) {
+                FlashService::success('Mot de passe réinitialisé !');
+                $this->redirect('login');
+            }
+        } catch (\Exception $e) {
+            FlashService::error($e->getMessage());
+            $this->render(View::new('auth.reset-password'), 'Réinitialisation de mot de passe', [
+                'id' => $_GET['id'],
+                'key' => $_GET['key']
+            ]);
+        }
+    }
 }

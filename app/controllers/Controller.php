@@ -43,6 +43,9 @@ abstract class Controller
         die();
     }
 
+    /**
+     * @throws \Exception
+     */
     public function checkPost(string $value, string $message, ?string $regex = null): void
     {
         if (!isset($_POST[$value]) || $_POST[$value] == null || $_POST[$value] == '') {
@@ -53,6 +56,16 @@ abstract class Controller
             if (empty($matchs)) {
                 throw new \Exception($message);
             }
+        }
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function checkEmail(string $value, string $message): void
+    {
+        if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
+            throw new \Exception($message);
         }
     }
 

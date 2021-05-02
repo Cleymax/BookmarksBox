@@ -13,7 +13,7 @@
                         <input type="text" id="username" autocomplete="username" name="username" spellcheck="false"
                                aria-label="Nom d'utilisateur ou adresse e-mail" required aria-required="true"
                                title="Nom d'utilisateur ou adresse e-mail"
-                               autocapitalize="none" dir="ltr" <?php if($username == ''){ echo 'autofocus'; } ?> value="<?= $username ?>">
+                               autocapitalize="none" dir="ltr" <?php if(isset($username) && $username == ''){ echo 'autofocus value="'. $username.'"'; } ?>>
                         <span aria-hidden="true">Nom d'utilisateur ou adresse e-mail</span>
                     </label>
                 </div>
@@ -23,7 +23,7 @@
                                autocomplete="current-password" aria-label="Mot de passe" autocapitalize="off" dir="ltr"
                                minlength="6" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
                                title="Le mot de passe doit faire 6  carractères avec une majuscule et un chiffre"
-                                <?php if($username != ''){ echo 'autofocus'; } ?>
+                                <?php if(isset($username) && $username != ''){ echo 'autofocus'; } ?>
                                name="password">
                         <span aria-hidden="true">Mot de passe</span>
                     </label>
@@ -52,7 +52,7 @@
                         </button>
                     </div>
                     <div class="line-separator"></div>
-                    <a href="<?= $_ENV['BASE_URL'] .'/auth/password-forgot'?>">
+                    <a href="<?= \App\Router\Router::get_url('password-forgot')?>">
                         <span data-content="Mot de passe oublié">Mot de passe oublié</span>
                     </a>
                 </div>

@@ -11,16 +11,16 @@ class MailService
     /**
      * @throws \PHPMailer\PHPMailer\Exception
      */
-    public static function send_template(string $to, string $subject, string $name, array $data = [])
+    public static function send_template(string $template, string $mail, string $subject, array $data = [])
     {
         extract($data);
         ob_start();
-        include ROOT_PATH . '/../resources/mail/verify_account.php';
+        include ROOT_PATH . '/../resources/mail/' . $template . '.php';
         $content = ob_get_clean();
         ob_start();
         include ROOT_PATH . '/../resources/mail/default.template.php';
         $body = ob_get_clean();
-        self::send($to, $subject, $body);
+        self::send($mail, $subject, $body);
     }
 
     /**

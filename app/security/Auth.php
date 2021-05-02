@@ -9,7 +9,6 @@ use App\Services\MailService;
 use App\Tools\Str;
 use PHPMailer\PHPMailer\Exception;
 use Sonata\GoogleAuthenticator\GoogleAuthenticator;
-use function App\debug;
 
 class Auth
 {
@@ -57,7 +56,7 @@ class Auth
                     'key' => $key
                 ]);
 
-                MailService::send_template($mail, 'Confirmation d\'adresse mail', 'verify_account', [
+                MailService::send_template('verify_account', $mail, 'Confirmation d\'adresse mail', [
                     'link' => $link,
                     'username' => $username
                 ]);
@@ -184,6 +183,9 @@ class Auth
         return (object)$_SESSION['user'];
     }
 
+    /**
+     * @throws \Exception
+     */
     public static function verify($id, string $key): bool
     {
         if (!is_numeric($id)) {
@@ -216,6 +218,90 @@ class Auth
             ->where('id = ?')
             ->params([$id]);
         $query->execute();
+        return true;
+    }
+
+    /**
+     * @throws \App\Security\AuthException
+     */
+    public static function reset(string $mail, bool $force = false): bool
+    {
+        $query = (new Query())
+            ->select('id', 'username', 'password_reset_key')
+            ->from('users')
+            ->where('email = ?')
+            ->params([$mail]);
+
+        if ($query->rowCount() == 0) {
+            throw new AuthException('Utilisateur non trouvé !');
+        }
+
+        $response = $query->first();
+
+        if ($response->password_reset_key != null && !$force) {
+            throw new AuthException('Un liens a déjà été envoyé par email !');
+        }
+
+        $username = $response->username;
+        $id = $response->id;
+        $key = Str::random(32);
+
+        $link = Router::get_url('reset-password', [
+            'id' => $response->id,
+            'key' => $key
+        ]);
+
+        try {
+            MailService::send_template('reset-password', $mail, 'Demande de réinitialisation de mot de passe', [
+                'link' => $link,
+                'username' => $username
+            ]);
+        } catch (Exception $e) {
+            throw new AuthException('Erreur lors de l\'envoie de l\'email !');
+        }
+
+        (new Query())->update()->from('users')->set(['password_reset_key' => '?'])->where('id = ?')->params([$key, $id])->first();
+        return true;
+    }
+
+    public static function check_reset_password($id, $key)
+    {
+        $query = (new Query())
+            ->select('id')
+            ->from('users')
+            ->where('id = ?', 'password_reset_key = ?')
+            ->params([
+                $id,
+                $key
+            ]);
+
+        if ($query->rowCount() == 0) {
+            throw new AuthException('Liens invalide !');
+        }
+    }
+
+    /**
+     * @throws \App\Security\AuthException
+     */
+    public static function reset_password(string $password, string $confirm, $id, $key): bool
+    {
+        if ($password != $confirm) {
+            throw new AuthException("Votre mot de passe n'est pas identique");
+        }
+        preg_match('/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/', $password, $matches, PREG_OFFSET_CAPTURE);
+        if (empty($matches)) {
+            throw new AuthException('Votre mot de passe doit faire 6 caractères avec un chiffre et une majuscule !');
+        }
+        self::check_reset_password($id, $key);
+
+        $password = password_hash($_ENV['SALT'] . $password, PASSWORD_BCRYPT);
+
+        (new Query())
+            ->update()
+            ->from('users')
+            ->set(['password_reset_key' => 'NULL', 'password' => '?'])
+            ->where('id =?')
+            ->params([$password, $id])->execute();
         return true;
     }
 }
