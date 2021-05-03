@@ -11,6 +11,21 @@ class MailService
     /**
      * @throws \PHPMailer\PHPMailer\Exception
      */
+    public static function send_template(string $template, string $mail, string $subject, array $data = [])
+    {
+        extract($data);
+        ob_start();
+        include ROOT_PATH . '/../resources/mail/' . $template . '.php';
+        $content = ob_get_clean();
+        ob_start();
+        include ROOT_PATH . '/../resources/mail/default.template.php';
+        $body = ob_get_clean();
+        self::send($mail, $subject, $body);
+    }
+
+    /**
+     * @throws \PHPMailer\PHPMailer\Exception
+     */
     public static function send(string $to, string $subject, string $body)
     {
         $mail = new PHPMailer(true);

@@ -25,6 +25,12 @@ Route::post('/auth/register', [AuthController::class, 'register']);
 
 Route::get('/auth/verify', [AuthController::class, 'verify'], false, 'verify_account');
 
+Route::get('/auth/password-forgot/reset', [AuthController::class, 'reset_password_view'], false, 'reset-password');
+Route::post('/auth/password-forgot/reset', [AuthController::class, 'reset_password'], false);
+
+Route::get('/auth/password-forgot', [AuthController::class, 'password_resetView'], false, 'password-forgot');
+Route::post('/auth/password-forgot', [AuthController::class, 'password_reset'], false);
+
 Route::get('/auth/2fa', [AuthController::class, 'twofaView'], false, '2fa');
 Route::post('/auth/2fa', [AuthController::class, 'twofa'], false);
 

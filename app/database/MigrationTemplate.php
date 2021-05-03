@@ -1,7 +1,5 @@
 <?= "<?php ";?>
 
-namespace App\Database\Migration;
-
 use App\Database\Migration;
 
 class <?= $name ?> extends Migration
