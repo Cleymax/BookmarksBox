@@ -16,7 +16,7 @@ class MailService
         $mail = new PHPMailer(true);
         $mail->SMTPDebug = $_ENV['MODE'] == 'dev' ? SMTP::DEBUG_SERVER : SMTP::DEBUG_OFF;
         $mail->isSMTP();
-        $mail->Host = 'mail.clementperrin.fr';
+        $mail->Host = $_ENV['SMTP_HOST'];
 
         if ($_ENV['SMTP_AUTH']) {
             $mail->SMTPAuth = true;

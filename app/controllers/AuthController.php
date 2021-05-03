@@ -108,7 +108,7 @@ class AuthController extends Controller
 
         try {
             $this->checkGet('id', 'Lien de verification éronné !', '\d+');
-            $this->checkGet('key', 'Lien de verification éronné !', '\w{32}');
+            $this->checkGet('key', 'Lien de verification éronné !');
 
             if (Auth::verify($_GET['id'], $_GET['key'])) {
                 FlashService::success("Compte vérifié avec succès !");

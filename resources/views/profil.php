@@ -1,5 +1,11 @@
 <div class="container-profil">
-    <img src="https://www.belin.re/wp-content/uploads/2018/11/default-avatar.png" class="profil">
+
+    <div class="profil-header">
+        <img src="<?= $data->avatar;?>" class="profil">
+        <a href="/settings/" class="profil-edit">
+            <span class="material-icons">manage_accounts</span>
+        </a>
+    </div>
     <h1 class="margin-top10"><?=$data->first_name." " .$data->last_name?></h1>
     <h3 class="margin-top10">@<?=$data->username?></h3>
     <p class="margin-top10"><?=$data->bio?></p>
