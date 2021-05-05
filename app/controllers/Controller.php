@@ -92,4 +92,14 @@ abstract class Controller
             throw new \Exception("Erreur lors de l'envoie de la requete ! Réésayez !");
         }
     }
+
+    public function loadModel(string $model, ?string $table = null)
+    {
+        require ROOT_PATH . "/../app/models/User.php";
+        if(is_null($table)) {
+            $this->$model = new $model();
+        }else {
+            $this->$model = new $model($table);
+        }
+    }
 }
