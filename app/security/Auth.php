@@ -3,6 +3,8 @@
 namespace App\Security;
 
 use App\Database\Query;
+use App\Exceptions\NotFoundException;
+use App\Exceptions\UserNotFoundException;
 use App\Router\Router;
 use App\Services\FlashService;
 use App\Services\MailService;
@@ -19,7 +21,7 @@ class Auth
      */
     public static function register(string $mail, string $username, string $password, string $confirm): bool
     {
-        if ($_POST['password'] != $_POST['confirm']) {
+        if ($password != $confirm) {
             throw new AuthException('Votre mot de passe n\'est pas identique !');
         }
 
@@ -70,6 +72,9 @@ class Auth
         return true;
     }
 
+    /**
+     * @throws \App\Security\AuthException
+     */
     public static function login(string $email, string $password, bool $remember = false): bool
     {
         preg_match('/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/', $password, $matches, PREG_OFFSET_CAPTURE);
@@ -78,7 +83,7 @@ class Auth
         }
 
         if ($_POST['login'] == 'iutannecy') {
-
+            // TODO USMB AD
         } else {
             $query = (new Query())
                 ->select("id", "verify", "password", "email", "last_name", "first_name", "username", "totp")
@@ -101,7 +106,7 @@ class Auth
             $hasTotp = $response->totp != null;
             $_SESSION['user'] = array(
                 'id' => $response->id,
-                'email' => $email,
+                'email' => $response->email,
                 'username' => $response->username,
                 'logged' => !$hasTotp
             );
@@ -109,6 +114,9 @@ class Auth
         }
     }
 
+    /**
+     * @throws \App\Exceptions\UserNotFoundException
+     */
     public static function remember_me(): bool
     {
         if (!empty($_COOKIE) && isset($_COOKIE[self::SESSION_NAME . '_RM'])) {
@@ -127,6 +135,11 @@ class Auth
                 ->limit(1)
                 ->params([$id]);
 
+            $count = $query->rowCount();
+            if ($count == 0) {
+                throw new UserNotFoundException();
+            }
+
             $response = $query->first();
             $mail = $response->email;
             $password = $response->password;
@@ -144,6 +157,10 @@ class Auth
         return false;
     }
 
+    /**
+     * @throws \App\Security\AuthException
+     * @throws \App\Exceptions\UserNotFoundException
+     */
     public static function totp($code): bool
     {
         preg_match('/[0-9]{6}/', $code, $matches, PREG_OFFSET_CAPTURE);
@@ -158,7 +175,7 @@ class Auth
             ->params([self::user()->id]);
 
         if ($query->rowCount() == 0) {
-            throw new AuthException('Utilisateur non trouvé !');
+            throw new UserNotFoundException();
         }
 
         $response = $query->first();
@@ -172,7 +189,7 @@ class Auth
         setcookie(self::SESSION_NAME . '_RM', '', time() - 1000, '/', false, true);
         $_SESSION['user'] = [];
         FlashService::success("Déconnexion réusis !", 5);
-        header('Location: '.$_ENV['BASE_URL'].'/auth/login');
+        header('Location: ' . $_ENV['BASE_URL'] . '/auth/login');
         die();
     }
 
@@ -187,12 +204,13 @@ class Auth
     }
 
     /**
-     * @throws \Exception
+     * @throws \App\Exceptions\UserNotFoundException
+     * @throws \App\Security\AuthException
      */
     public static function verify($id, string $key): bool
     {
         if (!is_numeric($id)) {
-            throw new \Exception('Compte non trouvé !');
+            throw new UserNotFoundException();
         }
 
         $query = (new Query())
@@ -204,11 +222,11 @@ class Auth
         $response = $query->first();
 
         if ($response->verify) {
-            throw new \Exception('Compte déjà verifié !');
+            throw new AuthException('Compte déjà verifié !');
         }
 
         if ($response->verify_key != $key) {
-            throw new \Exception('Lien invalide !');
+            throw new AuthException('Lien invalide !');
         }
 
         $query = (new Query())
@@ -226,6 +244,7 @@ class Auth
 
     /**
      * @throws \App\Security\AuthException
+     * @throws \App\Exceptions\UserNotFoundException
      */
     public static function reset(string $mail, bool $force = false): bool
     {
@@ -236,7 +255,7 @@ class Auth
             ->params([$mail]);
 
         if ($query->rowCount() == 0) {
-            throw new AuthException('Utilisateur non trouvé !');
+            throw new UserNotFoundException();
         }
 
         $response = $query->first();
@@ -260,13 +279,16 @@ class Auth
                 'username' => $username
             ]);
         } catch (Exception $e) {
-            throw new AuthException('Erreur lors de l\'envoie de l\'email !');
+            throw new AuthException("Erreur lors de l'envoie de l'email !");
         }
 
         (new Query())->update()->from('users')->set(['password_reset_key' => '?'])->where('id = ?')->params([$key, $id])->first();
         return true;
     }
 
+    /**
+     * @throws \App\Exceptions\NotFoundException
+     */
     public static function check_reset_password($id, $key)
     {
         $query = (new Query())
@@ -279,12 +301,12 @@ class Auth
             ]);
 
         if ($query->rowCount() == 0) {
-            throw new AuthException('Liens invalide !');
+            throw new NotFoundException('Liens invalide !');
         }
     }
 
     /**
-     * @throws \App\Security\AuthException
+     * @throws \App\Security\AuthException|\App\Exceptions\NotFoundException
      */
     public static function reset_password(string $password, string $confirm, $id, $key): bool
     {

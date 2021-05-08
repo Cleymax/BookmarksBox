@@ -11,7 +11,7 @@ abstract class Controller
 {
     public function render(View $view, string $title, array $data = [])
     {
-        $render = DebugBarService::getDebugBar()->getJavascriptRenderer('/debugbar/');
+        $render = DebugBarService::getDebugBar()->getJavascriptRenderer($_ENV['BASE_URL'] . '/debugbar/');
         extract($data);
         ob_start();
         require_once(dirname(ROOT_PATH) . '/resources/views/' . str_replace('.', DIRECTORY_SEPARATOR, $view->getName()) . '.php');
