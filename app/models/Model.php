@@ -31,7 +31,7 @@ abstract class Model
     {
         $query = (new Query())
             ->from($this->table)
-            ->order('od');
+            ->order('id');
         return $query->all();
     }
 }
