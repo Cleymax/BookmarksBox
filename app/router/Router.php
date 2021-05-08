@@ -2,6 +2,7 @@
 
 namespace App\Router;
 
+use App\Exceptions\NotFoundException;
 use App\Security\Auth;
 use App\Services\Debugbar\DebugBarService;
 use App\Services\FlashService;
@@ -91,38 +92,60 @@ class Router
         $this->not_found();
     }
 
+    /**
+     * @throws \Exception
+     */
     private function call_functions(array $prams, $callback, Route $route)
     {
         self::$current = $route;
-        if (empty($prams)) {
-            if (is_array($callback)) {
-                $function = $callback[1];
-                $return = $callback[0]->$function();
+        try {
+            if (empty($prams)) {
+                if (is_array($callback)) {
+                    $function = $callback[1];
+                    $return = $callback[0]->$function();
+                } else {
+                    $return = $callback();
+                }
             } else {
-                $return = $callback();
+                $return = call_user_func_array($callback, array_values($prams));
             }
-        } else {
-            $return = call_user_func_array($callback, array_values($prams));
+            if (is_string($return)) {
+                echo $return;
+            } else if ($return instanceof View) {
+                ob_start();
+                require_once(dirname(ROOT_PATH) . '/resources/views/' . str_replace('.', DIRECTORY_SEPARATOR, $return->getName()) . '.php');
+                $content = ob_get_clean();
+                require_once(dirname(ROOT_PATH) . '/resources/layouts/' . $return->getLayout() . '.php');
+            }
+            FlashService::request();
+        } catch (NotFoundException $e) {
+            self::not_found();
+        } catch (\Exception $e) {
+            if ($this->need_json() || $_ENV['MODE'] != 'dev') {
+                if ($e->getCode() != 0) {
+                    http_response_code($e->getCode());
+                }
+                $this->respond_json(
+                    [
+                        'type' => 'error',
+                        'message ' => $e->getMessage(),
+                        'code' => $e->getCode()
+                    ]
+                );
+            } else {
+                throw $e;
+            }
         }
-        if (is_string($return)) {
-            echo $return;
-        } else if ($return instanceof View) {
-            ob_start();
-            require_once(dirname(ROOT_PATH) . '/resources/views/' . str_replace('.', DIRECTORY_SEPARATOR, $return->getName()) . '.php');
-            $content = ob_get_clean();
-            require_once(dirname(ROOT_PATH) . '/resources/layouts/' . $return->getLayout() . '.php');
-        }
-        FlashService::request();
     }
 
     public static function need_login(): void
     {
         if (isset($_SESSION['user']) && !empty($_SESSION['user']) && !$_SESSION['user']['logged']) {
             FlashService::add('warning', "Merci d'entrer votre code de double authentification !", 15);
-            header('Location: /auth/2fa');
+            header('Location: ' . $_ENV['BASE_URL'] . '/auth/2fa');
         } else {
             FlashService::error("Tu dois être connecté pour accèder à ceci !", 5);
-            header('Location: /auth/login');
+            header('Location: ' . $_ENV['BASE_URL'] . '/auth/login');
         }
         DebugBarService::getDebugBar()->collect();
         die();
@@ -161,5 +184,16 @@ class Router
     public static function init(): void
     {
         Router::get()->onRequest();
+    }
+
+    public function need_json(): bool
+    {
+        return isset($_SERVER['CONTENT_TYPE']) && $_SERVER['CONTENT_TYPE'] == 'application/json' || isset($_GET['json']);
+    }
+
+    public function respond_json($json)
+    {
+        header("Content-Type: application/json");
+        echo json_encode($json);
     }
 }

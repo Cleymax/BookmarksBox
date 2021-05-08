@@ -26,28 +26,37 @@ class MailService
     /**
      * @throws \PHPMailer\PHPMailer\Exception
      */
-    public static function send(string $to, string $subject, string $body)
+    public static function send(string $to, string $subject, string $body): bool
     {
-        $mail = new PHPMailer(true);
-        $mail->SMTPDebug = $_ENV['MODE'] == 'dev' ? SMTP::DEBUG_SERVER : SMTP::DEBUG_OFF;
-        $mail->isSMTP();
-        $mail->Host = 'mail.clementperrin.fr';
+        if ($_ENV['USE_MAIL_FUNCTION']) {
+            return mail($to, $subject, $body, implode('\r\n', [
+                'From: ' . $_ENV['SMTP_FROM'],
+                'Reply-To: ' . $_ENV['SMTP_REPLY_TO'],
+                'Content-type: text/html; charset=UTF-8',
+                'MIME-Version: 1.0'
+            ]));
+        } else {
+            $mail = new PHPMailer(true);
+            $mail->SMTPDebug = $_ENV['MODE'] == 'dev' ? SMTP::DEBUG_SERVER : SMTP::DEBUG_OFF;
+            $mail->isSMTP();
+            $mail->Host = $_ENV['SMTP_HOST'];
 
-        if ($_ENV['SMTP_AUTH']) {
-            $mail->SMTPAuth = true;
-            $mail->Username = $_ENV['SMTP_USERNAME'];
-            $mail->Password = $_ENV['SMTP_PASSWORD'];
-            $mail->SMTPSecure = $_ENV['SMTP_ENCRYPTION'];
+            if ($_ENV['SMTP_AUTH']) {
+                $mail->SMTPAuth = true;
+                $mail->Username = $_ENV['SMTP_USERNAME'];
+                $mail->Password = $_ENV['SMTP_PASSWORD'];
+                $mail->SMTPSecure = $_ENV['SMTP_ENCRYPTION'];
+            }
+            $mail->Port = $_ENV['SMTP_PORT'] ?? 25;
+
+            $mail->setFrom($_ENV['SMTP_FROM'], $_ENV['SMTP_FROM_NAME']);
+            $mail->addAddress($to);
+            $mail->addReplyTo($_ENV['SMTP_REPLY_TO']);
+            $mail->isHTML(true);
+            $mail->CharSet = 'UTF-8';
+            $mail->Subject = $subject;
+            $mail->Body = $body;
+            return $mail->send();
         }
-        $mail->Port = $_ENV['SMTP_PORT'] ?? 25;
-
-        $mail->setFrom($_ENV['SMTP_FROM'], $_ENV['SMTP_FROM_NAME']);
-        $mail->addAddress($to);
-        $mail->addReplyTo($_ENV['SMTP_REPLY_TO']);
-        $mail->isHTML(true);
-        $mail->CharSet = 'UTF-8';
-        $mail->Subject = $subject;
-        $mail->Body = $body;
-        $mail->send();
     }
 }

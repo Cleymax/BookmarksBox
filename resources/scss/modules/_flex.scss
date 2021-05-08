@@ -1,0 +1,10 @@
+.flex {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+
+  @include screen-down(600) {
+    flex-direction: column;
+  }
+}

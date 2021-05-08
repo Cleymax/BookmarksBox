@@ -55,13 +55,14 @@ Route::get('/folder/{id}/info', [FolderController::class, 'getFolderInfo'], true
 
 Route::get('/bookmarks/', [BookmarkController::class, 'getAllBookmark'], true);
 Route::get('/bookmark/{id}', [BookmarkController::class, 'getBookmark'], true);
-Route::post('/bookmark/{id}', [BookmarkController::class, 'createBookmark'], true);
+Route::post('/bookmark/', [BookmarkController::class, 'createBookmark'], true);
 Route::put('/bookmark/{id}', [BookmarkController::class, 'editBookmark'], true);
 Route::delete('/bookmark/{id}', [BookmarkController::class, 'deleteBookmark'], true);
 
-Route::get('/teams/{id}', [TeamsController::class, 'folderView'], true);
-Route::get('/teams/{id}/settings', [TeamsController::class, 'teamSettings'], true);
-Route::get('/teams/', [FolderController::class, 'folderView'], true);
+Route::get('/teams/{id}', [TeamsController::class, 'folderView'], true)->where('id', '\w{10}');
+Route::get('/teams/{id}/settings', [TeamsController::class, 'teamSettings'], true)->where('id', '\w{10}');
+Route::get('/teams/', [TeamsController::class, 'getTeams'], true);
+Route::post('/teams/', [TeamsController::class, 'createTeams'], true);
 
 Route::redirect('/', '/dashboard', true);
 Router::init();

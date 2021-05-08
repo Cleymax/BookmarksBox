@@ -56,6 +56,17 @@ class Query
     }
 
     /**
+     * @param array $columns
+     * @return $this
+     */
+    public function insertArray(array $columns): self
+    {
+        $this->select = $columns;
+        $this->type = 'INSERT';
+        return $this;
+    }
+
+    /**
      * Create an update request.
      * @return $this
      */
@@ -94,6 +105,7 @@ class Query
     public function from(string $table_name, ?string $alias = null): self
     {
         $this->table = !$alias ? $table_name : $table_name . ' AS ' . $alias;
+        $this->table = strtolower($this->table);
         return $this;
     }
 
@@ -165,9 +177,9 @@ class Query
     public function inner(string $table2, string $key1, string $key2): self
     {
         if (empty($this->inner)) {
-            $this->inner[] = $table2 . ' ON ' . explode(' ', $this->table)[0] . '.' . $key1 . ' = ' . $table2 . '.' . $key2;
+            $this->inner[] = 'INNER JOIN ' . $table2 . ' ON ' . explode(' ', $this->table)[0] . '.' . $key1 . ' = ' . $table2 . '.' . $key2;
         } else {
-            $this->inner[] = $table2 . ' ON ' . explode(' ', $this->inner[sizeof($this->inner) - 1])[0] . '.' . $key1 . ' = ' . $table2 . '.' . $key2;
+            $this->inner[] = 'INNER JOIN ' . $table2 . ' ON ' . explode(' ', $this->inner[sizeof($this->inner) - 1])[0] . '.' . $key1 . ' = ' . $table2 . '.' . $key2;
         }
         return $this;
     }
@@ -321,6 +333,9 @@ class Query
                 $sets[] = $k . '=' . $v;
             }
             $parts[] = join(', ', $sets);
+        }
+        if (!empty($this->inner)) {
+            $parts = array_merge($parts, $this->inner);
         }
         if (!empty($this->where)) {
             $parts[] = "WHERE";
