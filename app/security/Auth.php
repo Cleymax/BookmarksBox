@@ -172,7 +172,7 @@ class Auth
         setcookie(self::SESSION_NAME . '_RM', '', time() - 1000, '/', false, true);
         $_SESSION['user'] = [];
         FlashService::success("Déconnexion réusis !", 5);
-        header('Location: /auth/login');
+        header('Location: '.$_ENV['BASE_URL'].'/auth/login');
         die();
     }
 

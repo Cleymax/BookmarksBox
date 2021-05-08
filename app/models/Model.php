@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Database\Query;
+use App\Exceptions\NotFoundException;
 
 abstract class Model
 {
@@ -16,6 +17,9 @@ abstract class Model
         $this->table = $table_name ?? get_class($this);
     }
 
+    /**
+     * @throws \App\Exceptions\NotFoundException
+     */
     public function getById($id, ?string...$field)
     {
         $query = (new Query())
@@ -24,7 +28,11 @@ abstract class Model
             ->where('id = ?')
             ->params([$id])
             ->limit(1);
-        return $query->first();
+        if($query->rowCount() == 0){
+            throw new NotFoundException('Equipe inconnue !');
+        }else {
+            return $query->first();
+        }
     }
 
     public function getAll(): array

@@ -43,6 +43,10 @@ body {
   background-color: var(--primary);
 }
 
+main {
+  padding: 1rem 2rem;
+}
+
 //MODULES
 @import "modules/alert";
 @import "modules/button";
@@ -50,6 +54,8 @@ body {
 @import "modules/input";
 @import "modules/switch";
 @import "modules/links";
+@import "modules/grid";
+@import "modules/flex";
 
 //PAGES
 @import "page/auth/login";

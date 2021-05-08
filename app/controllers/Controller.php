@@ -34,11 +34,11 @@ abstract class Controller
     {
         foreach (Router::get()->getRoutes() as $route) {
             if ($route->getName() == $s) {
-                header('Location: /' . $route->getUri());
+                header('Location: ' . $_ENV['BASE_URL'] . '/' . $route->getUri());
                 die();
             }
         }
-        header('Location: ' . $s);
+        header('Location: ' . $_ENV['BASE_URL'] . '/' . $s);
         DebugBarService::getDebugBar()->collect();
         die();
     }
@@ -95,11 +95,57 @@ abstract class Controller
 
     public function loadModel(string $model, ?string $table = null)
     {
-        require ROOT_PATH . "/../app/models/User.php";
-        if(is_null($table)) {
+        require ROOT_PATH . "/../app/models/$model.php";
+        if (is_null($table)) {
             $this->$model = new $model();
-        }else {
+        } else {
             $this->$model = new $model($table);
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function getBody(): string
+    {
+        return file_get_contents('php://input');
+    }
+
+    /**
+     * @param array $require
+     * @param array $fields
+     * @return array
+     * @throws \Exception
+     */
+    public function getRequestValue(array $require, array $fields): array
+    {
+        $request_values = [];
+
+        if ($this->need_json()) {
+            $json = json_decode($this->getBody(), true);
+            if (is_object($json) || !is_array($json)) {
+                throw new \Exception('Need to send a array !');
+            }
+            $request_body = $json;
+        } else {
+            $request_body = $_POST;
+        }
+        foreach ($request_body as $k => $v) {
+            if (!array_key_exists($k, $fields)) {
+                throw new \Exception('unkhown key: ' . $k, 400);
+            }
+            if ($this->need_json() && gettype($v) != gettype($fields[$k])) {
+                throw new \Exception('key: ' . $k . ' need to be a ' . gettype($fields[$k]), 400);
+            }
+            $request_values[$k] = $v;
+        }
+
+        foreach ($require as $r) {
+            if (!isset($request_values[$r])) {
+                throw new \Exception('Key: ' . $r . ' is require !', 400);
+            }
+        }
+
+        return $request_values;
     }
 }
