@@ -11,7 +11,6 @@ use App\Controllers\UserController;
 use App\Router\Route;
 use App\Router\Router;
 use App\Security\Auth;
-use App\Services\CsrfService;
 
 define('ROOT_PATH', dirname(__FILE__));
 
@@ -26,6 +25,12 @@ Route::post('/auth/register', [AuthController::class, 'register']);
 
 Route::get('/auth/verify', [AuthController::class, 'verify'], false, 'verify_account');
 
+Route::get('/auth/password-forgot/reset', [AuthController::class, 'reset_password_view'], false, 'reset-password');
+Route::post('/auth/password-forgot/reset', [AuthController::class, 'reset_password'], false);
+
+Route::get('/auth/password-forgot', [AuthController::class, 'password_resetView'], false, 'password-forgot');
+Route::post('/auth/password-forgot', [AuthController::class, 'password_reset'], false);
+
 Route::get('/auth/2fa', [AuthController::class, 'twofaView'], false, '2fa');
 Route::post('/auth/2fa', [AuthController::class, 'twofa'], false);
 
@@ -33,10 +38,13 @@ Route::get('/auth/logout', function () {
     Auth::logout();
 }, true, 'logout');
 
-Route::get('/profile', [UserController::class, 'profileView'], true,'profile');
+Route::get('/profile', [UserController::class, 'profileView'], true, 'profile');
 
 Route::get('/settings', [UserController::class, 'settingsView'], true);
 Route::post('/settings', [UserController::class, 'settings'], true);
+
+Route::get('/settings/2fa', [UserController::class, 'settings2fa'], true,'settings2fa');
+Route::post('/settings/2fa', [UserController::class, 'settings2faActivate'], true);
 
 Route::get('/dashboard', [DashboardController::class, 'dashboard'], true, 'dashboard');
 Route::get('/favorite', [DashboardController::class, 'favorite'], true);
@@ -50,13 +58,14 @@ Route::get('/folder/{id}/info', [FolderController::class, 'getFolderInfo'], true
 
 Route::get('/bookmarks/', [BookmarkController::class, 'getAllBookmark'], true);
 Route::get('/bookmark/{id}', [BookmarkController::class, 'getBookmark'], true);
-Route::post('/bookmark/{id}', [BookmarkController::class, 'createBookmark'], true);
+Route::post('/bookmark/', [BookmarkController::class, 'createBookmark'], true);
 Route::put('/bookmark/{id}', [BookmarkController::class, 'editBookmark'], true);
 Route::delete('/bookmark/{id}', [BookmarkController::class, 'deleteBookmark'], true);
 
-Route::get('/teams/{id}', [TeamsController::class, 'folderView'], true);
-Route::get('/teams/{id}/settings', [TeamsController::class, 'teamSettings'], true);
-Route::get('/teams/', [FolderController::class, 'folderView'], true);
+Route::get('/teams/{id}', [TeamsController::class, 'folderView'], true)->where('id', '\w{10}');
+Route::get('/teams/{id}/settings', [TeamsController::class, 'teamSettings'], true)->where('id', '\w{10}');
+Route::get('/teams/', [TeamsController::class, 'getTeams'], true);
+Route::post('/teams/', [TeamsController::class, 'createTeams'], true);
 
 Route::redirect('/', '/dashboard', true);
 Router::init();

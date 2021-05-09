@@ -1,7 +1,7 @@
 <?php
 namespace App\Security;
 
-class AuthException extends \RuntimeException
+class AuthException extends \Exception
 {
 
     /**

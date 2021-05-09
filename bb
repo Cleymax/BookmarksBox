@@ -7,6 +7,7 @@ use Dotenv\Dotenv;
 
 require __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/app/tools/Str.php';
+require_once __DIR__ . '/app/database/Migration.php';
 require_once __DIR__ . '/app/database/Database.php';
 
 $argv = $argv ?? $_SERVER['argv'] ?? [];
@@ -31,6 +32,68 @@ switch ($argv[0]) {
         } else {
             dd("Env file already exist !");
         }
+    case "migrate":
+        if (sizeof($argv) < 2) {
+            dd("php bb migrate <up,down>");
+        }
+
+        $folder_path = __DIR__ . '/app/database/migration/LAST_UPDATE';
+        $time = 0;
+        $files = scandir(__DIR__ . '/app/database/migration/');
+        $files = array_slice($files, 2);
+        if (file_exists($folder_path)) {
+            array_pop($files);
+            $check = $argv[2] ?? '';
+            if ($check != '--no-check') {
+                $time = intval(file_get_contents($folder_path));
+            }
+        }
+        sort($files);
+        $request = [];
+
+        foreach ($files as $file) {
+            require_once __DIR__ . '/app/database/migration/' . $file;
+            $time_file = intval(explode('_', $file)[0]);
+
+            $class_name = ucfirst(str_replace('.php', '', str_replace(explode('_', $file)[0] . '_', '', $file)));
+            $migration = new $class_name();
+            if ($argv[1] == 'up') {
+                if ($time_file >= $time) {
+                    dump(" > " . $file);
+                    $request = array_merge($request, $migration->up());
+                }
+            } else {
+                dump(" > " . $file);
+                $request = array_merge($request, $migration->down());
+            }
+        }
+
+        $env = Dotenv::createImmutable(__DIR__);
+        $env->load();
+        Database::set(
+                new Database(
+                        $_ENV['DB_DATABASE'],
+                        $_ENV['DB_USER'] ?? 'postgres',
+                        $_ENV['DB_PASSWORD'] ?? 'postgres',
+                        $_ENV['DB_HOST'] ?? 'localhost',
+                        $_ENV['DB_PORT'] ?? '5432'
+                )
+        );
+        foreach ($request as $r) {
+            Database::get()->query(str_replace(array("\n", "\r"), '', $r));
+        }
+        file_put_contents($folder_path, time());
+        dd("Migration go !");
+    case "migration":
+        if (sizeof($argv) != 2) {
+            dd("php bb migration <name>");
+        }
+        $name = ucfirst(strtolower($argv[1]));
+        ob_start();
+        include __DIR__ . '/app/database/MigrationTemplate.php';
+        $contents = ob_get_clean();
+        file_put_contents(__DIR__ . '/app/database/migration/' . time() . '_' . strtolower($name) . '.php', $contents);
+        dd("new migration created !");
     case "mode":
         $env = Dotenv::createImmutable(__DIR__);
         $env->load();
@@ -40,7 +103,7 @@ switch ($argv[0]) {
         if ($argv[1] == 'dev') {
             file_put_contents('.env', str_replace('MODE=' . $_ENV['MODE'], 'MODE=dev', file_get_contents('.env')));
             dd("Website mode: dev");
-        }else {
+        } else {
             file_put_contents('.env', str_replace('MODE=' . $_ENV['MODE'], 'MODE=production', file_get_contents('.env')));
             dd("Website mode: production");
         }

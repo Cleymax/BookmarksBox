@@ -14,6 +14,8 @@ spl_autoload_register(function ($class_name) {
     require_once ROOT_PATH . '/../' . $class_name . '.php';
 });
 
+require 'tools/Http.php';
+
 $dotenv = Dotenv::createImmutable(dirname(__DIR__));
 $dotenv->load();
 $dotenv->required('DB_DATABASE');

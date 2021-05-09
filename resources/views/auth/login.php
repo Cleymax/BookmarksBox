@@ -1,6 +1,11 @@
     <div class="container card">
         <h1>Se connecter</h1>
         <form method="post">
+            <?php
+            if(isset($_GET['redirect_to'])){
+                echo '<input type="hidden" name="redirect_to" value="'.$_GET['redirect_to'].'">';
+            }
+            ?>
            <?= \App\Services\CsrfService::html() ?>
             <div class="form-group">
                 <div class="input-auth">
@@ -8,7 +13,7 @@
                         <input type="text" id="username" autocomplete="username" name="username" spellcheck="false"
                                aria-label="Nom d'utilisateur ou adresse e-mail" required aria-required="true"
                                title="Nom d'utilisateur ou adresse e-mail"
-                               autocapitalize="none" dir="ltr" autofocus>
+                               autocapitalize="none" dir="ltr" <?php if(isset($username) && $username != ''){ echo 'value="'. $username.'"'; }else{echo 'autofocus';} ?>>
                         <span aria-hidden="true">Nom d'utilisateur ou adresse e-mail</span>
                     </label>
                 </div>
@@ -18,6 +23,7 @@
                                autocomplete="current-password" aria-label="Mot de passe" autocapitalize="off" dir="ltr"
                                minlength="6" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
                                title="Le mot de passe doit faire 6  carractères avec une majuscule et un chiffre"
+                                <?php if(isset($username) && $username != ''){ echo 'autofocus'; } ?>
                                name="password">
                         <span aria-hidden="true">Mot de passe</span>
                     </label>
@@ -46,7 +52,7 @@
                         </button>
                     </div>
                     <div class="line-separator"></div>
-                    <a href="<?= $_ENV['BASE_URL'] .'/auth/password-forgot'?>">
+                    <a href="<?= get_query_url('password-forgot')?>">
                         <span data-content="Mot de passe oublié">Mot de passe oublié</span>
                     </a>
                 </div>
