@@ -14,18 +14,18 @@
   ],
   "require": {
     "php": ">=7.2",
-    "filp/whoops": "^2.9",
-    "vlucas/phpdotenv": "^5.3",
+    "filp/whoops": "^2.12.1",
+    "vlucas/phpdotenv": "^v5.3.0",
     "sonata-project/google-authenticator": "2.2.0",
+    "phpmailer/phpmailer": "^v6.4.1",
+    "maximebf/debugbar": "^v1.16.5",
     "ext-json": "*",
     "ext-pdo": "*",
     "ext-ldap": "*",
-    "ext-readline": "*",
-    "phpmailer/phpmailer": "^6.4",
-    "maximebf/debugbar": "^1.16"
+    "ext-readline": "*"
   },
   "require-dev": {
-    "symfony/var-dumper": "^5.2",
+    "symfony/var-dumper": "^v5.2.6",
     "phpstan/phpstan": "^0.12.83"
   }
 }
