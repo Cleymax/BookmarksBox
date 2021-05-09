@@ -1,0 +1,36 @@
+.pagination {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  padding-top: 4px;
+  padding-bottom: 6px;
+  margin: 24px 0;
+
+
+  & > li > a, span {
+    margin: 4px;
+    padding: 4px 8px;
+    min-width: 35px;
+    white-space: nowrap;
+  }
+
+  & > li > span {
+    border: 2px solid var(--white-skeleton);
+    background: var(--white);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+    opacity: .7;
+  }
+
+  & > li > a {
+    background: var(--white);
+    border: 2px solid var(--white-skeleton);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+    transition: .3s;
+
+    &:hover, &:focus {
+      background: var(--primary);
+    }
+  }
+}
