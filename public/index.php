@@ -43,6 +43,9 @@ Route::get('/profile', [UserController::class, 'profileView'], true, 'profile');
 Route::get('/settings', [UserController::class, 'settingsView'], true);
 Route::post('/settings', [UserController::class, 'settings'], true);
 
+Route::get('/settings/2fa', [UserController::class, 'settings2fa'], true,'settings2fa');
+Route::post('/settings/2fa', [UserController::class, 'settings2faActivate'], true);
+
 Route::get('/dashboard', [DashboardController::class, 'dashboard'], true, 'dashboard');
 Route::get('/favorite', [DashboardController::class, 'favorite'], true);
 

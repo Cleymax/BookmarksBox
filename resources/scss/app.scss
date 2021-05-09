@@ -7,6 +7,7 @@
 
 :root {
   --white: #ffff;
+  --white-skeleton: #d9d9d9;
   --dark: #0C0C0C;
   --red: #EC4E4F;
   --green: #27AE60;
@@ -21,6 +22,7 @@
 
 @include dark-theme {
   --white: #515151;
+  --white-skeleton: #696969;
   --dark: #FFFFFF;
   --red: #EC4E4F;
   --green: #27AE60;
@@ -56,6 +58,7 @@ main {
 @import "modules/links";
 @import "modules/grid";
 @import "modules/flex";
+@import "modules/pagination";
 
 //PAGES
 @import "page/auth/login";

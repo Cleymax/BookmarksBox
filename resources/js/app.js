@@ -1,8 +1,10 @@
 import 'regenerator-runtime/runtime';
 import $ from 'jquery';
 import Alert from './elements/Alert';
+import Skeleton from './elements/Skeleton';
 
 window.customElements.define('alert-message', Alert);
+window.customElements.define('skeleton-box', Skeleton);
 
 $(document).ready(() => {
   const themeswitch = $('#theme');
