@@ -1,8 +1,8 @@
 <div class="container-profil">
 
     <div class="profil-header">
-        <img src="<?= $data->avatar;?>" class="profil">
-        <a href="/settings/" class="profil-edit">
+        <img src="<?= $_ENV['BASE_URL'].$data->avatar;?>" class="profil">
+        <a href="<?= get_query_url("/settings") ?>" class="profil-edit">
             <span class="material-icons">manage_accounts</span>
         </a>
     </div>
@@ -18,5 +18,4 @@
             <img src="https://via.placeholder.com/100" style="width: 100px;">
         </div>
     </div>
-
 </div>

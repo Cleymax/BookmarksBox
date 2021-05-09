@@ -5,6 +5,7 @@ use App\Security\Auth;
 ?>
 <div class="settings">
     <form method="post">
+        <?= \App\Services\CsrfService::html() ?>
         <label for="mail" class="textfield">
             <input type="email" id="mail" autocomplete="email" name="email" spellcheck="false"
                    tabindex="1" aria-label="E-mail" required aria-required="true"
@@ -19,7 +20,7 @@ use App\Security\Auth;
             <span aria-hidden="true">Nom d'utilisateur</span>
         </label>
         <label for="password" class="textfield">
-            <input type="password" id="password" required aria-required="true" spellcheck="false"
+            <input type="password" id="password" spellcheck="false"
                    autocomplete="current-password" aria-label="Mot de passe" autocapitalize="off" dir="ltr"
                    minlength="6" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
                    title="Le mot de passe doit faire 6  carractères avec une majuscule et un chiffre"
@@ -27,23 +28,29 @@ use App\Security\Auth;
             <span aria-hidden="true">Mot de passe</span>
         </label>
         <label for="confirm" class="textfield">
-            <input type="password" id="confirm"  required aria-required="true" tabindex="4" spellcheck="false"
+            <input type="password" id="confirm" tabindex="4" spellcheck="false" name="confirm"
                    autocomplete="current-password" aria-label="Confirmer votre mot de passe" autocapitalize="off" dir="ltr"
                    minlength="6" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Les 2 mots de passe doivent être identiques" >
             <span aria-hidden="true">Confirmer</span>
         </label>
         <label for="confirm" class="textfield">
-            <input type="password" id="current"  required aria-required="true" tabindex="4" spellcheck="false"
+            <input type="password" id="current"  name="current" tabindex="4" spellcheck="false"
                    autocomplete="current-password" aria-label="Confirmer votre mot de passe" autocapitalize="off" dir="ltr"
                    minlength="6" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Les 2 mots de passe doivent être identiques" >
             <span aria-hidden="true">Mot de passe Actuelle</span>
         </label>
-        <label for="bio" class="textfield">
-            <input type="text" id="bio" name="bio" spellcheck="false"
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <label for="bio" class="textareafield">
+            <textarea type="text" id="bio" name="bio" spellcheck="false"
                    tabindex="7" aria-label="Bbio" required aria-required="true"
-                   title="biographie" autocapitalize="none" dir="ltr" autofocus value="<?= $data->bio;?>">
+                   title="biographie" autocapitalize="none" dir="ltr" autofocus><?= $data->bio;?>
+            </textarea>
             <span>Biographie</span>
         </label>
-        <button class="btn" aria-label="Connecion" name="login" value="standard" title="Connexion"><span class="material-icons">login</span>Connexion</button>
+        <button class="btn" aria-label="Connecion" title="Connexion"><span class="material-icons">login</span>Connexion</button>
     </form>
 </div>

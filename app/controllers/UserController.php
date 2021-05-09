@@ -37,6 +37,13 @@ class UserController extends Controller
         $this->render(View::new('user.2fa'), '2FA', ["data" => $data, "secret" => $secret ?? '']);
     }
 
+    public function settingsView()
+    {
+        $response = $this->User->getById(Auth::user()->id);
+
+        $this->render(View::new('settings'), "Paramètres", ["data" => $response]);
+    }
+
     public function settings2faActivate()
     {
         $g = new GoogleAuthenticator();
@@ -77,5 +84,48 @@ class UserController extends Controller
             $secret = $g->generateSecret();
         }
         $this->render(View::new('user.2fa'), '2FA', ["data" => $data, 'secret' => $secret ?? '']);
+    }
+
+    public function settings()
+    {
+        try{
+            $this->checkCsrf();
+            $this->checkPost("current", "Merci de préciser votre mot de passe !");
+
+            $response = $this->User->getById(Auth::user()->id);
+
+
+
+            if(!password_verify($_ENV['SALT'] . $_POST["current"], $response->password)){
+                throw new AuthException('Le mot de passe ne correspond pas');
+            }
+
+            if(isset($_POST["password"]) && isset($_POST["confirm"]) || isset($_POST["confirm"])){
+                if($_POST["password"] != $_POST["confirm"]){
+                    throw new AuthException('Les mot de passe ne sont pas identique');
+                }
+            }
+
+            $request_values =  $this->getRequestValue([], [
+                'username' => '',
+                'email' => '',
+                'password' => '',
+                'current' => '',
+                'avatar' => '',
+                'bio' => '',
+            ]);
+
+            unset($request_values["current"]);
+
+            $response = $this->User->editSettings($request_values);
+
+            $this->render(View::new('settings'), "Paramètres",  ["data" => $response]);
+        }catch (\Exception $e) {
+            FlashService::error($e->getMessage());
+            http_response_code($e->getCode() == 0 ? 400 : $e->getCode());
+            $response = $this->User->getById(Auth::user()->id);
+            $this->render(View::new('settings'), "Paramètres",  ["data" => $response]);
+        }
+
     }
 }
