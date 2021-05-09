@@ -24,18 +24,18 @@
 
             if (!Auth::check()) {
                 ?>
-                <a href="<?= Router::get_url('login') ?>" class="btn btn-secondary btn-rounded" accesskey="c"><span
+                <a href="<?= get_query_url('login') ?>" class="btn btn-secondary btn-rounded" accesskey="c"><span
                             class="material-icons">login</span>Connexion</a>
-                <a href="<?= Router::get_url('register') ?>" class="btn btn-rounded btn-outlined btn-white"
+                <a href="<?= get_query_url('register') ?>" class="btn btn-rounded btn-outlined btn-white"
                    accesskey="i"><span class="material-icons">how_to_reg</span>Inscription</a>
                 <?php
             } else {
                 ?>
-                <a href="<?= Router::get_url('profile') ?>" class="btn btn-rounded btn-outlined btn-white profile" accesskey="p">
+                <a href="<?= get_query_url('profile') ?>" class="btn btn-rounded btn-outlined btn-white profile" accesskey="p">
                     <img src="https://www.belin.re/wp-content/uploads/2018/11/default-avatar.png" alt="Avatar">
                     <span><?= Auth::user()->username ?></span>
                 </a>
-                <a href="<?= Router::get_url('logout') ?>" class="btn btn-rounded btn-outlined btn-white" accesskey="i"><span
+                <a href="<?= get_query_url('logout') ?>" class="btn btn-rounded btn-outlined btn-white" accesskey="i"><span
                             class="material-icons">logout</span>Déconnexion</a>
                 <?php
             }

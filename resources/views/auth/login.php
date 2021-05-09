@@ -52,7 +52,7 @@
                         </button>
                     </div>
                     <div class="line-separator"></div>
-                    <a href="<?= \App\Router\Router::get_url('password-forgot')?>">
+                    <a href="<?= get_query_url('password-forgot')?>">
                         <span data-content="Mot de passe oublié">Mot de passe oublié</span>
                     </a>
                 </div>
