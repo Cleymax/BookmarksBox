@@ -22,7 +22,8 @@
     "ext-json": "*",
     "ext-pdo": "*",
     "ext-ldap": "*",
-    "ext-readline": "*"
+    "ext-readline": "*",
+    "ext-http": "*"
   },
   "require-dev": {
     "symfony/var-dumper": "^v5.2.6",

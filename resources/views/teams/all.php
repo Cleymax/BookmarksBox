@@ -5,7 +5,7 @@
     foreach ($data as $team) {
         ?>
         <div class="team" style="padding: 1rem;">
-            <a href="<?= \App\Router\Router::get_url('/teams/' . $team->id) ?>">
+            <a href="<?= get_query_url('/teams/' . $team->id) ?>">
                 <img width="150px" height="150px" src="<?= $team->icon ?>" alt="Avatar de l'équpe <?= $team->name ?>">
                 <h3>
                     <?= $team->name ?>

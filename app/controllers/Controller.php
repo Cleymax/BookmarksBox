@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Exceptions\CsrfException;
 use App\Router\Router;
 use App\Services\CsrfService;
 use App\Services\Debugbar\DebugBarService;
@@ -82,14 +83,13 @@ abstract class Controller
         }
     }
 
+    /**
+     * @throws \App\Exceptions\CsrfException
+     */
     public function checkCsrf()
     {
-        if (!isset($_POST['_csrf_token']) || $_POST['_csrf_token'] == null || $_POST['_csrf_token'] == '') {
-            throw new \Exception("Erreur lors de l'envoie de la requete ! Réésayez !");
-        }
-
-        if (!CsrfService::verify($_POST['_csrf_token'])) {
-            throw new \Exception("Erreur lors de l'envoie de la requete ! Réésayez !");
+        if (!isset($_POST['_csrf_token']) || $_POST['_csrf_token'] == null || $_POST['_csrf_token'] == '' && (!CsrfService::verify($_POST['_csrf_token']))) {
+            throw new CsrfException();
         }
     }
 
@@ -104,14 +104,6 @@ abstract class Controller
     }
 
     /**
-     * @return string
-     */
-    public function getBody(): string
-    {
-        return file_get_contents('php://input');
-    }
-
-    /**
      * @param array $require
      * @param array $fields
      * @return array
@@ -122,7 +114,7 @@ abstract class Controller
         $request_values = [];
 
         if ($this->need_json()) {
-            $json = json_decode($this->getBody(), true);
+            $json = json_decode(getBody(), true);
             if (is_object($json) || !is_array($json)) {
                 throw new \Exception('Need to send a array !');
             }

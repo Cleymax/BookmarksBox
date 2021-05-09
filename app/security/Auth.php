@@ -57,7 +57,7 @@ class Auth
         $response = $query->first();
 
         try {
-            $link = Router::get_url('verify_account', [
+            $link = get_query_url('verify_account', [
                 'id' => $response->id,
                 'key' => $key
             ]);
@@ -268,7 +268,7 @@ class Auth
         $id = $response->id;
         $key = Str::random(32);
 
-        $link = Router::get_url('reset-password', [
+        $link = get_query_url('reset-password', [
             'id' => $response->id,
             'key' => $key
         ]);
