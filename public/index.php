@@ -43,7 +43,7 @@ Route::get('/profile', [UserController::class, 'profileView'], true, 'profile');
 Route::get('/settings', [UserController::class, 'settingsView'], true);
 Route::post('/settings', [UserController::class, 'settings'], true);
 
-Route::get('/settings/2fa', [UserController::class, 'settings2fa'], true,'settings2fa');
+Route::get('/settings/2fa', [UserController::class, 'settings2fa'], true, 'settings2fa');
 Route::post('/settings/2fa', [UserController::class, 'settings2faActivate'], true);
 
 Route::get('/dashboard', [DashboardController::class, 'dashboard'], true, 'dashboard');
@@ -66,6 +66,9 @@ Route::get('/teams/{id}', [TeamsController::class, 'folderView'], true)->where('
 Route::get('/teams/{id}/settings', [TeamsController::class, 'teamSettings'], true)->where('id', '\w{10}');
 Route::get('/teams/', [TeamsController::class, 'getTeams'], true);
 Route::post('/teams/', [TeamsController::class, 'createTeams'], true);
+
+Route::get('/user/teams', [UserController::class, 'getTeams'])->api();
+Route::get('/user/',[UserController::class, 'getMe'])->api();
 
 Route::redirect('/', '/dashboard', true);
 Router::init();
