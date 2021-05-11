@@ -11,6 +11,7 @@ use App\Controllers\UserController;
 use App\Router\Route;
 use App\Router\Router;
 use App\Security\Auth;
+use App\Services\GoutteService;
 
 define('ROOT_PATH', dirname(__FILE__));
 
@@ -68,7 +69,11 @@ Route::get('/teams/', [TeamsController::class, 'getTeams'], true);
 Route::post('/teams/', [TeamsController::class, 'createTeams'], true);
 
 Route::get('/user/teams', [UserController::class, 'getTeams'])->api();
-Route::get('/user/',[UserController::class, 'getMe'])->api();
+Route::get('/user/', [UserController::class, 'getMe'])->api();
+Route::get('/test', function () {
+    $g = new GoutteService();
+    $g->test($_GET['url'] ?? 'https://medium.com/issuehunt/50-most-popular-php-projects-on-github-c8cf6a242eb9');
+})->api();
 
 Route::redirect('/', '/dashboard', true);
 Router::init();
