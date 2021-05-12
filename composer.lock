@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "36e83474d548a97c69566be941fa0a88",
+    "content-hash": "be5123ca7e7d742cd43bc15475154191",
     "packages": [
         {
             "name": "filp/whoops",
@@ -76,6 +76,60 @@
                 }
             ],
             "time": "2021-04-25T12:00:00+00:00"
+        },
+        {
+            "name": "firebase/php-jwt",
+            "version": "v5.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/firebase/php-jwt.git",
+                "reference": "f42c9110abe98dd6cfe9053c49bc86acc70b2d23"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/f42c9110abe98dd6cfe9053c49bc86acc70b2d23",
+                "reference": "f42c9110abe98dd6cfe9053c49bc86acc70b2d23",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": ">=4.8 <=9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Firebase\\JWT\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Neuman Vong",
+                    "email": "neuman+pear@twilio.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Anant Narayanan",
+                    "email": "anant@php.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
+            "homepage": "https://github.com/firebase/php-jwt",
+            "keywords": [
+                "jwt",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/firebase/php-jwt/issues",
+                "source": "https://github.com/firebase/php-jwt/tree/v5.2.1"
+            },
+            "time": "2021-02-12T00:02:00+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -708,16 +762,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v5.2.7",
+            "version": "v5.2.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "27cb9f7cfa3853c736425c7233a8f68814b19636"
+                "reference": "d693200a73fae179d27f8f1b16b4faf3e8569eba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/27cb9f7cfa3853c736425c7233a8f68814b19636",
-                "reference": "27cb9f7cfa3853c736425c7233a8f68814b19636",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/d693200a73fae179d27f8f1b16b4faf3e8569eba",
+                "reference": "d693200a73fae179d27f8f1b16b4faf3e8569eba",
                 "shasum": ""
             },
             "require": {
@@ -776,7 +830,7 @@
                 "dump"
             ],
             "support": {
-                "source": "https://github.com/symfony/var-dumper/tree/v5.2.7"
+                "source": "https://github.com/symfony/var-dumper/tree/v5.2.8"
             },
             "funding": [
                 {
@@ -792,7 +846,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-04-19T14:07:32+00:00"
+            "time": "2021-05-07T13:42:21+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -878,16 +932,16 @@
     "packages-dev": [
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.86",
+            "version": "0.12.87",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "a84fdc53ecca7643dbc89ef8880d8b393a6c155a"
+                "reference": "d464e00776afb711f419faffa96826dc02e4d145"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/a84fdc53ecca7643dbc89ef8880d8b393a6c155a",
-                "reference": "a84fdc53ecca7643dbc89ef8880d8b393a6c155a",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/d464e00776afb711f419faffa96826dc02e4d145",
+                "reference": "d464e00776afb711f419faffa96826dc02e4d145",
                 "shasum": ""
             },
             "require": {
@@ -918,7 +972,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/0.12.86"
+                "source": "https://github.com/phpstan/phpstan/tree/0.12.87"
             },
             "funding": [
                 {
@@ -934,7 +988,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-08T11:29:01+00:00"
+            "time": "2021-05-12T15:17:52+00:00"
         }
     ],
     "aliases": [],
@@ -943,7 +997,11 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.2"
+        "php": ">=7.2",
+        "ext-json": "*",
+        "ext-pdo": "*",
+        "ext-ldap": "*",
+        "ext-readline": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "2.0.0"

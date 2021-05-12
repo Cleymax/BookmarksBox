@@ -14,7 +14,7 @@ $argv = $argv ?? $_SERVER['argv'] ?? [];
 array_shift($argv);
 
 switch ($argv[0]) {
-    case "key":
+    case "salt-key":
         $env = Dotenv::createImmutable(__DIR__);
         $env->load();
         dump("Are you sure to generate a new salt key ? (y/N)");
@@ -22,6 +22,17 @@ switch ($argv[0]) {
         if ($ready && $ready == 'y') {
             file_put_contents('.env', str_replace('SALT=' . $_ENV['SALT'], 'SALT=' . Str::random(), file_get_contents('.env')));
             dd('New salt key generate in .env file !');
+        } else {
+            dd("Cancel");
+        }
+    case "app-key":
+        $env = Dotenv::createImmutable(__DIR__);
+        $env->load();
+        dump("Are you sure to generate a new application key ? (y/N)");
+        $ready = readline();
+        if ($ready && $ready == 'y') {
+            file_put_contents('.env', str_replace('APP_KEY=' . $_ENV['APP_KEY'], 'APP_KEY=' . Str::random(), file_get_contents('.env')));
+            dd('New application key generate in .env file !');
         } else {
             dd("Cancel");
         }
