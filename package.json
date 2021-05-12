@@ -11,7 +11,8 @@
     "dev-js": "cross-env NODE_ENV=development webpack --progress --config webpack.dev.js",
     "watch-js": "cross-env NODE_ENV=development webpack --progress --watch --config webpack.dev.js",
     "lint": "eslint resources/js/**/*.js",
-    "lint:fix": "eslint resources/js/**/*.js --fix"
+    "lint:fix": "eslint resources/js/**/*.js --fix",
+    "build": "npm run build-css && npm run build-js"
   },
   "repository": {
     "type": "git",
