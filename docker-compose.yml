@@ -32,7 +32,7 @@ services:
 
   web:
     user: '${USER_ID}:${GROUP_ID}'
-    build: tools/docker/apache
+    build: .
     restart: unless-stopped
     volumes:
       - .:/var/www/
