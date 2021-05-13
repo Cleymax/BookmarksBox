@@ -21,10 +21,8 @@
     "maximebf/debugbar": "^v1.16.5",
     "ext-json": "*",
     "ext-pdo": "*",
-    "ext-ldap": "*",
     "ext-readline": "*",
-    "firebase/php-jwt": "^5.2",
-    "ext-http": "*"
+    "firebase/php-jwt": "^5.2"
   },
   "require-dev": {
     "symfony/var-dumper": "^v5.2.6",

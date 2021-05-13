@@ -27,8 +27,8 @@ services:
     volumes:
       - .:/usr/src/app
     command:
-      - yarn
-      - yarn build
+      - npm install
+      - npm run build
 
   web:
     user: '${USER_ID}:${GROUP_ID}'
