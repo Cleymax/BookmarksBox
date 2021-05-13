@@ -228,3 +228,5 @@ public/css/*
 public/js/*
 
 app/database/migration/LAST_UPDATE
+
+tests/http-client.private.env.json

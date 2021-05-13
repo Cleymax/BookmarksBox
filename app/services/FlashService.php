@@ -15,7 +15,7 @@ class FlashService
      * @param string $message
      * @param int|null $duration
      */
-    public static function success(string $message, int $duration = null)
+    public static function success(string $message, int $duration = null): void
     {
         self::add('success', $message, $duration);
     }
@@ -25,7 +25,7 @@ class FlashService
      * @param string $message
      * @param int|null $duration
      */
-    public static function info(string $message, int $duration = null)
+    public static function info(string $message, int $duration = null): void
     {
         self::add('info', $message, $duration);
     }
@@ -35,7 +35,7 @@ class FlashService
      * @param string $message
      * @param int|null $duration
      */
-    public static function error(string $message, int $duration = null)
+    public static function error(string $message, int $duration = null): void
     {
         self::add('error', $message, $duration);
     }
@@ -74,7 +74,10 @@ class FlashService
         return $_SESSION['flash'];
     }
 
-    public static function request()
+    /**
+     * Call when a request is receive.
+     */
+    public static function request(): void
     {
         unset($_SESSION['flash']);
     }

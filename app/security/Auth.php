@@ -4,14 +4,19 @@ namespace App\Security;
 
 use App\Database\Query;
 use App\Exceptions\NotFoundException;
+use App\Exceptions\TokenNotFoundException;
 use App\Exceptions\UserNotFoundException;
-use App\Router\Router;
 use App\Services\FlashService;
+use App\Services\JwtService;
 use App\Services\MailService;
 use App\Tools\Str;
 use PHPMailer\PHPMailer\Exception;
 use Sonata\GoogleAuthenticator\GoogleAuthenticator;
 
+/**
+ * Class Auth
+ * @package App\Security
+ */
 class Auth
 {
     private const SESSION_NAME = 'BB';
@@ -85,20 +90,7 @@ class Auth
         if ($_POST['login'] == 'iutannecy') {
             // TODO USMB AD
         } else {
-            $query = (new Query())
-                ->select("id", "verify", "password", "email", "last_name", "first_name", "username", "totp")
-                ->from("users")
-                ->where("LOWER(email) LIKE LOWER(?) or LOWER(username) LIKE LOWER(?)")
-                ->params([$email, $email]);
-            $count = $query->rowCount();
-            $response = $query->first();
-
-            if (!$count || !password_verify($_ENV['SALT'] . $password, $response->password)) {
-                throw new AuthException('Identifiant ou mot de passe incorrect !');
-            }
-            if (!$response->verify) {
-                throw new AuthException('Compte non verifié ! Regardez vos emails !');
-            }
+            $response = self::verifyLogin($email, $password);
             if ($remember) {
                 setcookie(self::SESSION_NAME . '_RM', $response->id . '-' . sha1($response->email . $response->password), time() + 3600 * 24 * 30, '/', false, true);
             }
@@ -200,7 +192,37 @@ class Auth
 
     public static function user(): object
     {
-        return (object)$_SESSION['user'];
+        if (Auth::check()) {
+            return (object)$_SESSION['user'];
+        }
+    }
+
+    public static function checkApi(): bool
+    {
+        try {
+            self::userApi();
+            return true;
+        } catch (TokenNotFoundException $e) {
+            return false;
+        }
+    }
+
+    /**
+     * @throws \App\Exceptions\TokenNotFoundException
+     */
+    public static function userApi(): object
+    {
+        if (!isset($_SERVER['HTTP_AUTHORIZATION']) || !preg_match('/Bearer\s(\S+)/', $_SERVER['HTTP_AUTHORIZATION'], $matches)) {
+            throw new TokenNotFoundException(' Please authenticate you !');
+        }
+
+        $token = $matches[1];
+
+        if (!$token) {
+            throw new TokenNotFoundException();
+        }
+
+        return JwtService::verify($token);
     }
 
     /**
@@ -328,5 +350,55 @@ class Auth
             ->where('id =?')
             ->params([$password, $id])->execute();
         return true;
+    }
+
+    /**
+     * @throws \App\Security\AuthException
+     */
+    public static function verifyLogin(string $email, string $password): object
+    {
+        $query = (new Query())
+            ->select("id", "verify", "password", "email", "last_name", "first_name", "username", "totp")
+            ->from("users")
+            ->where("LOWER(email) LIKE LOWER(?) or LOWER(username) LIKE LOWER(?)")
+            ->params([$email, $email]);
+        $count = $query->rowCount();
+        $response = $query->first();
+
+        if (!$count || !password_verify($_ENV['SALT'] . $password, $response->password)) {
+            throw new AuthException('Identifiant ou mot de passe incorrect !');
+        }
+        if (!$response->verify) {
+            throw new AuthException('Compte non verifié ! Regardez vos emails !');
+        }
+
+        return $response;
+    }
+
+    /**
+     * @throws \App\Security\AuthException
+     * @throws \App\Exceptions\TokenNotFoundException
+     */
+    public static function verifyLoginToken(string $token)
+    {
+        $query = (new Query())
+            ->select("users.id", "verify", "password", "email", "last_name", "first_name", "username", "totp")
+            ->from('users_tokens')
+            ->inner('users', 'user_id', 'id')
+            ->where('token = ?')
+            ->params([$token]);
+
+        $count = $query->rowCount();
+        $response = $query->first();
+
+        if ($count == 0) {
+            throw new TokenNotFoundException();
+        }
+
+        if (!$response->verify) {
+            throw new AuthException('Compte non verifié ! Regardez vos emails !');
+        }
+
+        return $response;
     }
 }

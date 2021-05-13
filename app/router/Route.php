@@ -98,6 +98,12 @@ class Route
         return $this->action;
     }
 
+    public function api(): self
+    {
+        $this->uri = 'api/' . $this->uri;
+        return $this;
+    }
+
     /**
      * Set a regular expression requirement on the route.
      * @param string $name
