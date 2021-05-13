@@ -40,9 +40,9 @@ class QueryApi extends Query
     }
 
     /**
-     * @throws \App\Exceptions\UnknownFieldException
-     * @throws \App\Exceptions\InvalidParamException
-     * @throws \App\Exceptions\ProtectFieldException
+     * @throws UnknownFieldException
+     * @throws InvalidParamException
+     * @throws ProtectFieldException
      */
     public function build()
     {
@@ -65,13 +65,28 @@ class QueryApi extends Query
                 throw new InvalidParamException($by, 'ASC or DESC');
             }
         }
+        if (isset($_GET['only'])) {
+            $only = htmlspecialchars($_GET['only']);
+            $parts = explode(':', $only);
+            if (sizeof($parts) != 2) {
+                throw new InvalidParamException('only', 'key:value');
+            }
+            if (!in_array($parts[0], $this->fields)) {
+                throw new UnknownFieldException($parts[0]);
+            }
+            $this->where(htmlspecialchars($parts[0]) . " = ?");
+            $this->params([$parts[1]]);
+        }
+        if(isset($_GET['count'])){
+            $this->count();
+        }
         if (!is_null($this->order_default) || isset($o)) {
             $this->order($o ?? $this->order_default, $by ?? 'ASC');
         }
     }
 
     /**
-     * @throws \App\Exceptions\UnknownFieldException
+     * @throws UnknownFieldException
      */
     private function isInArray(array $array1, $array2)
     {
@@ -83,10 +98,13 @@ class QueryApi extends Query
     }
 
     /**
-     * @throws \App\Exceptions\ProtectFieldException
+     * @throws ProtectFieldException
      */
     private function isProtect(array $f, $protect)
     {
+        if(is_null($this->protect)){
+            return;
+        }
         foreach ($f as $v) {
             if (in_array($v, $protect)) {
                 throw new ProtectFieldException($v);

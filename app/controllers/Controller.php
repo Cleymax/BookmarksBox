@@ -29,7 +29,12 @@ abstract class Controller
     public function respond_json($json)
     {
         header("Content-Type: application/json");
-        echo json_encode($json);
+        echo json_encode(
+            [
+                'status' => 'ok',
+                'response' => $json
+            ]
+        );
         die();
     }
 

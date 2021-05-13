@@ -16,7 +16,7 @@ class Query
     private $table;
     private $where = [];
     private $group;
-    private $order ;
+    private $order;
     private $limit;
     private $inner;
     private $pdo;
@@ -220,7 +220,7 @@ class Query
      */
     public function params(array $array): self
     {
-        $this->params = $array;
+        $this->params = array_merge($this->params, $array);
         return $this;
     }
 
@@ -351,7 +351,7 @@ class Query
             $parts[] = 'GROUP BY ' . $this->group;
         }
         if ($this->order) {
-            $parts[] = 'ORDER BY '.$this->order;
+            $parts[] = 'ORDER BY ' . $this->order;
         }
         if ($this->limit) {
             $parts[] = 'LIMIT ' . $this->limit;

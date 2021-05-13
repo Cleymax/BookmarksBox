@@ -12,6 +12,6 @@ class InvalidParamException extends \Exception
      */
     public function __construct($for, $need)
     {
-        parent::__construct("Invalid value of parameters for '$for', need to be '$need' !");
+        parent::__construct("Invalid value of parameters for '$for', need to be '$need' !", 400);
     }
 }

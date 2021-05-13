@@ -3,15 +3,17 @@
 namespace App\Api;
 
 use App\Controllers\Controller;
+use App\Exceptions\TokenNotFoundException;
 use App\Security\Auth;
+use App\Security\AuthException;
 use App\Services\JwtService;
 use DateTimeImmutable;
 
 class AuthApiController extends Controller
 {
     /**
-     * @throws \App\Security\AuthException
-     * @throws \App\Exceptions\TokenNotFoundException
+     * @throws AuthException
+     * @throws TokenNotFoundException
      */
     public function login()
     {

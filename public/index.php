@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Api\AuthApiController;
+use App\Api\TeamsApiController;
 use App\Api\UserApiController;
 use App\Controllers\AuthController;
 use App\Controllers\BookmarkController;
@@ -72,6 +73,9 @@ Route::post('/teams/', [TeamsController::class, 'createTeams'], true);
 Route::post('/auth/login', [AuthApiController::class, 'login'])->api();
 Route::get('/user/teams', [UserApiController::class, 'getTeams'])->api();
 Route::get('/user/', [UserApiController::class, 'getMe'])->api();
+Route::get('/teams/{id}', [TeamsApiController::class, 'getTeam'])->where('id', '\w{10}')->api();
+Route::get('/teams/{id}/members', [TeamsApiController::class, 'getTeamMembers'])->where('id', '\w{10}')->api();
+Route::get('/teams/{id}/settings', [TeamsApiController::class, 'getTeamSettings'])->where('id', '\w{10}')->api();
 
 Route::redirect('/', '/dashboard', true);
 Router::init();
