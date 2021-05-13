@@ -27,17 +27,21 @@ services:
     volumes:
       - .:/usr/src/app
     command:
-      - install
-      - run build
+      - npm install
+      - npm run build
 
   web:
     user: '${USER_ID}:${GROUP_ID}'
-    build: .
+    build:
+      context: .
     restart: unless-stopped
     volumes:
       - .:/var/www/
+      - ./tools/apache/default.conf:/etc/apache2/sites-enabled/000-default.conf
     ports:
       - 80:80
+    depends_on:
+      - db
 
 volumes:
   db-data:

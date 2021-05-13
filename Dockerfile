@@ -1,5 +1,6 @@
 FROM php:7.2-apache
 
-COPY ./tools/apache/default.conf /etc/apache2/sites-available/000-default.conf
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends git zlib1g-dev libzip-dev zip unzip
 
-RUN a2enmod rewrite
+RUN docker-php-ext-install pdo_pgsql zip
