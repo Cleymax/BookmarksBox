@@ -27,18 +27,17 @@ services:
     volumes:
       - .:/usr/src/app
     command:
-      - npm install
-      - npm run build
+      - install
+      - run build
 
   web:
     user: '${USER_ID}:${GROUP_ID}'
-    build:
-      context: .
+    build: .
     restart: unless-stopped
     volumes:
       - .:/var/www/
     ports:
-      - 8080:80
+      - 80:80
 
 volumes:
   db-data:
