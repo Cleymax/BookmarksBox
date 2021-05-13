@@ -32,7 +32,8 @@ services:
 
   web:
     user: '${USER_ID}:${GROUP_ID}'
-    build: .
+    build:
+      context: .
     restart: unless-stopped
     volumes:
       - .:/var/www/
