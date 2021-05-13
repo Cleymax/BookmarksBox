@@ -26,9 +26,6 @@ services:
     working_dir: /usr/src/app
     volumes:
       - .:/usr/src/app
-    command:
-      - npm install
-      - npm run build
 
   web:
     user: '${USER_ID}:${GROUP_ID}'
