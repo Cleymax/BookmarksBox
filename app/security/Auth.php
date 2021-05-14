@@ -208,7 +208,7 @@ class Auth
     }
 
     /**
-     * @throws \App\Exceptions\TokenNotFoundException
+     * @throws TokenNotFoundException
      */
     public static function userApi(): object
     {
@@ -377,7 +377,7 @@ class Auth
 
     /**
      * @throws \App\Security\AuthException
-     * @throws \App\Exceptions\TokenNotFoundException
+     * @throws TokenNotFoundException
      */
     public static function verifyLoginToken(string $token)
     {

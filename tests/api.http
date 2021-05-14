@@ -60,3 +60,28 @@ client.test('Request executed successfully', function (){
     client.global.set('token', response.body.token)
 })
 %}
+
+### Get Team information
+GET {{host}}api/teams/qmptd6oYS6
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Get Team members
+GET {{host}}api/teams/qmptd6oYS6/members
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Get Team members
+GET {{host}}api/teams/qmptd6oYS6/members?only=role:OWNER
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Get count of Team members
+GET {{host}}api/teams/qmptd6oYS6/members?count
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Get count of Team settings
+GET {{host}}api/teams/qmptd6oYS6/settings?fields=setting_id,value,default_value
+Content-Type: application/json
+Authorization: Bearer {{token}}

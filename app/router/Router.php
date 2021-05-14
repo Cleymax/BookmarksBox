@@ -60,7 +60,7 @@ class Router
                     foreach ($route->wheres as $where => $expression) {
                         foreach ($parameters as $para) {
                             if (array_key_exists($where, $para)) {
-                                if (!preg_match("@$expression@", $para[$where])) {
+                                if (!preg_match("@^$expression$@", $para[$where])) {
                                     $this->not_found();
                                 }
                             }
@@ -118,8 +118,6 @@ class Router
                 require_once(dirname(ROOT_PATH) . '/resources/layouts/' . $return->getLayout() . '.php');
             }
             FlashService::request();
-        } catch (NotFoundException $e) {
-            self::not_found();
         } catch (\Exception $e) {
             if ($this->need_json() || $_ENV['MODE'] != 'dev') {
                 if ($e->getCode() != 0) {
@@ -154,6 +152,7 @@ class Router
     public static function not_found(): void
     {
         http_response_code(404);
+        die();
     }
 
     /**
@@ -172,6 +171,7 @@ class Router
      */
     public static function init(): void
     {
+        cors();
         Router::get()->onRequest();
     }
 

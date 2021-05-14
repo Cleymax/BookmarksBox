@@ -1,18 +1,23 @@
 <?php
+
 namespace App\Api;
 
 use App\Controllers\Controller;
 use App\Database\QueryApi;
+use App\Exceptions\InvalidParamException;
+use App\Exceptions\ProtectFieldException;
+use App\Exceptions\TokenNotFoundException;
+use App\Exceptions\UnknownFieldException;
 use App\Security\Auth;
 
 class UserApiController extends Controller
 {
 
     /**
-     * @throws \App\Exceptions\UnknownFieldException
-     * @throws \App\Exceptions\InvalidParamException
-     * @throws \App\Exceptions\ProtectFieldException
-     * @throws \App\Exceptions\TokenNotFoundException
+     * @throws UnknownFieldException
+     * @throws InvalidParamException
+     * @throws ProtectFieldException
+     * @throws TokenNotFoundException
      */
     public function getTeams()
     {
@@ -28,14 +33,17 @@ class UserApiController extends Controller
         $query->setDefault(['team_id', 'name', 'public', 'icon']);
         $query->build();
 
-        $this->respond_json($query->all());
+        $this->respond_json([
+            'count' => $query->rowCount(),
+            'data' => $query->all()
+        ]);
     }
 
     /**
-     * @throws \App\Exceptions\ProtectFieldException
-     * @throws \App\Exceptions\InvalidParamException
-     * @throws \App\Exceptions\UnknownFieldException
-     * @throws \App\Exceptions\TokenNotFoundException
+     * @throws ProtectFieldException
+     * @throws InvalidParamException
+     * @throws UnknownFieldException
+     * @throws TokenNotFoundException
      */
     public function getMe()
     {
