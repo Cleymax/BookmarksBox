@@ -1,0 +1,87 @@
+### Login User
+POST {{host}}api/auth/login
+Content-Type: application/json
+
+{
+  "login": "{{username}}",
+  "password": "{{password}}"
+}
+
+> {%
+client.test('Request executed successfully', function (){
+    client.assert(response.status === 200,  "Response status is not 200")
+    client.assert(response.body.type === 'success', 'Response type is not a success')
+    client.global.set('token', response.body.token)
+})
+%}
+
+### Get Teams of user
+GET {{host}}api/user/teams
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+> {%
+client.test('Request executed successfully', function (){
+    client.assert(response.status === 200,  "Response status is not 200")
+})
+client.test("Response content-type is json", function() {
+  var type = response.contentType.mimeType;
+  client.assert(type === "application/json", "Expected 'application/json' but received '" + type + "'");
+});
+%}
+
+### Get User information
+GET {{host}}api/user/?fields=id,username,email,first_name,last_name,avatar,created_at,modified_at
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+> {%
+client.test('Request executed successfully', function (){
+    client.assert(response.status === 200,  "Response status is not 200")
+})
+client.test("Response content-type is json", function() {
+  var type = response.contentType.mimeType;
+  client.assert(type === "application/json", "Expected 'application/json' but received '" + type + "'");
+});
+%}
+
+### Login with personal token
+POST {{host}}api/auth/login
+Content-Type: application/json
+
+{
+  "token": "{{user_token}}"
+}
+
+> {%
+client.test('Request executed successfully', function (){
+    client.assert(response.status === 200,  "Response status is not 200")
+    client.assert(response.body.type === 'success', 'Response type is not a success')
+    client.global.set('token', response.body.token)
+})
+%}
+
+### Get Team information
+GET {{host}}api/teams/qmptd6oYS6
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Get Team members
+GET {{host}}api/teams/qmptd6oYS6/members
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Get Team members
+GET {{host}}api/teams/qmptd6oYS6/members?only=role:OWNER
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Get count of Team members
+GET {{host}}api/teams/qmptd6oYS6/members?count
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Get count of Team settings
+GET {{host}}api/teams/qmptd6oYS6/settings?fields=setting_id,value,default_value
+Content-Type: application/json
+Authorization: Bearer {{token}}

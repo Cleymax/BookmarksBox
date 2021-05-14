@@ -2,6 +2,9 @@
 
 namespace App;
 
+use App\Api\AuthApiController;
+use App\Api\TeamsApiController;
+use App\Api\UserApiController;
 use App\Controllers\AuthController;
 use App\Controllers\BookmarkController;
 use App\Controllers\DashboardController;
@@ -43,7 +46,7 @@ Route::get('/profile', [UserController::class, 'profileView'], true, 'profile');
 Route::get('/settings', [UserController::class, 'settingsView'], true);
 Route::post('/settings', [UserController::class, 'settings'], true);
 
-Route::get('/settings/2fa', [UserController::class, 'settings2fa'], true,'settings2fa');
+Route::get('/settings/2fa', [UserController::class, 'settings2fa'], true, 'settings2fa');
 Route::post('/settings/2fa', [UserController::class, 'settings2faActivate'], true);
 
 Route::get('/dashboard', [DashboardController::class, 'dashboard'], true, 'dashboard');
@@ -67,6 +70,13 @@ Route::get('/teams/{id}', [TeamsController::class, 'folderView'], true)->where('
 Route::get('/teams/{id}/settings', [TeamsController::class, 'teamSettings'], true)->where('id', '\w{10}');
 Route::get('/teams/', [TeamsController::class, 'getTeams'], true);
 Route::post('/teams/', [TeamsController::class, 'createTeams'], true);
+
+Route::post('/auth/login', [AuthApiController::class, 'login'])->api();
+Route::get('/user/teams', [UserApiController::class, 'getTeams'])->api();
+Route::get('/user/', [UserApiController::class, 'getMe'])->api();
+Route::get('/teams/{id}', [TeamsApiController::class, 'getTeam'])->where('id', '\w{10}')->api();
+Route::get('/teams/{id}/members', [TeamsApiController::class, 'getTeamMembers'])->where('id', '\w{10}')->api();
+Route::get('/teams/{id}/settings', [TeamsApiController::class, 'getTeamSettings'])->where('id', '\w{10}')->api();
 
 Route::redirect('/', '/dashboard', true);
 Router::init();

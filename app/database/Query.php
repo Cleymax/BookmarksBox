@@ -16,7 +16,7 @@ class Query
     private $table;
     private $where = [];
     private $group;
-    private $order = [];
+    private $order;
     private $limit;
     private $inner;
     private $pdo;
@@ -109,6 +109,12 @@ class Query
         return $this;
     }
 
+    public function selectArray(array $fields = null): self
+    {
+        $this->select = $fields;
+        return $this;
+    }
+
     /**
      * Choose which columns you are going to retrieve.
      * @param string ...$fields
@@ -163,7 +169,7 @@ class Query
      */
     public function order(string $column, bool $asc = true): self
     {
-        $this->order[] = $column . ' ' . ($asc ? 'ASC' : 'DESC');
+        $this->order = $column . ' ' . ($asc ? 'ASC' : 'DESC');
         return $this;
     }
 
@@ -214,7 +220,7 @@ class Query
      */
     public function params(array $array): self
     {
-        $this->params = $array;
+        $this->params = array_merge($this->params, $array);
         return $this;
     }
 
@@ -344,8 +350,8 @@ class Query
         if ($this->group) {
             $parts[] = 'GROUP BY ' . $this->group;
         }
-        if (!empty($this->order)) {
-            $parts[] = 'ORDER BY ' . join(', ', $this->order);
+        if ($this->order) {
+            $parts[] = 'ORDER BY ' . $this->order;
         }
         if ($this->limit) {
             $parts[] = 'LIMIT ' . $this->limit;

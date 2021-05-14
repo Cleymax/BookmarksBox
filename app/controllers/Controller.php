@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Exceptions\CsrfException;
+use App\Exceptions\UnknownFieldException;
 use App\Router\Router;
 use App\Services\CsrfService;
 use App\Services\Debugbar\DebugBarService;
@@ -28,7 +29,13 @@ abstract class Controller
     public function respond_json($json)
     {
         header("Content-Type: application/json");
-        echo json_encode($json);
+        echo json_encode(
+            [
+                'status' => 'ok',
+                'response' => $json
+            ]
+        );
+        die();
     }
 
     public function redirect(string $s)

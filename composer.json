@@ -23,6 +23,7 @@
     "ext-pdo": "*",
     "ext-ldap": "*",
     "ext-readline": "*",
+    "firebase/php-jwt": "^5.2",
     "ext-http": "*"
   },
   "require-dev": {

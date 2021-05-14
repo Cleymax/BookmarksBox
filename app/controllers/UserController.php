@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Database\Query;
+use App\Database\QueryApi;
 use App\Exceptions\UserNotFoundException;
 use App\Security\Auth;
 use App\Security\AuthException;
