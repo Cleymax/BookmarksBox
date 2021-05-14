@@ -94,8 +94,6 @@ class UserController extends Controller
 
             $response = $this->User->getById(Auth::user()->id);
 
-
-
             if(!password_verify($_ENV['SALT'] . $_POST["current"], $response->password)){
                 throw new AuthException('Le mot de passe ne correspond pas');
             }
