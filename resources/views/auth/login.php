@@ -44,7 +44,7 @@
                 </div>
                 <div class="btn-container">
                     <div class="button">
-                        <button class="btn" aria-label="Connecion" name="login" value="standard" title="Connexion"><span class="material-icons">login</span>Connexion</button>
+                        <button class="btn" aria-label="Connexion" name="login" value="standard" title="Connexion"><span class="material-icons">login</span>Connexion</button>
                     </div>
                     <div class="line-separator"></div>
                     <div class="button">

@@ -50,6 +50,7 @@ Route::get('/settings/2fa', [UserController::class, 'settings2fa'], true, 'setti
 Route::post('/settings/2fa', [UserController::class, 'settings2faActivate'], true);
 
 Route::get('/dashboard', [DashboardController::class, 'dashboard'], true, 'dashboard');
+Route::post('/dashboard', [BookmarkController::class, 'update'], true);
 Route::get('/favorite', [DashboardController::class, 'favorite'], true);
 
 Route::get('/folder/{id}', [FolderController::class, 'folderView'], true);

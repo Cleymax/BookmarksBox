@@ -3,6 +3,25 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  & .profil-header{
+    display: flex;
+    flex-direction: row;
+    & a{
+      position: absolute;
+      right: 15%;
+    }
+    & .profil-edit{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #FFFFFF;
+      color: var(--dark);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.25);
+    }
+  }
   & .profil{
     width: 200px;
     border-radius: 50%;
@@ -20,7 +39,10 @@
     & .activity-items{
       display: flex;
       flex-direction: row;
-
+      & img {
+        margin: 0 45px 0;
+        border-radius: 10px;
+      }
     }
   }
 }

@@ -8,7 +8,7 @@
                     <input type="email" id="mail" autocomplete="email" name="email" spellcheck="false"
                            tabindex="0"
                            aria-label="E-mail" required aria-required="true"
-                           title="E-amil" autocapitalize="none" dir="ltr" autofocus>
+                           title="E-mail" autocapitalize="none" dir="ltr" autofocus>
                     <span>E-mail</span>
                 </label>
             </div>

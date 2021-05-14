@@ -4,6 +4,7 @@ use App\Database\Query;
 use App\Exceptions\NotFoundException;
 use App\Models\Model;
 use App\Security\Auth;
+use App\Security\AuthException;
 
 class User extends Model
 {
@@ -32,6 +33,27 @@ class User extends Model
             ->where('id = ?')
             ->params([$secret, Auth::user()->id])
             ->execute();
+    }
+
+    public function editSettings(array $values)
+    {
+
+        $value = [];
+        foreach ($values as $k => $v) {
+            $value[$k] = '?';
+        }
+
+        $query = (new Query())
+            ->update()
+            ->into($this->table)
+            ->where("id = ?")
+            ->set($value)
+            ->params(array_merge(array_values($values), [Auth::user()->id]))
+            ->returning("email", "username", "bio", "avatar");
+
+        $response = $query->first();
+
+        return $response;
     }
 
     /**

@@ -95,7 +95,11 @@ abstract class Controller
      */
     public function checkCsrf()
     {
-        if (!isset($_POST['_csrf_token']) || $_POST['_csrf_token'] == null || $_POST['_csrf_token'] == '' && (!CsrfService::verify($_POST['_csrf_token']))) {
+        if (!isset($_POST['_csrf_token']) || $_POST['_csrf_token'] == null || $_POST['_csrf_token'] == '') {
+            throw new CsrfException();
+        }
+
+        if (!CsrfService::verify($_POST['_csrf_token'])) {
             throw new CsrfException();
         }
     }
@@ -130,13 +134,17 @@ abstract class Controller
             $request_body = $_POST;
         }
         foreach ($request_body as $k => $v) {
-            if (!array_key_exists($k, $fields)) {
+            if (!array_key_exists($k, $fields) && $k != "_csrf_token") {
                 throw new \Exception('unkhown key: ' . $k, 400);
             }
             if ($this->need_json() && gettype($v) != gettype($fields[$k])) {
                 throw new \Exception('key: ' . $k . ' need to be a ' . gettype($fields[$k]), 400);
             }
-            $request_values[$k] = $v;
+            if($k == "password"){
+                $request_values[$k] = password_hash($_ENV["SALT"] . $v, PASSWORD_BCRYPT);
+            }else{
+                $request_values[$k] = $v;
+            }
         }
 
         foreach ($require as $r) {
@@ -144,7 +152,7 @@ abstract class Controller
                 throw new \Exception('Key: ' . $r . ' is require !', 400);
             }
         }
-
+        unset($request_values["_csrf_token"]);
         return $request_values;
     }
 }
