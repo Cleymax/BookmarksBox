@@ -10,8 +10,8 @@ Content-Type: application/json
 > {%
 client.test('Request executed successfully', function (){
     client.assert(response.status === 200,  "Response status is not 200")
-    client.assert(response.body.type === 'success', 'Response type is not a success')
-    client.global.set('token', response.body.token)
+    client.assert(response.body.response.type === 'success', 'Response type is not a success')
+    client.global.set('token', response.body.response.token)
 })
 %}
 
@@ -56,8 +56,8 @@ Content-Type: application/json
 > {%
 client.test('Request executed successfully', function (){
     client.assert(response.status === 200,  "Response status is not 200")
-    client.assert(response.body.type === 'success', 'Response type is not a success')
-    client.global.set('token', response.body.token)
+    client.assert(response.body.response.type === 'success', 'Response type is not a success')
+    client.global.set('token', response.body.response.token)
 })
 %}
 

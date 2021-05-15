@@ -55,7 +55,7 @@ class MailService
      */
     public static function send(string $to, string $subject, string $body): bool
     {
-        if ($_ENV['USE_MAIL_FUNCTION']) {
+        if (boolval(getenv('USE_MAIL_FUNCTION'))) {
             // send a mail with mail function.
             return mail($to, $subject, $body, implode('\r\n', [
                 'From: ' . $_ENV['SMTP_FROM'],
