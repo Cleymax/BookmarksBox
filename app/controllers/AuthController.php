@@ -118,7 +118,7 @@ class AuthController extends Controller
             if (Auth::verify($_GET['id'], $_GET['key'])) {
                 $username = (new Query())->select('username')->from('users')->where('id =?')->params([intval($_GET['id'])])->first()->username;
                 FlashService::success("Compte vérifié avec succès !");
-                $this->redirect('login?username=' . $username);
+                $this->redirect('auth/login?username=' . $username);
             }
         } catch (\Exception $e) {
             FlashService::error($e->getMessage());
