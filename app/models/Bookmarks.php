@@ -68,4 +68,20 @@ class Bookmarks extends Model
         return $response;
     }
 
+    public function add(string $title, string $link, string $thumbnail, string $difficulty)
+    {
+
+        $query = (new Query())
+            ->insert("title", "link", "thumbnail", "difficulty", "created_by")
+            ->into("bookmarks")
+            ->values(["?", "?", "?", "?", "?"])
+            ->params([$title, $link, $thumbnail, $difficulty, Auth::user()->id])
+            ->returning("id");
+
+        $response = $query->first();
+
+        return $response;
+
+    }
+
 }
