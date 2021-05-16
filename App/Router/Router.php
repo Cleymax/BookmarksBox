@@ -172,6 +172,7 @@ class Router
     public static function init(): void
     {
         cors();
+        cache_control();
         Router::get()->onRequest();
     }
 

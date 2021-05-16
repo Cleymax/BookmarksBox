@@ -45,7 +45,8 @@ function getBody(): string
     return file_get_contents('php://input');
 }
 
-function cors(): void {
+function cors(): void
+{
     // Allow from any origin
     if (isset($_SERVER['HTTP_ORIGIN'])) {
         // Decide if the origin in $_SERVER['HTTP_ORIGIN'] is one
@@ -68,4 +69,10 @@ function cors(): void {
         }
         exit(0);
     }
+}
+
+function cache_control(): void
+{
+    header_remove('Cache-Control');
+    header('Cache-Control: no-cache, no-store, max-age=0, must-revalidate');
 }
