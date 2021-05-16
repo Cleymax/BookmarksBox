@@ -25,7 +25,7 @@ use App\Services\FlashService;
     <meta name="twitter:creator" content="@bookmarksbox"/>
 
     <!--  css  -->
-    <link rel="stylesheet" href="<?= $_ENV['BASE_URL'] ?>/css/app.css">
+    <link rel="stylesheet" href="<?= $_ENV['BASE_URL'] ?>/css/app.css" integrity="<?= hash_file('sha256', ROOT_PATH.'/css/app.css') ?>" crossorigin="anonymous">
     <?php if ($_ENV['MODE'] == 'dev') {
         echo $render->renderHead();
     } ?>

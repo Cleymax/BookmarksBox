@@ -47,20 +47,14 @@ function getBody(): string
 
 function cors(): void
 {
-    // Allow from any origin
-    if (isset($_SERVER['HTTP_ORIGIN'])) {
-        // Decide if the origin in $_SERVER['HTTP_ORIGIN'] is one
-        // you want to allow, and if so:
-        header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
-        header('Access-Control-Allow-Credentials: true');
-        header('Access-Control-Max-Age: 86400');    // cache for 1 day
-    }
+    header("Access-Control-Allow-Origin: {$_ENV['BASE_URL']}");
+    header('Access-Control-Allow-Credentials: true');
+    header('Access-Control-Max-Age: 86400');    // cache for 1 day
 
     // Access-Control headers are received during OPTIONS requests
     if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 
         if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD'])) {
-            // may also be using PUT, PATCH, HEAD etc
             header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
         }
 
@@ -71,7 +65,13 @@ function cors(): void
     }
 }
 
-function cache_control(): void
+function headers_security(): void
 {
+    header('Strict-Transport-Security: max-age=31536000; includeSubDomains; preload');
+    header('Referrer-Policy: same-origin');
+    header('X-Content-Type-Options: nosniff');
     header('Cache-Control: no-cache, no-store, max-age=0, must-revalidate');
+    header('X-Frame-Options: sameorigin');
+    header('X-XSS-Protection: 1; mode=block');
+    header("Content-Security-Policy: default-src 'self' ${_ENV['BASE_URL']}; img-src 'self' data: https://*; child-src 'none';style-src 'self' 'unsafe-inline'; font-src 'self' fonts.gstatic.com; script-src ${_ENV['BASE_URL']} 'unsafe-inline'; worker-src 'none';");
 }
