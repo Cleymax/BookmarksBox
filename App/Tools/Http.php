@@ -22,10 +22,10 @@ function get_query_url(string $name, array $data = []): string
     $query = http_build_query($data);
     foreach (Router::get()->getRoutes() as $route) {
         if ($route->getName() == $name) {
-            return $_ENV['BASE_URL'] . '/' . $route->getUri() . (empty($query) ? '' : '?' . $query);
+            return $_ENV['BASE_URL'] . '/' . $route->getUri() . (empty($query) ? '' : '?' .urldecode($query));
         }
     }
-    return $_ENV['BASE_URL'] . $name . $query;
+    return $_ENV['BASE_URL'] . $name .urlencode($query);
 }
 
 function redirect(string $name): void
