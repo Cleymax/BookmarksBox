@@ -73,6 +73,5 @@ function cors(): void
 
 function cache_control(): void
 {
-    header_remove('Cache-Control');
     header('Cache-Control: no-cache, no-store, max-age=0, must-revalidate');
 }
