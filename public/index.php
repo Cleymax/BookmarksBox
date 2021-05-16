@@ -18,7 +18,7 @@ use App\Security\Auth;
 define('ROOT_PATH', dirname(__FILE__));
 
 require_once ROOT_PATH . '/../vendor/autoload.php';
-require_once ROOT_PATH . '/../app/Bootstrap.php';
+require_once ROOT_PATH . '/../App/Bootstrap.php';
 
 Route::get('/auth/login', [AuthController::class, 'loginView'], false, 'login');
 Route::post('/auth/login', [AuthController::class, 'login']);
@@ -80,4 +80,3 @@ Route::get('/teams/{id}/settings', [TeamsApiController::class, 'getTeamSettings'
 
 Route::redirect('/', '/dashboard', true);
 Router::init();
-
