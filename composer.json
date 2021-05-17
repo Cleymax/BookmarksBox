@@ -2,6 +2,7 @@
   "name": "perrincl/bookmarks-box",
   "description": "Team Bookmarking Website",
   "type": "project",
+  "license": "proprietary",
   "authors": [
     {
       "name": "Clément P. (Cleymax)",
