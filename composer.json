@@ -2,6 +2,7 @@
   "name": "perrincl/bookmarks-box",
   "description": "Team Bookmarking Website",
   "type": "project",
+  "license": "proprietary",
   "authors": [
     {
       "name": "Clément P. (Cleymax)",
@@ -16,15 +17,10 @@
     "php": ">=7.2",
     "filp/whoops": "^2.12.1",
     "vlucas/phpdotenv": "^v5.3.0",
-    "sonata-project/google-authenticator": "2.2.0",
+    "sonata-project/google-authenticator": "^2.2.0",
     "phpmailer/phpmailer": "^v6.4.1",
     "maximebf/debugbar": "^v1.16.5",
-    "ext-json": "*",
-    "ext-pdo": "*",
-    "ext-ldap": "*",
-    "ext-readline": "*",
-    "firebase/php-jwt": "^5.2",
-    "ext-http": "*"
+    "firebase/php-jwt": "^5.2"
   },
   "require-dev": {
     "symfony/var-dumper": "^v5.2.6",
