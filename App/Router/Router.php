@@ -72,11 +72,7 @@ class Router
                         }
                     }
                     if ($route->isAuth() && !Auth::check() && !Auth::remember_me()) {
-                        if($route->isApi() && !Auth::userApi()) {
-                            $this->need_login();
-                        }else {
-                            $this->need_login();
-                        }
+                        $this->need_login();
                     }
                     $action = $route->getAction();
                     if (is_array($action)) {
