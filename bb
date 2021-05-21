@@ -6,9 +6,9 @@ use App\Tools\Str;
 use Dotenv\Dotenv;
 
 require __DIR__ . '/vendor/autoload.php';
-require_once __DIR__ . '/app/tools/Str.php';
-require_once __DIR__ . '/app/database/Migration.php';
-require_once __DIR__ . '/app/database/Database.php';
+require_once __DIR__ . '/App/tools/Str.php';
+require_once __DIR__ . '/App/database/Migration.php';
+require_once __DIR__ . '/App/database/Database.php';
 
 $argv = $argv ?? $_SERVER['argv'] ?? [];
 array_shift($argv);

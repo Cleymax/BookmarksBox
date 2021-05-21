@@ -1,0 +1,18 @@
+version: 2
+updates:
+- package-ecosystem: composer
+  directory: '/'
+  target-branch: "master"
+  schedule:
+    interval: "weekly"
+    day: "sunday"
+    time: '09:00'
+  open-pull-requests-limit: 10
+  reviewers:
+    - Clément P. (Cleymax)
+  assignees:
+    - Clément P. (Cleymax)
+  commit-message:
+    prefix: fix
+    prefix-development: dev
+    include: scope
