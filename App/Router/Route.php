@@ -2,6 +2,7 @@
 
 namespace App\Router;
 
+use App\Tools\Str;
 use App\Views\View;
 
 /**
@@ -102,6 +103,11 @@ class Route
     {
         $this->uri = 'api/' . $this->uri;
         return $this;
+    }
+
+    public function isApi(): bool
+    {
+        return Str::startsWith('api', $this->uri);
     }
 
     /**

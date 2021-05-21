@@ -42,6 +42,11 @@ class Router
         return $this->routes;
     }
 
+    /**
+     * @throws \App\Exceptions\TokenNotFoundException
+     * @throws \App\Exceptions\UserNotFoundException
+     * @throws \Exception
+     */
     public function onRequest(): void
     {
         foreach (Router::get()->getRoutes() as $route) {
@@ -67,7 +72,9 @@ class Router
                         }
                     }
                     if ($route->isAuth() && !Auth::check() && !Auth::remember_me()) {
-                        $this->need_login();
+                        if(!$route->isApi() && !Auth::userApi()) {
+                            $this->need_login();
+                        }
                     }
                     $action = $route->getAction();
                     if (is_array($action)) {

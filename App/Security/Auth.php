@@ -22,7 +22,7 @@ class Auth
     private const SESSION_NAME = 'BB';
 
     /**
-     * @throws \App\Security\AuthException
+     * @throws AuthException
      */
     public static function register(string $mail, string $username, string $password, string $confirm): bool
     {
@@ -78,7 +78,7 @@ class Auth
     }
 
     /**
-     * @throws \App\Security\AuthException
+     * @throws AuthException
      */
     public static function login(string $email, string $password, bool $remember = false): bool
     {
@@ -92,7 +92,7 @@ class Auth
         } else {
             $response = self::verifyLogin($email, $password);
             if ($remember) {
-                setcookie(self::SESSION_NAME . '_RM', $response->id . '-' . sha1($response->email . $response->password), time() + 3600 * 24 * 30, '/', false, true);
+                setcookie(self::SESSION_NAME . '_RM', $response->id . '-' . hash_hmac('sha256', $response->email . $response->password, $_ENV['SALT']), time() + 3600 * 24 * 30, '/', '', false, true);
             }
 
             $hasTotp = $response->totp != null;
@@ -107,7 +107,7 @@ class Auth
     }
 
     /**
-     * @throws \App\Exceptions\UserNotFoundException
+     * @throws UserNotFoundException
      */
     public static function remember_me(): bool
     {
@@ -136,7 +136,7 @@ class Auth
             $mail = $response->email;
             $password = $response->password;
 
-            if (sha1($mail . $password) == $parts[1]) {
+            if (hash_hmac('sha256',$mail . $password,$_ENV['SALT']) == $parts[1]) {
                 $_SESSION['user'] = array(
                     'id' => $id,
                     'email' => $mail,
@@ -150,8 +150,8 @@ class Auth
     }
 
     /**
-     * @throws \App\Security\AuthException
-     * @throws \App\Exceptions\UserNotFoundException
+     * @throws AuthException
+     * @throws UserNotFoundException
      */
     public static function totp($code): bool
     {
@@ -178,7 +178,7 @@ class Auth
 
     public static function logout()
     {
-        setcookie(self::SESSION_NAME . '_RM', '', time() - 1000, '/', false, true);
+        setcookie(self::SESSION_NAME . '_RM', '', time() - 1000, '/', '', false, true);
         $_SESSION['user'] = [];
         FlashService::success("Déconnexion réusis !", 5);
         header('Location: ' . $_ENV['BASE_URL'] . '/auth/login');
@@ -226,8 +226,8 @@ class Auth
     }
 
     /**
-     * @throws \App\Exceptions\UserNotFoundException
-     * @throws \App\Security\AuthException
+     * @throws UserNotFoundException
+     * @throws AuthException
      */
     public static function verify($id, string $key): bool
     {
@@ -265,8 +265,8 @@ class Auth
     }
 
     /**
-     * @throws \App\Security\AuthException
-     * @throws \App\Exceptions\UserNotFoundException
+     * @throws AuthException
+     * @throws UserNotFoundException
      */
     public static function reset(string $mail, bool $force = false): bool
     {
@@ -328,7 +328,7 @@ class Auth
     }
 
     /**
-     * @throws \App\Security\AuthException|\App\Exceptions\NotFoundException
+     * @throws AuthException|\App\Exceptions\NotFoundException
      */
     public static function reset_password(string $password, string $confirm, $id, $key): bool
     {
@@ -353,7 +353,7 @@ class Auth
     }
 
     /**
-     * @throws \App\Security\AuthException
+     * @throws AuthException
      */
     public static function verifyLogin(string $email, string $password): object
     {
@@ -376,7 +376,7 @@ class Auth
     }
 
     /**
-     * @throws \App\Security\AuthException
+     * @throws AuthException
      * @throws TokenNotFoundException
      */
     public static function verifyLoginToken(string $token)

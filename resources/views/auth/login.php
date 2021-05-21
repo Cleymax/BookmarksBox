@@ -3,7 +3,7 @@
         <form method="post">
             <?php
             if(isset($_GET['redirect_to'])){
-                echo '<input type="hidden" name="redirect_to" value="'.$_GET['redirect_to'].'">';
+                echo '<input type="hidden" name="redirect_to" value="'.htmlspecialchars($_GET['redirect_to']).'">';
             }
             ?>
            <?= \App\Services\CsrfService::html() ?>
