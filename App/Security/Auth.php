@@ -92,7 +92,7 @@ class Auth
         } else {
             $response = self::verifyLogin($email, $password);
             if ($remember) {
-                setcookie(self::SESSION_NAME . '_RM', $response->id . '-' . hash_hmac('sha256', $response->email . $response->password, $_ENV['SALT']), time() + 3600 * 24 * 30, '/', '', false, true);
+                setcookie(self::SESSION_NAME . '_RM', $response->id . '-' . hash_hmac('sha256', $response->email . $response->password, $_ENV['SALT']), time() + 3600 * 24 * 30, '/', '', true, true);
             }
 
             $hasTotp = $response->totp != null;
@@ -178,7 +178,7 @@ class Auth
 
     public static function logout()
     {
-        setcookie(self::SESSION_NAME . '_RM', '', time() - 1000, '/', '', false, true);
+        setcookie(self::SESSION_NAME . '_RM', '', time() - 1000, '/', '', true, true);
         $_SESSION['user'] = [];
         FlashService::success("Déconnexion réusis !", 5);
         header('Location: ' . $_ENV['BASE_URL'] . '/auth/login');
