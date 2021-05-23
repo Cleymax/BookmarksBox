@@ -118,7 +118,7 @@ class AuthController extends Controller
             if (Auth::verify($_GET['id'], $_GET['key'])) {
                 $username = (new Query())->select('username')->from('users')->where('id =?')->params([intval($_GET['id'])])->first()->username;
                 FlashService::success("Compte vérifié avec succès !");
-                $this->redirect('auth/login?username=' .urlencode($username));
+                $this->redirect('auth/login?username=' . urlencode($username));
             }
         } catch (\Exception $e) {
             FlashService::error($e->getMessage());
@@ -182,6 +182,28 @@ class AuthController extends Controller
                 'id' => $_GET['id'],
                 'key' => $_GET['key']
             ]);
+        }
+    }
+
+    public function cas()
+    {
+        if (isset($_SESSION['phpCAS'])) {
+            try {
+                $username = $_SESSION['phpCAS']['user'];
+                if (Auth::checkCas($username)) {
+                    FlashService::success("Connexion réussi.", 10);
+                    $this->redirect('dashboard');
+                }
+            }catch (\Exception $e){
+                FlashService::error($e->getMessage());
+                http_response_code(400);
+                $this->render(View::new('auth.login'), 'Connexion');
+            }
+        } else {
+            \phpCAS::setVerbose(true);
+            \phpCAS::client($_ENV['CAS_VERSION'], $_ENV['CAS_SERVER_HOSTNAME'], intval($_ENV['CAS_PORT']), $_ENV['CAS_BASE'], false);
+            \phpCAS::setNoCasServerValidation();
+            \phpCAS::forceAuthentication();
         }
     }
 }

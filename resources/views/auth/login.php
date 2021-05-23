@@ -44,12 +44,12 @@
                 </div>
                 <div class="btn-container">
                     <div class="button">
-                        <button class="btn" aria-label="Connexion" name="login" value="standard" title="Connexion"><span class="material-icons">login</span>Connexion</button>
+                        <button class="btn" aria-label="Connexion" title="Connexion"><span class="material-icons">login</span>Connexion</button>
                     </div>
                     <div class="line-separator"></div>
                     <div class="button">
-                        <button class="btn btn-yellow" aria-label="IUT d'Annecy"  name="login"  value="iutannecy" title="Connexion avec votre compte de l'IUT d'Annecy"><span class="material-icons">school</span>IUT d'Annecy
-                        </button>
+                        <a href="<?= get_query_url('cas')?>" class="btn btn-yellow" aria-label="IUT d'Annecy"  title="Connexion avec votre compte CAS"><span class="material-icons">school</span><?= $_ENV['CAS_NAME']?>
+                        </a>
                     </div>
                     <div class="line-separator"></div>
                     <a href="<?= get_query_url('password-forgot')?>">
