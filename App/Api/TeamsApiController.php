@@ -49,13 +49,11 @@ class TeamsApiController extends Controller
      */
     public function getTeamMembers(string $id)
     {
-        $user_id = Auth::userApi()->id;
-
         $query = (new Query())
             ->select('role')
             ->from('teams_members')
             ->where('team_id = ?', 'user_id = ?')
-            ->params([$id, $user_id]);
+            ->params([$id,  Auth::userApi()->id]);
 
         if ($query->rowCount() == 0) {
             throw new NotFoundException('Equipe non trouvé !');
@@ -96,13 +94,11 @@ class TeamsApiController extends Controller
      */
     public function getTeamSettings(string $id)
     {
-        $user_id = Auth::userApi()->id;
-
         $query = (new Query())
             ->select('role')
             ->from('teams_members')
             ->where('team_id = ?', 'user_id = ?')
-            ->params([$id, $user_id]);
+            ->params([$id, Auth::userApi()->id]);
 
         if ($query->rowCount() == 0) {
             throw new NotFoundException('Equipe non trouvé !');

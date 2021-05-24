@@ -42,6 +42,11 @@ class Router
         return $this->routes;
     }
 
+    /**
+     * @throws \App\Exceptions\TokenNotFoundException
+     * @throws \App\Exceptions\UserNotFoundException
+     * @throws \Exception
+     */
     public function onRequest(): void
     {
         foreach (Router::get()->getRoutes() as $route) {
@@ -172,6 +177,7 @@ class Router
     public static function init(): void
     {
         cors();
+        headers_security();
         Router::get()->onRequest();
     }
 

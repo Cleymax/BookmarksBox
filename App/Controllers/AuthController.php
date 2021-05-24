@@ -33,7 +33,7 @@ class AuthController extends Controller
                 if (!isset($_POST['redirect_to'])) {
                     $this->redirect('dashboard');
                 } else {
-                    $this->redirect($_GET['redirect_to']);
+                    $this->redirect(htmlspecialchars($_GET['redirect_to']));
                 }
             }
         } catch (\Exception $e) {
@@ -118,7 +118,7 @@ class AuthController extends Controller
             if (Auth::verify($_GET['id'], $_GET['key'])) {
                 $username = (new Query())->select('username')->from('users')->where('id =?')->params([intval($_GET['id'])])->first()->username;
                 FlashService::success("Compte vérifié avec succès !");
-                $this->redirect('login?username=' . $username);
+                $this->redirect('auth/login?username=' .urlencode($username));
             }
         } catch (\Exception $e) {
             FlashService::error($e->getMessage());

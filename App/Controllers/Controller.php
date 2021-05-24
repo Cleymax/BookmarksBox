@@ -46,7 +46,7 @@ abstract class Controller
                 die();
             }
         }
-        header('Location: ' . $_ENV['BASE_URL'] . '/' . $s);
+        header('Location: ' . getenv(['BASE_URL']) . '/' . htmlspecialchars($s));
         DebugBarService::getDebugBar()->collect();
         die();
     }
@@ -106,7 +106,7 @@ abstract class Controller
 
     public function loadModel(string $model, ?string $table = null)
     {
-        require ROOT_PATH . "/../app/models/$model.php";
+        require ROOT_PATH . "/../App/Models/$model.php";
         if (is_null($table)) {
             $this->$model = new $model();
         } else {

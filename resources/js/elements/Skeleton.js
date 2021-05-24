@@ -18,6 +18,7 @@ export default class Skeleton extends HTMLElement {
   }
 
   connectedCallback() {
+    const crypto = window.crypto || window.msCrypto;
     const text = this.getAttribute('text');
     const lines = this.getAttribute('lines');
     const rounded = this.getAttribute('rounded');
@@ -54,7 +55,7 @@ export default class Skeleton extends HTMLElement {
       }
 
       span:last-child {
-        width: ${lines ? (`${20 + (Math.random() * 60)}%`) : 'inherit'};
+        width: ${lines ? (`${20 + (crypto.getRandomValues(new Uint32Array(1)) * 60)}%`) : 'inherit'};
       }
       span::before {
         content: "${this.getAttribute('text')}";

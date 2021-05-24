@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Team Bookmarking",
   "scripts": {
+    "build": "npm run build-css && npm run build-js",
     "dev": "concurrently \"yarn watch-css\" \"yarn watch-js\"",
     "watch-css": "node-sass --output-style expanded --source-map true -w -r resources/scss -o public/css",
     "dev-css": "node-sass --output-style expanded --source-map true -r resources/scss -o public/css",

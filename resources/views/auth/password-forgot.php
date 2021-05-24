@@ -1,9 +1,9 @@
 <?php
 $email = '';
 if (isset($_POST['mail'])) {
-    $email = $_POST['mail'];
+    $email = htmlspecialchars($_POST['mail']);
 } else if (isset($_GET['mail'])) {
-    $email = $_GET['mail'];
+    $email = htmlspecialchars($_GET['mail']);
 }
 ?>
 <div class="container card">
