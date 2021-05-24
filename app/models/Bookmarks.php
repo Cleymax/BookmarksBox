@@ -23,21 +23,6 @@ class Bookmarks extends Model
         }
     }
 
-    public function getAllPinForMe(): array
-    {
-        $query = (new Query())
-            ->select()
-            ->from("user_favorite_bookmarks")
-            ->where('user_id = ?', 'folder IS NULL')
-            ->params([Auth::user()->id]);
-
-        if ($query->rowCount() == 0) {
-            throw new NotFoundException("Aucun favoris");
-        } else {
-            return $query->all();
-        }
-    }
-
     public function edit(string $id, array $values)
     {
         $value = [];
@@ -83,15 +68,19 @@ class Bookmarks extends Model
         return $response;
     }
 
-    public function removePin(string $id)
+    public function getAllPinForMe(): array
     {
         $query = (new Query())
-            ->delete()
+            ->select()
             ->from("user_favorite_bookmarks")
-            ->where("user_id = ?", "bookmark_id = ?")
-            ->params([Auth::user()->id, $id]);
+            ->where('user_id = ?', 'folder IS NULL')
+            ->params([Auth::user()->id]);
 
-        $query->execute();
+        if ($query->rowCount() == 0) {
+            throw new NotFoundException("Aucun favoris");
+        } else {
+            return $query->all();
+        }
     }
 
     public function isPin(string $id){
