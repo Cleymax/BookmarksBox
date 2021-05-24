@@ -27,7 +27,7 @@ class Bookmarks extends Model
     {
         $query = (new Query())
             ->select()
-            ->from($this->table)
+            ->from("user_favorite_bookmarks")
             ->where('user_id = ?', 'folder IS NULL')
             ->params([Auth::user()->id]);
 
@@ -89,7 +89,7 @@ class Bookmarks extends Model
             ->delete()
             ->from("user_favorite_bookmarks")
             ->where("user_id = ?", "bookmark_id = ?")
-            ->params([Auth::User()->id, $id]);
+            ->params([Auth::user()->id, $id]);
 
         $query->execute();
     }

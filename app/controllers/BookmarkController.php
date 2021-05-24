@@ -2,9 +2,9 @@
 
 namespace App\Controllers;
 
+use App\Exceptions\UnknownFieldException;
 use App\Services\FlashService;
 use App\Views\View;
-use http\Exception\InvalidArgumentException;
 
 class BookmarkController extends Controller
 {
@@ -34,6 +34,8 @@ class BookmarkController extends Controller
                     if(filter_var($_POST["thumbnail-modal"], FILTER_FLAG_PATH_REQUIRED)){
                         throw new InvalidArgumentException("Veuillez saisir un liens comme image");
                     }
+
+
 
                     $request_values = [
                         'title' => $_POST["bookmarks-modal"],
@@ -65,11 +67,17 @@ class BookmarkController extends Controller
                 case "add":
 
                     if(filter_var($_POST["link-modal"], FILTER_FLAG_HOST_REQUIRED)){
-                        throw new InvalidArgumentException("Veuillez saisir un liens");
+                        throw new  UnknownFieldException("Veuillez saisir un liens");
                     }
 
                     if(filter_var($_POST["thumbnail-modal"], FILTER_FLAG_PATH_REQUIRED)){
-                        throw new InvalidArgumentException("Veuillez saisir un liens comme image");
+                        throw new  UnknownFieldException("Veuillez saisir un liens comme image");
+                    }
+
+                    $value = ["EASY", "MEDIUM", "DIFFICILE", "PRO"];
+
+                    if(!in_array($_POST["difficulty-modal"], $value)){
+                        throw new  UnknownFieldException("Veuillez saisir une difficultés valide");
                     }
 
                     $response = $this->Bookmarks->add($_POST["bookmarks-modal"], $_POST["link-modal"], $_POST["thumbnail-modal"], $_POST["difficulty-modal"]);
