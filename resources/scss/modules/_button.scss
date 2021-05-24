@@ -55,6 +55,14 @@
     }
   }
 
+  &-green {
+    background-color: var(--green);
+    border-color: var(--green);
+    &:hover, &:focus{
+      border-color: var(--green);
+    }
+  }
+
   &-white {
     background-color: var(--white);
     border-color: var(--white);

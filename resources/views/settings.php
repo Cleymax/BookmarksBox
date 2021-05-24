@@ -33,7 +33,7 @@ use App\Security\Auth;
                    minlength="6" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Les 2 mots de passe doivent être identiques" >
             <span aria-hidden="true">Confirmer</span>
         </label>
-        <label for="confirm" class="textfield">
+        <label for="current" class="textfield">
             <input type="password" id="current"  name="current" tabindex="4" spellcheck="false"
                    autocomplete="current-password" aria-label="Confirmer votre mot de passe" autocapitalize="off" dir="ltr"
                    minlength="6" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Les 2 mots de passe doivent être identiques" >

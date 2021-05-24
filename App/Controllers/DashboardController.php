@@ -19,10 +19,11 @@ class DashboardController extends Controller
     {
         try{
             $data = $this->Bookmarks->getAllForMe();
+            $teams = $this->Teams->getAllForMe();
         }catch(\Exception $e){
             FlashService::error($e->getMessage());
             http_response_code($e->getCode());
         }
-        $this->render(View::new('dashboard'), 'Accueil', ['data' => $data ?? []]);
+        $this->render(View::new('dashboard'), 'Accueil', ['data' => $data ?? [], 'teams' => $teams ?? []]);
     }
 }
