@@ -34,13 +34,14 @@
 <h3>Membres</h3>
 <div>
 
-    <table width="100%" class="striped highlight responsive">
+    <table class="striped highlight responsive">
+        <caption>Liste membres</caption>
         <thead>
         <tr>
-            <th>Nom d'utilisateur</th>
-            <th>Prénom</th>
-            <th>Nom</th>
-            <th>Actions</th>
+            <th scope="col">Nom d'utilisateur</th>
+            <th scope="col">Prénom</th>
+            <th scope="col">Nom</th>
+            <th scope="col">Actions</th>
         </tr>
         </thead>
 
