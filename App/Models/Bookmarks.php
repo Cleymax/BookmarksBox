@@ -23,6 +23,18 @@ class Bookmarks extends Model
         }
     }
 
+    public function getFavorite(): array
+    {
+        $query = (new Query())
+            ->select()
+            ->into("user_favorite_bookmarks")
+            ->inner('bookmarks', 'bookmark_id', 'id')
+            ->where('user_id = ?')
+            ->params([Auth::user()->id]);
+
+        return  $query->all();
+    }
+
     public function edit(string $id, array $values)
     {
         $value = [];

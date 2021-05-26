@@ -1,0 +1,91 @@
+.dashboard {
+  position: relative;
+  height: calc(var(--windowHeight) - 110px);
+
+  & .menu {
+    width: 280px;
+    top: 0;
+    height: inherit;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: absolute;
+    transition: all ease .3s;
+    box-shadow: 3px 5px 6px rgba(0, 0, 0, 0.25);
+    padding: 10px;
+
+    & .equipe a {
+      justify-content: space-between !important;
+
+      & div {
+        display: inline-flex;
+        align-items: center;
+      }
+
+      & span.material-icons {
+        color: var(--yellow);
+      }
+    }
+
+    & .menu__row {
+      padding: 5px;
+      cursor: pointer;
+      position: relative;
+      color: var(--dark);
+      transition: all ease .2s;
+      border-radius: 0 25px 25px 0;
+
+      &:hover, &:focus {
+        background-color: rgba(0, 0, 0, 0.20);
+      }
+
+      & span:not(.material-icons) {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        margin-left: 10px;
+      }
+
+      & > span.material-icons {
+        margin-right: 10px;
+      }
+
+      & a {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+
+        & .team__icon {
+          --size: 25px;
+          width: var(--size);
+          height: var(--size);
+          border-radius: 25px;
+        }
+      }
+    }
+
+    & > aside > .menu__row {
+      margin-left: 15px;
+    }
+  }
+
+  & .line {
+    height: 2px;
+    width: 90%;
+    background-color: rgba(0, 0, 0, 0.10);
+    margin: 10px 15px;
+  }
+
+  & .content {
+    padding: 10px;
+    margin-left: 280px;
+    height: calc(100% - 5px);
+    overflow-y: scroll;
+  }
+}
+
+
+.img-200 {
+  width: 200px !important;
+  height: 200px !important;
+}

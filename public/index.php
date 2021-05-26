@@ -67,9 +67,10 @@ Route::put('/bookmark/{id}', [BookmarkController::class, 'editBookmark'], true);
 Route::delete('/bookmark/{id}', [BookmarkController::class, 'deleteBookmark'], true);
 
 Route::get('/teams/{id}', [TeamsController::class, 'folderView'], true)->where('id', '\w{10}');
-Route::get('/teams/{id}/settings', [TeamsController::class, 'teamSettings'], true)->where('id', '\w{10}');
-Route::get('/teams/', [TeamsController::class, 'getTeams'], true);
+Route::get('/teams/{id}/manager', [TeamsController::class, 'teamManageView'], true)->where('id', '\w{10}');
+Route::get('/teams/', [TeamsController::class, 'getTeams'], true, 'teams');
 Route::post('/teams/', [TeamsController::class, 'createTeams'], true);
+Route::get('/teams/invite/{code}', [TeamsController::class, 'inviteCode'], true);
 
 Route::post('/auth/login', [AuthApiController::class, 'login'])->api();
 Route::get('/user/teams', [UserApiController::class, 'getTeams'])->api();

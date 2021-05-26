@@ -275,9 +275,9 @@ class Query
      * @param \App\Database\Query $q
      * @return $this
      */
-    public function whereIn(string $column, Query $q): self
+    public function whereIn(string $column, Query $q, bool $not = false): self
     {
-        $this->where[] = $column . ' IN (' . $q->__toString() . ')';
+        $this->where[] = $column . ' ' . ($not ? 'NOT ' : ' ') . 'IN (' . $q->__toString() . ')';
         return $this;
     }
 

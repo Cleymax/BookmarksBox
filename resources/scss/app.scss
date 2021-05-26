@@ -46,6 +46,24 @@ body {
   background-color: var(--primary);
 }
 
+::-webkit-scrollbar {
+  width: 1em;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--secondary);
+  border-radius: 20px;
+}
+
+*::selection {
+  background-color: var(--primary);
+  color: white;
+}
+
 //main {
 //  padding: 1rem 2rem;
 //}
@@ -61,6 +79,12 @@ body {
 @import "modules/flex";
 @import "modules/pagination";
 @import "modules/popup";
+@import "modules/table";
+@import "modules/materialboxed";
+@import "modules/tabs";
+@import "modules/tooltip";
+@import "modules/cards";
+
 //PAGES
 @import "page/auth/login";
 @import "page/auth/2fa";
@@ -70,4 +94,5 @@ body {
 @import "page/home";
 @import "page/profil";
 @import "page/settings";
-@import "page/teams/dashboard";
+@import "page/dashboard";
+@import "page/teams";

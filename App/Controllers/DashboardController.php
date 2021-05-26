@@ -13,17 +13,30 @@ class DashboardController extends Controller
     public function __construct()
     {
         $this->loadModel('Bookmarks');
+        $this->loadModel('Teams');
     }
 
     public function dashboard()
     {
-        try{
+        try {
             $data = $this->Bookmarks->getAllForMe();
-            $teams = $this->Teams->getAllForMe();
-        }catch(\Exception $e){
+            $equipes = $this->Teams->getAllForMe();
+        } catch (\Exception $e) {
             FlashService::error($e->getMessage());
             http_response_code($e->getCode());
         }
-        $this->render(View::new('dashboard'), 'Accueil', ['data' => $data ?? [], 'teams' => $teams ?? []]);
+        $this->render(View::new('dashboard', 'dashboard'), 'Accueil', ['data' => $data ?? [], 'equipes' => $equipes ?? []]);
+    }
+
+    public function favorite()
+    {
+        try {
+            $equipes = $this->Teams->getAllForMe();
+            $data = $this->Bookmarks->getFavorite();
+        } catch (\Exception $e) {
+            FlashService::error($e->getMessage());
+            http_response_code($e->getCode());
+        }
+        $this->render(View::new('favorite', 'dashboard'), 'Favoris', ['equipes' => $equipes, 'data' => $data]);
     }
 }

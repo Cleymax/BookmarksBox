@@ -4,7 +4,6 @@ use App\Database\Query;
 use App\Exceptions\NotFoundException;
 use App\Models\Model;
 use App\Security\Auth;
-use App\Security\AuthException;
 
 class User extends Model
 {
