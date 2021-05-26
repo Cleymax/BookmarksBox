@@ -40,8 +40,8 @@
     background-color: rgba(0, 0, 0, 0.2);
   }
 
-  & h3 {
-    margin-top: 5px;
+  & h4 {
+    margin-top: 10px;
   }
 
   & a {
@@ -55,8 +55,21 @@
     max-width: 100%;
     height: auto;
   }
+  &.out {
+    animation: cardOut 0.5s both;
+  }
 }
 
+@keyframes cardOut {
+  from {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
 
 @keyframes cardIn {
   from {

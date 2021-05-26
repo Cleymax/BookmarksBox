@@ -17,6 +17,9 @@ class BookmarkController extends Controller
         $this->loadModel('Bookmarks');
     }
 
+    /**
+     * @throws \Exception
+     */
     public function update()
     {
         $this->checkPost('action', 'Erreur lors de la requête !');

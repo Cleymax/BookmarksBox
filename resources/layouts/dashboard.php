@@ -1,10 +1,10 @@
 <?php
 include 'parts/head.php';
-include 'parts/header.php';
+include 'parts/header-dashboard.php';
 ?>
     <main>
         <div class="dashboard">
-            <div class="menu">
+            <div class="menu" id="menu">
                 <div class="menu__row">
                     <a href="<?= get_query_url('dashboard') ?>">
                         <span class="material-icons">home</span>
@@ -39,42 +39,6 @@ include 'parts/header.php';
                 <div class="menu__row">
                     <a href="">
                         <span class="material-icons">folder</span>
-                        <span>4</span>
-                    </a>
-                </div>
-                <div class="menu__row">
-                    <a href="">
-                        <span class="material-icons">folder</span>
-                        <span>5</span>
-                    </a>
-                </div>
-                <div class="menu__row">
-                    <a href="">
-                        <span class="material-icons">folder</span>
-                        <span>6</span>
-                    </a>
-                </div>
-                <div class="menu__row">
-                    <a href="">
-                        <span class="material-icons">folder</span>
-                        <span>7</span>
-                    </a>
-                </div>
-                <div class="menu__row">
-                    <a href="">
-                        <span class="material-icons">folder</span>
-                        <span>8</span>
-                    </a>
-                </div>
-                <div class="menu__row">
-                    <a href="">
-                        <span class="material-icons">folder</span>
-                        <span>9</span>
-                    </a>
-                </div>
-                <div class="menu__row">
-                    <a href="">
-                        <span class="material-icons">folder</span>
                         <span>10</span
                         ></a
                     ></div>
@@ -102,21 +66,25 @@ include 'parts/header.php';
                             <div class="menu__row equipe">
                                 <a href="<?= get_query_url('/teams/' . $equipe->id) ?>">
                                     <div>
-                                         <img class="team__icon" src="<?= $equipe->icon ?>"
+                                        <img class="team__icon" src="<?= $equipe->icon ?>"
                                              alt="<?= $equipe->name ?> icon">
                                         <span><?= $equipe->name ?></span>
-<!--                                        <skeleton-box rounded width="25px" height="25px"></skeleton-box>-->
-<!--                                        <div style="margin-right: 10px"></div>-->
-<!--                                        <skeleton-box width="200px"></skeleton-box>-->
                                     </div>
                                     <?php
                                     if ($equipe->favorite) {
                                         ?>
-                                        <span class="material-icons">star</span>
+                                        <span class="material-icons hide_on_hover">star</span>
                                         <?php
                                     }
                                     ?>
                                 </a>
+                                <div class="menu__row__hover">
+                                    <div class="menu__row__hover__content">
+                                        <a href="<?= get_query_url('/teams/' . $equipe->id) . '/leave' ?>">
+                                            <span class="material-icons" style="color: var(--red)">exit_to_app</span>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </aside>
                         <?php
@@ -124,7 +92,7 @@ include 'parts/header.php';
                 }
                 ?>
             </div>
-            <div class="content">
+            <div class="content" id="content">
                 <?= $content ?>
             </div>
         </div>
