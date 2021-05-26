@@ -1,0 +1,87 @@
+table {
+  text-align: left;
+
+  &.striped > tbody > tr:nth-child(odd) {
+    background-color: rgba(0, 0, 0, 0.12);
+  }
+
+  &.highlight > tbody > tr:hover {
+    background-color: rgba(0, 0, 0, 0.22);
+  }
+
+  @include screen-down(900px) {
+    &.responsive {
+      width: 100%;
+      border-collapse: collapse;
+      border-spacing: 0;
+      display: block;
+      position: relative;
+
+      & td:empty:before {
+        content: '\00a0'
+      }
+
+      & th, & td {
+        margin: 0;
+        vertical-align: top
+      }
+
+      & th {
+        text-align: left
+      }
+
+      & thead {
+        display: block;
+        float: left
+      }
+
+      & thead tr {
+        display: block;
+        padding: 0 10px 0 0
+      }
+
+      & thead tr th::before {
+        content: "\00a0"
+      }
+
+      & tbody {
+        display: block;
+        width: auto;
+        position: relative;
+        overflow-x: auto;
+        white-space: nowrap
+      }
+
+      & tbody tr {
+        display: inline-block;
+        vertical-align: top
+      }
+
+      & th {
+        display: block;
+        text-align: right
+      }
+
+      & td {
+        display: block;
+        min-height: 1.25em;
+        text-align: left
+      }
+
+      & tr {
+        border-bottom: none;
+        padding: 0 10px
+      }
+
+      & thead {
+        border: 0;
+        border-right: 1px solid rgba(0, 0, 0, 0.12)
+      }
+    }
+  }
+}
+
+td, th {
+  padding: 15px 10px;
+}
+

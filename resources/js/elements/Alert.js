@@ -1,11 +1,18 @@
 export default class Alert extends HTMLElement {
-  constructor() {
+  constructor({ type, message } = {}) {
     super();
+    if (type !== undefined) {
+      this.type = type;
+    }
+    if (this.type === 'error' || this.type === null) {
+      this.type = 'danger';
+    }
+    this.message = message;
     this.close = this.close.bind(this);
   }
 
   connectedCallback() {
-    this.type = this.getAttribute('type');
+    this.type = this.type || this.getAttribute('type');
     if (this.type === 'error' || !this.type) {
       this.type = 'danger';
     }
@@ -20,7 +27,7 @@ export default class Alert extends HTMLElement {
     this.classList.add(`alert-${this.type}`);
     this.innerHTML = `
         ${this.getIcon()}
-        ${text}
+        ${this.message || text}
         ${progressBar}`;
     this.addEventListener('click', (e) => {
       e.preventDefault();
@@ -65,4 +72,14 @@ export default class Alert extends HTMLElement {
     }
     return '';
   }
+}
+
+export function flash(message, type = 'success', duration = 3) {
+  const alert = document.createElement('alert-message');
+  if (duration) {
+    alert.setAttribute('duration', duration);
+  }
+  alert.setAttribute('type', type);
+  alert.innerText = message;
+  document.getElementById('alert-container').appendChild(alert);
 }

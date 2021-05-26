@@ -1,31 +1,73 @@
-<h1>Mes équipes:</h1>
-
-<div class="flex">
+<h2>Rejoindre une équipe:</h2>
+<h3>Code s'invitation</h3>
+<div class="flex flex-gap-20">
+    <div class="team cards">
+        <a>
+            <label for="code" class="textfield">
+                <input type="text" id="code" autocomplete="code" name="code" spellcheck="false" maxlength="6"
+                       aria-label="Nom d'utilisateur ou adresse e-mail" required aria-required="true"
+                       title="Code d'invitation"
+                       autocapitalize="none" dir="ltr" autofocus>
+                <span aria-hidden="true">Code d'invitation</span>
+            </label>
+            <button style="margin-top: 10px" id="join-team" class="btn">Rejoindre</button>
+        </a>
+    </div>
+</div>
+<h3>Equipe(s) public:</h3>
+<div class="flex flex-gap-20">
     <?php
-    foreach ($data as $team) {
+
+    use App\Helper\TeamHelper;
+
+    foreach ($equipes_public as $team) {
         ?>
-        <div class="team" style="padding: 1rem;">
-            <a href="<?= get_query_url('/teams/' . $team->id) ?>">
-                <img width="150px" height="150px" src="<?= $team->icon ?>" alt="Avatar de l'équpe <?= $team->name ?>">
+        <div class="team cards">
+            <a href="<?= get_query_url('/teams/invite/' . $team->invite_code) ?>">
+                <img src="<?= $team->icon ?>" alt="Avatar de l'équpe <?= $team->name ?>">
                 <h3>
                     <?= $team->name ?>
-
                 </h3>
-                <p>
-                    Id: <?= $team->id ?>
-                </p>
+            </a>
+        </div>
+        <?php
+    }
+    ?>
+</div>
+
+<h2 style="margin-top: 20px">Mes équipes:</h2>
+
+<div class="flex flex-gap-20">
+    <?php
+    foreach ($equipes as $team) {
+        ?>
+        <div class="team cards">
+            <a href="<?= get_query_url('/teams/' . $team->id) ?>">
+                <img src="<?= $team->icon ?>" alt="Avatar de l'équpe <?= $team->name ?>">
+                <h3>
+                    <?= $team->name ?>
+                </h3>
+            </a>
+            <?php
+            if ($team->favorite) {
+                ?>
+                <div class="cards__abs">
+                    <span class="material-icons" style="color: var(--yellow);">star</span>
+                </div>
                 <?php
-                if ($team->public) {
+            }
+            ?>
+            <div class="cards__hover">
+                <?php
+                if (TeamHelper::canManageWithRole($team->role)) {
                     ?>
-                    <p style="color: var(--green)">Public</p>
-                    <?php
-                }else {
-                    ?>
-                    <p style="color: var(--red)">Non Public</p>
+                    <a href="<?= get_query_url('/teams/' . $team->id . '/manager') ?>"
+                       class="material-icons">settings</a>
                     <?php
                 }
                 ?>
-            </a>
+                <a href="#link" data-copy="<?= $team->invite_code ?? '' ?>" class="material-icons">link</a>
+            </div>
         </div>
         <?php
     }
