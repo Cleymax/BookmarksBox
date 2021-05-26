@@ -110,12 +110,16 @@ class UserController extends Controller
                 'username' => '',
                 'email' => '',
                 'password' => '',
+                'confirm' => '',
                 'current' => '',
                 'avatar' => '',
                 'bio' => '',
             ]);
 
+            unset($request_values["confirm"]);
             unset($request_values["current"]);
+
+
 
             $response = $this->User->editSettings($request_values);
 
