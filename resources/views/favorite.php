@@ -11,11 +11,9 @@
                     <?= $bookmark->title ?>
                 </h3>
             </a>
-            <div class="cards__abs">
-                <span class="material-icons" style="color: var(--yellow);">star</span>
-            </div>
             <div class="cards__hover">
-                <a class="material-icons">star</a>
+                <a class="material-icons">edit</a>
+                <a id="remove-favorite" class="material-icons star">star</a>
             </div>
         </div>
         <?php

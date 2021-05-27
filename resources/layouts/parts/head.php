@@ -10,7 +10,7 @@ use App\Services\FlashService;
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title><?= $title ?> | BookmarkBox</title>
+    <title><?= isset($title)? $title .' | ': '' ?>BookmarkBox</title>
 
     <meta name="description" content="A teams bookmarkings for everyone !">
     <meta name="keywords" content="bookmark,box,bookmarksbox,free,opensource">

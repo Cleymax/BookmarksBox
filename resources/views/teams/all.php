@@ -1,7 +1,7 @@
 <h2>Rejoindre une équipe:</h2>
 <h3>Code s'invitation</h3>
 <div class="flex flex-gap-20">
-    <div class="team cards">
+    <div class="team cards" style="width: 170px;">
         <a>
             <label for="code" class="textfield">
                 <input type="text" id="code" autocomplete="code" name="code" spellcheck="false" maxlength="6"
@@ -25,9 +25,9 @@
         <div class="team cards">
             <a href="<?= get_query_url('/teams/invite/' . $team->invite_code) ?>">
                 <img src="<?= $team->icon ?>" alt="Avatar de l'équpe <?= $team->name ?>">
-                <h3>
+                <h4>
                     <?= $team->name ?>
-                </h3>
+                </h4>
             </a>
         </div>
         <?php
@@ -44,9 +44,9 @@
         <div class="team cards">
             <a href="<?= get_query_url('/teams/' . $team->id) ?>">
                 <img src="<?= $team->icon ?>" alt="Avatar de l'équpe <?= $team->name ?>">
-                <h3>
+                <h4>
                     <?= $team->name ?>
-                </h3>
+                </h4>
             </a>
             <?php
             if ($team->favorite) {
@@ -66,6 +66,7 @@
                     <?php
                 }
                 ?>
+                <a href="#favorite"><span class="material-icons star">star</span></a>
                 <a href="#link" data-copy="<?= $team->invite_code ?? '' ?>" class="material-icons">link</a>
             </div>
         </div>

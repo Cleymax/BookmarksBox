@@ -72,7 +72,7 @@ class Teams extends Model
             ->params([$id]);
 
         if ($query->rowCount() == 0) {
-            throw new NotFoundException();
+            throw new NotFoundException('Aucun membre');
         } else {
             return $query->all();
         }
@@ -113,5 +113,14 @@ class Teams extends Model
             ->whereIn("id", $q, true)
             ->params([Auth::user()->id]);
         return $query->all();
+    }
+
+    public function leaveTeam(string $id)
+    {
+        (new Query())
+            ->delete()
+            ->from($this->table . '_members')
+            ->where('team_id = ?', 'user_id = ?')
+            ->params([$id, Auth::user()->id])->execute();
     }
 }

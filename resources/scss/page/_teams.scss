@@ -9,11 +9,10 @@
 
   & .cards__hover > a {
     transition: all ease .3s;
-    color: white;
+    color: var(--background);
 
     &:hover {
-      color: #bababa;
-      transform: scale(1.07);
+      transform: scale(1.27);
     }
   }
 }
