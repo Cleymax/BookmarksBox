@@ -35,7 +35,7 @@ class AuthController extends Controller
                 if (!isset($_POST['redirect_to'])) {
                     $this->redirect('dashboard');
                 } else {
-                    $this->redirect($_GET['redirect_to']);
+                    $this->redirect(htmlspecialchars($_GET['redirect_to']));
                 }
             }
         } catch (\Exception $e) {

@@ -2,6 +2,11 @@ import 'regenerator-runtime/runtime';
 import $ from 'jquery';
 import Alert from './elements/Alert';
 import Skeleton from './elements/Skeleton';
+import Tooltip from './elements/Tooltip';
+import registerWindowHeightCSS from './window';
+import joinTeamsWithCode from './Teams';
+
+registerWindowHeightCSS();
 
 window.customElements.define('alert-message', Alert);
 window.customElements.define('skeleton-box', Skeleton);
@@ -33,5 +38,48 @@ $(document).ready(() => {
         value.type = 'password';
       }
     });
+  });
+  const tooltippeds = document.querySelectorAll('.tooltipped');
+  for (let i = 0; i < tooltippeds.length; i += 1) {
+    // eslint-disable-next-line no-new
+    new Tooltip(tooltippeds[i]);
+  }
+  const code = document.getElementById('code');
+  if (code) {
+    code.addEventListener('keyup', (event) => {
+      if (event.keyCode === 13) {
+        event.preventDefault();
+        joinTeamsWithCode();
+      }
+    });
+  }
+
+  const hamburger = document.getElementById('hamburger');
+  if (hamburger) {
+    const menu = document.getElementById('menu');
+    const content = document.getElementById('content');
+    hamburger.addEventListener('click', () => {
+      if (menu.style.transform) {
+        menu.style.transform = '';
+        content.style.marginLeft = '280px';
+      } else {
+        menu.style.transform = 'translateX(-280px)';
+        content.style.marginLeft = '0px';
+      }
+    });
+  }
+
+  document.querySelectorAll('#remove-favorite').forEach((value) => {
+    value.addEventListener('click', () => {
+      const box = value.parentNode.parentNode;
+      // const id = box.getAttribute('data-id');
+      box.classList.add('out');
+      setTimeout(() => {
+        box.parentNode.removeChild(box);
+      }, 600);
+    });
+  });
+  $('#join-team').on('click', () => {
+    joinTeamsWithCode();
   });
 });

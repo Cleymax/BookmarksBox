@@ -42,6 +42,11 @@ class Router
         return $this->routes;
     }
 
+    /**
+     * @throws \App\Exceptions\TokenNotFoundException
+     * @throws \App\Exceptions\UserNotFoundException
+     * @throws \Exception
+     */
     public function onRequest(): void
     {
         foreach (Router::get()->getRoutes() as $route) {
@@ -112,6 +117,7 @@ class Router
             if (is_string($return)) {
                 echo $return;
             } else if ($return instanceof View) {
+                $render = DebugBarService::getDebugBar()->getJavascriptRenderer($_ENV['BASE_URL'] . '/debugbar/');
                 ob_start();
                 require_once(dirname(ROOT_PATH) . '/resources/views/' . str_replace('.', DIRECTORY_SEPARATOR, $return->getName()) . '.php');
                 $content = ob_get_clean();
@@ -151,7 +157,7 @@ class Router
 
     public static function not_found(): void
     {
-        http_response_code(404);
+        redirect('404');
         die();
     }
 

@@ -1,0 +1,18 @@
+.team {
+
+  @include screen-up(800px) {
+    & > a > img {
+      width: 150px;
+      height: 150px;
+    }
+  }
+
+  & .cards__hover > a {
+    transition: all ease .3s;
+    color: var(--background);
+
+    &:hover {
+      transform: scale(1.27);
+    }
+  }
+}

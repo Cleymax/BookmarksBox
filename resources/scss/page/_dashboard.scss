@@ -1,0 +1,159 @@
+.dashboard {
+  position: relative;
+  height: calc(var(--windowHeight) - 110px);
+
+  & .menu {
+    width: 280px;
+    top: 0;
+    height: inherit;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: absolute;
+    transition: all ease .3s;
+    box-shadow: 3px 5px 6px rgba(0, 0, 0, 0.25);
+    padding: 10px;
+
+    @include screen-down(600px){
+      width: 100%;
+    }
+
+    & .equipe a {
+      justify-content: space-between !important;
+
+      & div {
+        display: inline-flex;
+        align-items: center;
+      }
+
+      & span.material-icons {
+        color: var(--yellow);
+      }
+    }
+
+    & .menu__row {
+      padding: 5px;
+      cursor: pointer;
+      position: relative;
+      color: var(--dark);
+      transition: all ease .2s;
+      border-radius: 0 25px 25px 0;
+
+      &:hover > a > span.hide_on_hover {
+        display: none;
+      }
+
+      &:hover > .menu__row__hover {
+        visibility: visible;
+      }
+
+      &__hover {
+        border-radius: 50%;
+        display: inline-block;
+        height: 100%;
+        position: absolute;
+        right: 5px;
+        top: 0;
+        visibility: hidden;
+
+        &__content {
+          height: 100%;
+          display: flex;
+          align-items: center;
+
+          & > span {
+            cursor: pointer;
+            display: inline-block;
+            margin-left: 8px;
+            padding: 4px;
+            position: relative;
+            transition: .15s transform;
+          }
+        }
+      }
+
+      &:hover, &:focus {
+        background-color: rgba(0, 0, 0, 0.20);
+      }
+
+      & span:not(.material-icons) {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        margin-left: 10px;
+      }
+
+      & > span.material-icons {
+        margin-right: 10px;
+      }
+
+      & a {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+
+        & .team__icon {
+          --size: 25px;
+          width: var(--size);
+          height: var(--size);
+          border-radius: 25px;
+        }
+      }
+    }
+
+    & > aside > .menu__row {
+      margin-left: 15px;
+    }
+  }
+
+  & .line {
+    height: 2px;
+    width: 90%;
+    background-color: rgba(0, 0, 0, 0.10);
+    margin: 10px 15px;
+  }
+
+  & .content {
+    transition: margin-left ease .3s;
+    padding: 10px;
+    margin-left: 280px;
+    height: calc(100% - 5px);
+    overflow-y: scroll;
+  }
+}
+
+.header-left {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+
+  & > .hamburger {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: background-color ease .3s;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.18);
+    }
+  }
+
+  & > .hamburger > svg {
+    padding: 2px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    user-select: none;
+    fill: var(--dark);
+  }
+}
+
+.img-200 {
+  width: 200px !important;
+  height: 200px !important;
+}
+
+.star {
+  color: var(--yellow) !important;
+}

@@ -22,10 +22,10 @@ function get_query_url(string $name, array $data = []): string
     $query = http_build_query($data);
     foreach (Router::get()->getRoutes() as $route) {
         if ($route->getName() == $name) {
-            return $_ENV['BASE_URL'] . '/' . $route->getUri() . (empty($query) ? '' : '?' .urldecode($query));
+            return $_ENV['BASE_URL'] . '/' . $route->getUri() . (empty($query) ? '' : '?' . urldecode($query));
         }
     }
-    return $_ENV['BASE_URL'] . $name .urlencode($query);
+    return $_ENV['BASE_URL'] . $name . urlencode($query);
 }
 
 function redirect(string $name): void
@@ -37,7 +37,7 @@ function redirect(string $name): void
         }
     }
     http_response_code(301);
-    header('Location: ' . $url);
+    header('Location: ' . $url . $name);
 }
 
 function getBody(): string
@@ -56,10 +56,6 @@ function cors(): void
 
         if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD'])) {
             header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-        }
-
-        if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'])) {
-            header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
         }
         exit(0);
     }

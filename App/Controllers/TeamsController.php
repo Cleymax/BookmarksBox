@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Services\FlashService;
 use App\Views\View;
 
 class TeamsController extends Controller
@@ -19,7 +20,7 @@ class TeamsController extends Controller
      */
     public function createTeams()
     {
-        $request_values =  $this->getRequestValue(['name'], [
+        $request_values = $this->getRequestValue(['name'], [
             'invite_code' => '',
             'name' => '',
             'icon' => '',
@@ -41,17 +42,71 @@ class TeamsController extends Controller
 
     public function folderView(string $id)
     {
+        $equipes = $this->Teams->getAllForMe();
         $data = $this->Teams->getById($id);
-        $this->render(View::new('teams.dashboard'), 'Equipe ' . $data->name, ['data' => $data]);
+        $this->render(View::new('teams.dashboard', 'dashboard'), 'Equipe ' . $data->name, ['data' => $data, 'id' => $id, 'equipes' => $equipes]);
     }
 
     public function getTeams()
     {
         $data = $this->Teams->getAllForMe();
+        $public = $this->Teams->getPublic();
         if ($this->need_json()) {
             $this->respond_json($data);
         } else {
-            $this->render(View::new('teams.all'), 'Mes équipes ', ['data' => $data]);
+            $this->render(View::new('teams.all', 'dashboard'), 'Mes équipes ', ['equipes' => $data, 'equipes_public' => $public ?? []]);
         }
+    }
+
+    public function teamManageView(string $id)
+    {
+        try {
+            $data = $this->Teams->getById($id);
+            $members = $this->Teams->getMember($id);
+        } catch (\Exception $e) {
+            $members = [];
+            FlashService::error($e->getMessage(), 4);
+        }
+
+        $this->render(View::new('teams.manager', 'dashboard'), 'Equipe ' . $data->name, ['data' => $data, 'id' => $id, 'members' => $members]);
+    }
+
+    public function inviteCode($code)
+    {
+        try {
+            $data = $this->Teams->getAllForMe();
+            $response = $this->Teams->getTeamByCode($code);
+            if ($response) {
+                $this->Teams->join($response->id);
+                FlashService::success("Bienvenue dans l'équipe " . $response->name);
+            } else {
+                FlashService::error("Code invalide !", 2);
+                $this->redirect('teams');
+            }
+        } catch (\Exception $e) {
+            FlashService::error($e->getMessage(), 4);
+        }
+        $this->render(View::new('teams.invite', 'dashboard'), 'Rejoindre une équipe', ['equipes' => $data, 'equipe' => $response ?? []]);
+    }
+
+    public function leaveViewTeam(string $id)
+    {
+        try {
+            $data = $this->Teams->getAllForMe();
+        } catch (\Exception $e) {
+            FlashService::error($e->getMessage(), 4);
+        }
+        $this->render(View::new('teams.leave', 'dashboard'), 'Quitter une équipe', ['equipes' => $data]);
+    }
+
+    public function leaveView(string $id)
+    {
+        try {
+            $this->Teams->leaveTeam($id);
+            FlashService::success('Vous venez de quitter une équipe avec succès !');
+        } catch (\Exception $e) {
+            FlashService::error($e->getMessage(), 4);
+        }
+        $this->redirect('teams');
     }
 }
