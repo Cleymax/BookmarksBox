@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use App\Database\Query;
 use App\Security\Auth;
+use App\Security\AuthException;
+use App\Services\CasAuthService;
 use App\Services\FlashService;
 use App\Views\View;
 
@@ -187,23 +189,28 @@ class AuthController extends Controller
 
     public function cas()
     {
-        if (isset($_SESSION['phpCAS'])) {
+        if (isset($_GET["ticket"])) {
             try {
-                $username = $_SESSION['phpCAS']['user'];
-                if (Auth::checkCas($username)) {
-                    FlashService::success("Connexion réussi.", 10);
-                    $this->redirect('dashboard');
+                $response = CasAuthService::verify_ticket(htmlspecialchars($_GET["ticket"]));
+                if (!$response) {
+                    throw new AuthException("Erreur d'authentification !");
                 }
-            }catch (\Exception $e){
+                $username = CasAuthService::getUser($response);
+                if (!is_null($username)) {
+                    if (Auth::checkCas($username)) {
+                        FlashService::success("Connexion réussi.", 10);
+                        $this->redirect("dashboard");
+                    }
+                }
+            } catch (\Exception $e) {
                 FlashService::error($e->getMessage());
                 http_response_code(400);
                 $this->render(View::new('auth.login'), 'Connexion');
             }
         } else {
-            \phpCAS::setVerbose(true);
-            \phpCAS::client($_ENV['CAS_VERSION'], $_ENV['CAS_SERVER_HOSTNAME'], intval($_ENV['CAS_PORT']), $_ENV['CAS_BASE'], false);
-            \phpCAS::setNoCasServerValidation();
-            \phpCAS::forceAuthentication();
+            if (!Auth::check()) {
+                CasAuthService::forceLogin();
+            }
         }
     }
 }
