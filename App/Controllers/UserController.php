@@ -43,7 +43,7 @@ class UserController extends Controller
     {
         $response = $this->User->getById(Auth::user()->id);
 
-        $this->render(View::new('settings'), "Paramètres", ["data" => $response]);
+        $this->render(View::new('settings', 'settings'), "Paramètres", ["data" => $response]);
     }
 
     public function settings2faActivate()
@@ -123,12 +123,12 @@ class UserController extends Controller
 
             $response = $this->User->editSettings($request_values);
 
-            $this->render(View::new('settings'), "Paramètres",  ["data" => $response]);
+            $this->render(View::new('settings', 'settings'), "Paramètres",  ["data" => $response]);
         }catch (\Exception $e) {
             FlashService::error($e->getMessage());
             http_response_code($e->getCode() == 0 ? 400 : $e->getCode());
             $response = $this->User->getById(Auth::user()->id);
-            $this->render(View::new('settings'), "Paramètres",  ["data" => $response]);
+            $this->render(View::new('settings', 'settings'), "Paramètres",  ["data" => $response]);
         }
 
     }
