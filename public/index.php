@@ -24,6 +24,8 @@ require_once ROOT_PATH . '/../App/Bootstrap.php';
 Route::get('/auth/login', [AuthController::class, 'loginView'], false, 'login');
 Route::post('/auth/login', [AuthController::class, 'login']);
 
+Route::get('/auth/cas/', [AuthController::class, 'cas'], false, 'cas');
+
 Route::get('/auth/register', [AuthController::class, 'registerView'], false, 'register');
 Route::post('/auth/register', [AuthController::class, 'register']);
 

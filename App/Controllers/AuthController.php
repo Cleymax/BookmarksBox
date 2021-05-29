@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use App\Database\Query;
 use App\Security\Auth;
+use App\Security\AuthException;
+use App\Services\CasAuthService;
 use App\Services\FlashService;
 use App\Views\View;
 
@@ -118,7 +120,7 @@ class AuthController extends Controller
             if (Auth::verify($_GET['id'], $_GET['key'])) {
                 $username = (new Query())->select('username')->from('users')->where('id =?')->params([intval($_GET['id'])])->first()->username;
                 FlashService::success("Compte vérifié avec succès !");
-                $this->redirect('auth/login?username=' .urlencode($username));
+                $this->redirect('auth/login?username=' . urlencode($username));
             }
         } catch (\Exception $e) {
             FlashService::error($e->getMessage());
@@ -182,6 +184,33 @@ class AuthController extends Controller
                 'id' => $_GET['id'],
                 'key' => $_GET['key']
             ]);
+        }
+    }
+
+    public function cas()
+    {
+        if (isset($_GET["ticket"])) {
+            try {
+                $response = CasAuthService::verify_ticket(htmlspecialchars($_GET["ticket"]));
+                if (!$response) {
+                    throw new AuthException("Erreur d'authentification !");
+                }
+                $username = CasAuthService::getUser($response);
+                if (!is_null($username)) {
+                    if (Auth::checkCas($username)) {
+                        FlashService::success("Connexion réussi.", 10);
+                        $this->redirect("dashboard");
+                    }
+                }
+            } catch (\Exception $e) {
+                FlashService::error($e->getMessage());
+                http_response_code(400);
+                $this->render(View::new('auth.login'), 'Connexion');
+            }
+        } else {
+            if (!Auth::check()) {
+                CasAuthService::forceLogin();
+            }
         }
     }
 }
