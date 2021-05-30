@@ -45,10 +45,11 @@ Route::get('/auth/logout', function () {
 
 Route::get('/profile', [UserController::class, 'profileView'], true, 'profile');
 
-Route::get('/settings', [UserController::class, 'settingsView'], true);
-Route::post('/settings', [UserController::class, 'settings'], true);
-Route::get('/settings/2fa', [UserController::class, 'settings2fa'], true, 'settings2fa');
-Route::post('/settings/2fa', [UserController::class, 'settings2faActivate'], true);
+Route::get('/settings/account', [SettingsController::class, 'accountView'], true, 'account');
+Route::get('/settings/security', [SettingsController::class, 'securityView'], true, 'security');
+
+Route::get('/settings/security/2fa', [UserController::class, 'settings2fa'], true, 'settings2fa');
+Route::post('/settings/security/2fa', [UserController::class, 'settings2faActivate'], true);
 
 Route::get('/settings/account/infos', [SettingsController::class, 'infosView'], true, 'infos');
 Route::post('/settings/account/infos', [SettingsController::class, 'infos'], true);

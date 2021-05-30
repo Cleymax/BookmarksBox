@@ -2,14 +2,14 @@
     <h3>Changez votre nom, prénom ou votre nom d'utilisateur</h3>
     <form method="post">
         <?= \App\Services\CsrfService::html() ?>
-        <label for="lastname" class="textfield">
-            <input type="text" id="lastname" name="lastname" spellcheck="false"
+        <label for="last_name" class="textfield">
+            <input type="text" id="last_name" name="last_name" spellcheck="false"
                    tabindex="1" aria-label="Nom"
                    title="Nom" autocapitalize="none" dir="ltr" autofocus">
             <span>Nom</span>
         </label>
-        <label for="firstname" class="textfield">
-            <input type="text" id="firstname" name="firstname" spellcheck="false"
+        <label for="first_name" class="textfield">
+            <input type="text" id="first_name" name="first_name" spellcheck="false"
                    tabindex="1" aria-label="Prenom"
                    title="Prenom" autocapitalize="none" dir="ltr" autofocus">
             <span>Prénom</span>

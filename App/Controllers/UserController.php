@@ -32,18 +32,19 @@ class UserController extends Controller
     public function settings2fa()
     {
         $data = $this->User->getById(Auth::user()->id);
+
         if (is_null($data->totp)) {
             $g = new GoogleAuthenticator();
             $secret = $g->generateSecret();
         }
-        $this->render(View::new('user.2fa'), '2FA', ["data" => $data, "secret" => $secret ?? '']);
+        $this->render(View::new('user.2fa', 'security'), '2FA', ["data" => $data, "secret" => $secret ?? '']);
     }
 
     public function settingsView()
     {
         $response = $this->User->getById(Auth::user()->id);
 
-        $this->render(View::new('settings', 'settings'), "Paramètres", ["data" => $response]);
+        $this->render(View::new('settings', 'security'), "Paramètres", ["data" => $response]);
     }
 
     public function settings2faActivate()
@@ -85,7 +86,7 @@ class UserController extends Controller
         } elseif (is_null($data->totp)) {
             $secret = $g->generateSecret();
         }
-        $this->render(View::new('user.2fa'), '2FA', ["data" => $data, 'secret' => $secret ?? '']);
+        $this->render(View::new('user.2fa', 'security'), '2FA', ["data" => $data, 'secret' => $secret ?? '']);
     }
 
     public function settings()
@@ -118,8 +119,6 @@ class UserController extends Controller
 
             unset($request_values["confirm"]);
             unset($request_values["current"]);
-
-
 
             $response = $this->User->editSettings($request_values);
 

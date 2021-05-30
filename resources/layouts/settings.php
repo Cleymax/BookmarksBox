@@ -6,7 +6,7 @@ include 'parts/header-dashboard.php';
     <div class="settings">
         <div class="menu-settings" id="menu-settings">
             <div class="menu__row">
-                <a href="https://public.test/dashboard"
+                <a href=""
                    style="
     			display: flex;
     			justify-content: center;
@@ -16,7 +16,7 @@ include 'parts/header-dashboard.php';
             </div>
             <div class="line"></div>
             <div class="menu__row">
-                <a href="https://public.test/dashboard">
+                <a href="<?= get_query_url('account')?>">
                     <span class="material-icons">person_outline</span>
                     <span>Mon Compte</span>
                     <span class="material-icons"
@@ -27,7 +27,7 @@ include 'parts/header-dashboard.php';
             </div>
             <div class="line"></div>
             <div class="menu__row">
-                <a href="">
+                <a href="<?= get_query_url('security')?>">
                     <span class="material-icons">lock_open</span>
                     <span class="tooltipped">Sécurité</span>
                     <span class="material-icons"
