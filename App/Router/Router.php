@@ -132,7 +132,7 @@ class Router
                 $this->respond_json(
                     [
                         'type' => 'error',
-                        'message ' => $e->getMessage(),
+                        'message' => $e->getMessage(),
                         'code' => $e->getCode()
                     ]
                 );

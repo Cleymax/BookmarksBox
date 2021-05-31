@@ -11,6 +11,7 @@ use App\Exceptions\NotFoundException;
 use App\Exceptions\ProtectFieldException;
 use App\Exceptions\TokenNotFoundException;
 use App\Exceptions\UnknownFieldException;
+use App\Helper\TeamHelper;
 use App\Security\Auth;
 
 class TeamsApiController extends Controller
@@ -53,7 +54,7 @@ class TeamsApiController extends Controller
             ->select('role')
             ->from('teams_members')
             ->where('team_id = ?', 'user_id = ?')
-            ->params([$id,  Auth::userApi()->id]);
+            ->params([$id, Auth::userApi()->id]);
 
         if ($query->rowCount() == 0) {
             throw new NotFoundException('Equipe non trouvé !');
@@ -61,7 +62,7 @@ class TeamsApiController extends Controller
 
         $response = $query->first();
 
-        if ($response->role != 'OWNER' && $response->role != 'MANAGER') {
+        if (!TeamHelper::canManageWithRole($response->role)) {
             throw new MissingAccessException("Tu n'as pas assez d'accès !");
         }
 
@@ -106,7 +107,7 @@ class TeamsApiController extends Controller
 
         $response = $query->first();
 
-        if ($response->role != 'OWNER' && $response->role != 'MANAGER') {
+        if (!TeamHelper::canManageWithRole($response->role)) {
             throw new MissingAccessException("Tu n'as pas assez d'accès !");
         }
 
@@ -126,5 +127,116 @@ class TeamsApiController extends Controller
             'count' => $query->rowCount(),
             'data' => $query->all()
         ]);
+    }
+
+    /**
+     * @throws \App\Exceptions\TokenNotFoundException
+     * @throws \App\Exceptions\NotFoundException
+     * @throws \App\Exceptions\MissingAccessException
+     * @throws \App\Exceptions\InvalidParamException
+     */
+    public function changeRoleMember(string $team_id, int $member_id)
+    {
+        $query = (new Query())
+            ->select('role')
+            ->from('teams_members')
+            ->where('team_id = ?', 'user_id = ?')
+            ->params([$team_id, Auth::userApi()->id]);
+
+        if ($query->rowCount() == 0) {
+            throw new NotFoundException('Equipe non trouvé !');
+        }
+
+        $response = $query->first();
+
+        if (!TeamHelper::canManageWithRole($response->role)) {
+            throw new MissingAccessException("Tu n'as pas la permission !");
+        }
+
+        $json = get_body_json();
+        $role = $json['role'] ?? '';
+
+        TeamHelper::checkRoleExist($role);
+
+        $query = (new Query())
+            ->update()
+            ->from('teams_members')
+            ->set([
+                'role' => '?'
+            ])
+            ->where('team_id = ?', 'user_id = ?')
+            ->params([$role, $team_id, $member_id]);
+
+        $query->execute();
+        $this->respond_json(['ok' => "user's role modified !"]);
+    }
+
+    /**
+     * @throws \App\Exceptions\TokenNotFoundException
+     * @throws \App\Exceptions\NotFoundException
+     * @throws \App\Exceptions\MissingAccessException
+     */
+    public function addMemberWithId(string $team_id, int $member_id)
+    {
+        $query = (new Query())
+            ->select('role')
+            ->from('teams_members')
+            ->where('team_id = ?', 'user_id = ?')
+            ->params([$team_id, Auth::userApi()->id]);
+
+        if ($query->rowCount() == 0) {
+            throw new NotFoundException('Equipe non trouvé !');
+        }
+
+        $response = $query->first();
+
+        if (!TeamHelper::canManageWithRole($response->role)) {
+            throw new MissingAccessException("Tu n'as pas la permission !");
+        }
+        $query = (new Query())
+            ->insert('team_id', 'user_id')
+            ->into('teams_members')
+            ->values(['?', '?'])
+            ->params([$team_id, $member_id]);
+
+        $query->execute();
+
+        $this->loadModel('User', 'Users');
+
+        $member = $this->User->getById($member_id, 'username', 'id', 'avatar', 'first_name', 'last_name');
+
+        $this->respond_json(['member' => $member, 'message' => 'user added !']);
+    }
+
+    /**
+     * @throws \App\Exceptions\TokenNotFoundException
+     * @throws \App\Exceptions\NotFoundException
+     * @throws \App\Exceptions\MissingAccessException
+     */
+    public function deleteMember(string $team_id, int $member_id)
+    {
+        $query = (new Query())
+            ->select('role')
+            ->from('teams_members')
+            ->where('team_id = ?', 'user_id = ?')
+            ->params([$team_id, Auth::userApi()->id]);
+
+        if ($query->rowCount() == 0) {
+            throw new NotFoundException('Equipe non trouvé !');
+        }
+
+        $response = $query->first();
+
+        if (!TeamHelper::canManageWithRole($response->role)) {
+            throw new MissingAccessException("Tu n'as pas la permission !");
+        }
+        $query = (new Query())
+            ->delete()
+            ->from('teams_members')
+            ->where('team_id = ?', 'user_id = ?')
+            ->params([$team_id, $member_id]);
+
+        $query->execute();
+        $this->respond_json(['ok' => 'user removed !']);
     }
 }

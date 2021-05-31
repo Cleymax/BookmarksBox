@@ -40,14 +40,17 @@
     background-color: rgba(0, 0, 0, 0.2);
   }
 
-  & h4 {
-    margin-top: 10px;
-  }
-
   & a {
     display: inline-flex;
     flex-direction: column;
     align-items: center;
+    max-width: 150px;
+    gap: 10px;
+
+    & p {
+      font-size: smaller;
+      font-weight: normal;
+    }
   }
 
   & img {

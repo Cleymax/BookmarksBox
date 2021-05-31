@@ -45,6 +45,14 @@ function getBody(): string
     return file_get_contents('php://input');
 }
 
+/**
+ * @return mixed
+ */
+function get_body_json()
+{
+    return json_decode(getBody(), true);
+}
+
 function cors(): void
 {
     header("Access-Control-Allow-Origin: {$_ENV['BASE_URL']}");

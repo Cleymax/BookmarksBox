@@ -59,4 +59,27 @@ class UserApiController extends Controller
         $query->build();
         $this->respond_json($query->first());
     }
+
+    /**
+     * @throws \App\Exceptions\ProtectFieldException
+     * @throws \App\Exceptions\InvalidParamException
+     * @throws \App\Exceptions\UnknownFieldException
+     */
+    public function getUser()
+    {
+        $query = (new QueryApi())
+            ->select()
+            ->from('users');
+
+        $query->setProtect(['totp', 'password', 'password_reset_key', 'verify_key']);
+        $query->setPossibility(['id', 'username', 'last_name', 'first_name']);
+        $query->setDefault(['id', 'username','first_name','last_name']);
+        $query->setSearch('username');
+        $query->build();
+
+        $this->respond_json([
+            'count' => $query->rowCount(),
+            'data' => $query->all()
+        ]);
+    }
 }

@@ -14,6 +14,7 @@ class QueryApi extends Query
     private $defaults;
     private $order_default;
     private $protect;
+    private $search;
 
     public function setPossibility(array $fields): self
     {
@@ -36,6 +37,15 @@ class QueryApi extends Query
     public function setProtect(array $protect): self
     {
         $this->protect = $protect;
+        return $this;
+    }
+
+    /**
+     * @param string $search
+     */
+    public function setSearch(string $search): self
+    {
+        $this->search = $search;
         return $this;
     }
 
@@ -77,7 +87,13 @@ class QueryApi extends Query
             $this->where(htmlspecialchars($parts[0]) . " = ?");
             $this->params([$parts[1]]);
         }
-        if(isset($_GET['count'])){
+        if ($this->search && isset($_GET['q'])) {
+            $q = strtolower(htmlspecialchars($_GET['q']));
+            $this->where('LOWER(' . $this->search . ') LIKE ? OR LOWER(last_name) LIKE ? OR LOWER(first_name) LIKE ?');
+            $this->params(["%$q%", "%$q%", "%$q%"]);
+            $this->limit(5);
+        }
+        if (isset($_GET['count'])) {
             $this->count();
         }
         if (!is_null($this->order_default) || isset($o)) {
@@ -102,7 +118,7 @@ class QueryApi extends Query
      */
     private function isProtect(array $f, $protect)
     {
-        if(is_null($this->protect)){
+        if (is_null($this->protect)) {
             return;
         }
         foreach ($f as $v) {

@@ -1,0 +1,22 @@
+.out-opacity {
+  animation: outOpacity 0.5s both;
+}
+
+@keyframes outOpacity {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    display: none;
+  }
+}
+
+.add span {
+  transition: transform ease .3s;
+}
+
+.add:hover span {
+  transform: scale(1.5) rotate(45deg);
+}
+

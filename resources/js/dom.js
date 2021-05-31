@@ -6,6 +6,14 @@ export function getDocumentScrollLeft() {
   return window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0;
 }
 
+export function getWindowHeight() {
+  return window.innerHeight;
+}
+
+export function getWindowWidth() {
+  return window.innerWidth;
+}
+
 /**
  * @typedef {Object} Bounding
  * @property {Number} left  left offset coordinate
@@ -42,8 +50,8 @@ export function checkWithinContainer(container, bounding, offset) {
     ? Math.max(containerRect.bottom, window.innerHeight)
     : containerRect.bottom;
 
-  const { scrollLeft } = container;
-  const { scrollTop } = container;
+  const {scrollLeft} = container;
+  const {scrollTop} = container;
 
   const scrolledX = bounding.left - scrollLeft;
   const scrolledY = bounding.top - scrollTop;

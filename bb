@@ -4,6 +4,7 @@
 use App\Database\Database;
 use App\Tools\Str;
 use Dotenv\Dotenv;
+use Faker\Factory;
 
 require __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/App/tools/Str.php';
@@ -82,13 +83,13 @@ switch ($argv[0]) {
         $env = Dotenv::createImmutable(__DIR__);
         $env->load();
         Database::set(
-                new Database(
-                        $_ENV['DB_DATABASE'],
-                        $_ENV['DB_USER'] ?? 'postgres',
-                        $_ENV['DB_PASSWORD'] ?? 'postgres',
-                        $_ENV['DB_HOST'] ?? 'localhost',
-                        $_ENV['DB_PORT'] ?? '5432'
-                )
+            new Database(
+                $_ENV['DB_DATABASE'],
+                $_ENV['DB_USER'] ?? 'postgres',
+                $_ENV['DB_PASSWORD'] ?? 'postgres',
+                $_ENV['DB_HOST'] ?? 'localhost',
+                $_ENV['DB_PORT'] ?? '5432'
+            )
         );
         foreach ($request as $r) {
             Database::get()->query(str_replace(array("\n", "\r"), '', $r));
@@ -122,13 +123,13 @@ switch ($argv[0]) {
         $env = Dotenv::createImmutable(__DIR__);
         $env->load();
         Database::set(
-                new Database(
-                        $_ENV['DB_DATABASE'],
-                        $_ENV['DB_USER'] ?? 'postgres',
-                        $_ENV['DB_PASSWORD'] ?? 'postgres',
-                        $_ENV['DB_HOST'] ?? 'localhost',
-                        $_ENV['DB_PORT'] ?? '5432'
-                )
+            new Database(
+                $_ENV['DB_DATABASE'],
+                $_ENV['DB_USER'] ?? 'postgres',
+                $_ENV['DB_PASSWORD'] ?? 'postgres',
+                $_ENV['DB_HOST'] ?? 'localhost',
+                $_ENV['DB_PORT'] ?? '5432'
+            )
         );
         dd(Database::get()->getAttribute(PDO::ATTR_CONNECTION_STATUS));
     default:

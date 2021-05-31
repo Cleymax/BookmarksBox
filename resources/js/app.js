@@ -5,8 +5,13 @@ import Skeleton from './elements/Skeleton';
 import Tooltip from './elements/Tooltip';
 import registerWindowHeightCSS from './window';
 import joinTeamsWithCode from './Teams';
+import registerTab from './tab';
+import registerAdminChangeRole from './admin';
+import { getWindowWidth } from './dom';
 
 registerWindowHeightCSS();
+registerTab();
+registerAdminChangeRole();
 
 window.customElements.define('alert-message', Alert);
 window.customElements.define('skeleton-box', Skeleton);
@@ -59,12 +64,21 @@ $(document).ready(() => {
     const menu = document.getElementById('menu');
     const content = document.getElementById('content');
     hamburger.addEventListener('click', () => {
+      const width = parseInt(`${getWindowWidth()}`, 10);
       if (menu.style.transform) {
         menu.style.transform = '';
+        if (width < 600) {
+          content.style.display = 'none';
+        }
         content.style.marginLeft = '280px';
       } else {
-        menu.style.transform = 'translateX(-280px)';
+        if (width < 600) {
+          menu.style.transform = 'translateX(-100%)';
+        } else {
+          menu.style.transform = 'translateX(-280px)';
+        }
         content.style.marginLeft = '0px';
+        content.style.display = 'block';
       }
     });
   }

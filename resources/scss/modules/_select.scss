@@ -1,0 +1,11 @@
+select {
+  color: var(--dark);
+  border: 2px solid var(--border);
+  background-color: transparent;
+  border-radius: 5px;
+
+  & > option {
+    background-color: var(--background);
+    color: var(--dark);
+  }
+}

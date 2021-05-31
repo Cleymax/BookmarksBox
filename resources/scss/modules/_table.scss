@@ -2,6 +2,12 @@ table {
   text-align: left;
   width: 100%;
 
+  & caption {
+    font-size: x-large;
+    margin-bottom: 5px;
+    text-decoration: underline;
+  }
+
   &.striped > tbody > tr:nth-child(odd) {
     background-color: rgba(0, 0, 0, 0.12);
   }
