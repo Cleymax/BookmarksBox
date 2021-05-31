@@ -2,7 +2,7 @@
 
     <div class="profil-header">
         <img src="<?= $_ENV['BASE_URL'].$data->avatar;?>" class="profil">
-        <a href="<?= get_query_url("/settings") ?>" class="profil-edit">
+        <a href="<?= get_query_url("/settings/account") ?>" class="profil-edit">
             <span class="material-icons">manage_accounts</span>
         </a>
     </div>

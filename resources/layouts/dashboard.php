@@ -1,4 +1,4 @@
-<?php
+ <?php
 include 'parts/head.php';
 include 'parts/header-dashboard.php';
 ?>

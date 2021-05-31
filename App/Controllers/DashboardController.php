@@ -14,6 +14,7 @@ class DashboardController extends Controller
     {
         $this->loadModel('Bookmarks');
         $this->loadModel('Teams');
+        $this->loadModel('Folders');
     }
 
     public function dashboard()
@@ -21,11 +22,12 @@ class DashboardController extends Controller
         try {
             $data = $this->Bookmarks->getAllForMe();
             $equipes = $this->Teams->getAllForMe();
+            $folders = $this->Folders->getAllForMe();
         } catch (\Exception $e) {
             FlashService::error($e->getMessage());
             http_response_code($e->getCode());
         }
-        $this->render(View::new('dashboard', 'dashboard'), 'Accueil', ['data' => $data ?? [], 'equipes' => $equipes ?? []]);
+        $this->render(View::new('dashboard', 'dashboard'), 'Accueil', ['data' => $data ?? [], 'equipes' => $equipes ?? [], 'folders' => $folders ?? []]);
     }
 
     public function favorite()
