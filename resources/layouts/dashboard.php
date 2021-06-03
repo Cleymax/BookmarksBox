@@ -23,30 +23,27 @@ include 'parts/header-dashboard.php';
                     </a>
                 </div>
                 <div class="line"></div>
-                <div class="menu__row">
-                    <a href="">
-                        <span class="material-icons">folder</span>
-                        <span class="tooltipped" data-text="Je sais aps torp pkk tu pense ça !  dqzd">Je sais aps torp pkk tu pense ça !  dqzd</span>
-                    </a>
+                <div id="folders">
+                    <?php
+                    for ($i = 0; $i < 4; $i++) {
+                        ?>
+                        <div class="menu__row">
+                            <a href="">
+                                <skeleton-box rounded height="20px" width="20px"></skeleton-box>
+                                <div style="margin-right: 5px"></div>
+                                <skeleton-box width="140px"></skeleton-box>
+                            </a>
+                        </div>
+                        <?php
+                    }
+                    ?>
                 </div>
-                <div class="menu__row">
-                    <a href="">
-                        <span class="material-icons">folder</span>
-                        <span>2</span>
-                    </a>
-                </div>
-                <div class="menu__row">
-                    <a href="">
-                        <span class="material-icons">folder</span>
-                        <span>3</span>
-                    </a>
-                </div>
-                <div class="menu__row">
-                    <a href="">
-                        <span class="material-icons">folder</span>
-                        <span>10</span
-                        ></a
-                    ></div>
+                <!--                <div class="menu__row">-->
+                <!--                    <a href="">-->
+                <!--                        <span class="material-icons">folder</span>-->
+                <!--                        <span class="tooltipped" data-text="Je sais aps torp pkk tu pense ça !  dqzd">Je sais aps torp pkk tu pense ça !  dqzd</span>-->
+                <!--                    </a>-->
+                <!--                </div>-->
                 <div class="line"></div>
                 <div class="menu__row">
                     <a href="<?= get_query_url('/favorite') ?>">

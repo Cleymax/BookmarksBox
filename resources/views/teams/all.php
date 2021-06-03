@@ -1,4 +1,4 @@
-<h2>Mes équipes:</h2>
+<h2 class="margin-bottom20">Mes équipes:</h2>
 <div class="flex flex-gap-20">
     <?php
 
@@ -6,7 +6,7 @@
 
     foreach ($equipes as $team) {
         ?>
-        <div class="team cards">
+        <div class="team cards" id="card-<?= $team->id ?>" data-id="<?= $team->id ?>">
             <a href="<?= get_query_url('/teams/' . $team->id) ?>">
                 <img src="<?= $team->icon ?>" alt="Avatar de l'équpe <?= $team->name ?>">
                 <h4>
@@ -32,11 +32,14 @@
                 }
                 if ($team->invite_code) {
                     ?>
-                    <a data-copy="<?= get_query_url('/teams/invite/'.$team->invite_code)?>"><span class="material-icons">link</span></a>
+                    <a data-copy="<?= get_query_url('/teams/invite/' . $team->invite_code) ?>"><span
+                                class="material-icons">link</span></a>
                     <?php
                 }
+                $state = isset($team->favorite) ? $team->favorite == true ? "1" : "0" : "0";
                 ?>
-                <a class="material-icons star">star</a>
+                <a id="change-favorite" data-current-state="<?= $state ?>"
+                   class="material-icons star">star</a>
             </div>
         </div>
         <?php
@@ -44,7 +47,7 @@
     ?>
 
 </div>
-<h2 style="margin-top: 20px">Rejoindre une équipe:</h2>
+<h2 class="margin-top20 margin-bottom10">Rejoindre une équipe:</h2>
 <h3>Code s'invitation</h3>
 <div class="flex flex-gap-20">
     <div class="team cards" style="width: 170px;">

@@ -46,7 +46,7 @@ abstract class Controller
                 die();
             }
         }
-        header('Location: ' . getenv(['BASE_URL']) . '/' . htmlspecialchars($s));
+        header('Location: ' . getenv('BASE_URL') . '/' . htmlspecialchars($s));
         DebugBarService::getDebugBar()->collect();
         die();
     }

@@ -38,12 +38,32 @@ export default async function jsonFetch(url, params = {}) {
  * @param roleId The role
  * @returns {boolean} if success
  */
-export function changeRole(teamId, userId, roleId) {
+export function changeRole(teamId, userId, roleId, response) {
   jsonFetch(`https://public.test/api/teams/${teamId}/members/${userId}/role`, {
     body: {
       role: roleId,
     },
     method: 'post',
+  }).then(response);
+}
+
+export async function changeTeamFavorite(team, response) {
+  jsonFetch(`https://public.test/api/user/teams/${team}/favorite`, { method: 'PUT' }).then(response);
+}
+
+export async function removeFavorite(bookmarkId, response) {
+  Swal.fire({
+    icon: 'warning',
+    title: 'Voulez vous vraiment le supprimer de vos favoris ?',
+    showDenyButton: true,
+    confirmButtonText: 'Oui',
+    denyButtonText: 'Non',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      jsonFetch(`https://public.test/api/favorite/${bookmarkId}`, { method: 'DELETE' }).then(response);
+    } else if (result.isDenied) {
+      response(false);
+    }
   });
 }
 
@@ -54,7 +74,6 @@ export async function addMemberToTeam(teamId, userId, response) {
 export async function deleteMember(teamId, userId, response) {
   Swal.fire({
     icon: 'warning',
-    iconColor: '#B01917',
     title: "Voulez vous vraiment supprimer cette personne de l'équipe ?",
     showDenyButton: true,
     confirmButtonText: 'Oui',

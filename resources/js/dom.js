@@ -50,8 +50,8 @@ export function checkWithinContainer(container, bounding, offset) {
     ? Math.max(containerRect.bottom, window.innerHeight)
     : containerRect.bottom;
 
-  const {scrollLeft} = container;
-  const {scrollTop} = container;
+  const { scrollLeft } = container;
+  const { scrollTop } = container;
 
   const scrolledX = bounding.left - scrollLeft;
   const scrolledY = bounding.top - scrollTop;

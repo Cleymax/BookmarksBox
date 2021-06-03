@@ -82,7 +82,11 @@ export default function registerAdminChangeRole() {
         const userId = th.getAttribute('data-user-id');
         const teamId = th.parentNode.parentNode.getAttribute('data-team-id');
         const valueSelected = this.value;
-        changeRole(teamId, userId, valueSelected);
+        changeRole(teamId, userId, valueSelected, (retur) => {
+          if (retur) {
+            flash('Modification du rôle avec succès !', 'success', 5);
+          }
+        });
       });
     });
   });

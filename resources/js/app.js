@@ -8,10 +8,13 @@ import joinTeamsWithCode from './Teams';
 import registerTab from './tab';
 import registerAdminChangeRole from './admin';
 import { getWindowWidth } from './dom';
+import { removeFavorite } from './api';
+import registerTeam from './team';
 
 registerWindowHeightCSS();
 registerTab();
 registerAdminChangeRole();
+registerTeam();
 
 window.customElements.define('alert-message', Alert);
 window.customElements.define('skeleton-box', Skeleton);
@@ -86,11 +89,15 @@ $(document).ready(() => {
   document.querySelectorAll('#remove-favorite').forEach((value) => {
     value.addEventListener('click', () => {
       const box = value.parentNode.parentNode;
-      // const id = box.getAttribute('data-id');
-      box.classList.add('out');
-      setTimeout(() => {
-        box.parentNode.removeChild(box);
-      }, 600);
+      const id = box.getAttribute('data-id');
+      removeFavorite(id, (data) => {
+        if (data) {
+          box.classList.add('out');
+          setTimeout(() => {
+            box.parentNode.removeChild(box);
+          }, 600);
+        }
+      });
     });
   });
   $('#join-team').on('click', () => {

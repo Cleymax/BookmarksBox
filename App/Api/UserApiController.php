@@ -3,8 +3,10 @@
 namespace App\Api;
 
 use App\Controllers\Controller;
+use App\Database\Query;
 use App\Database\QueryApi;
 use App\Exceptions\InvalidParamException;
+use App\Exceptions\NotFoundException;
 use App\Exceptions\ProtectFieldException;
 use App\Exceptions\TokenNotFoundException;
 use App\Exceptions\UnknownFieldException;
@@ -73,13 +75,47 @@ class UserApiController extends Controller
 
         $query->setProtect(['totp', 'password', 'password_reset_key', 'verify_key']);
         $query->setPossibility(['id', 'username', 'last_name', 'first_name']);
-        $query->setDefault(['id', 'username','first_name','last_name']);
+        $query->setDefault(['id', 'username', 'first_name', 'last_name']);
         $query->setSearch('username');
         $query->build();
 
         $this->respond_json([
             'count' => $query->rowCount(),
             'data' => $query->all()
+        ]);
+    }
+
+    /**
+     * @throws \App\Exceptions\TokenNotFoundException
+     * @throws \App\Exceptions\NotFoundException
+     */
+    public function changeTeamFavorite(string $team_id)
+    {
+        $query = (new Query())
+            ->select()
+            ->from('teams_members')
+            ->where('user_id = ?', 'team_id = ?')
+            ->params([Auth::userApi()->id, $team_id]);
+
+        if ($query->rowCount() == 0) {
+            throw new NotFoundException('Tu ne fais pas partit de cette équipe ! ');
+        }
+
+        $previous_state = $query->first()->favorite;
+
+        $query = (new Query())
+            ->update()
+            ->from('teams_members')
+            ->set(['favorite' => 'NOT favorite'])
+            ->where('user_id = ?', 'team_id = ?')
+            ->params([Auth::userApi()->id, $team_id])
+            ->returning('favorite');
+
+        $response = $query->first();
+
+        $this->respond_json([
+            'previous_state' => $previous_state,
+            'new_state' => $response->favorite
         ]);
     }
 }

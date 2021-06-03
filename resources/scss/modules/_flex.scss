@@ -6,6 +6,7 @@
 
   @include screen-down(600) {
     flex-direction: column;
+    align-items: center;
   }
 }
 

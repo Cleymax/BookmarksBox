@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Api\AuthApiController;
+use App\Api\BookmarkApiController;
 use App\Api\TeamsApiController;
 use App\Api\UserApiController;
 use App\Controllers\AuthController;
@@ -53,6 +54,7 @@ Route::post('/settings/2fa', [UserController::class, 'settings2faActivate'], tru
 Route::get('/dashboard', [DashboardController::class, 'dashboard'], true, 'dashboard');
 Route::post('/dashboard', [BookmarkController::class, 'update'], true);
 Route::get('/favorite', [DashboardController::class, 'favorite'], true);
+Route::delete('/favorite/{id}', [BookmarkApiController::class, 'removeFavorite'], true)->where('id', '\w{10}')->api();
 
 Route::get('/folder/{id}', [FolderController::class, 'folderView'], true);
 Route::post('/folder/{id}', [FolderController::class, 'createFolder'], true);
@@ -77,14 +79,15 @@ Route::get('/teams/invite/{code}', [TeamsController::class, 'inviteCode'], true)
 
 Route::post('/auth/login', [AuthApiController::class, 'login'])->api();
 Route::get('/user/teams', [UserApiController::class, 'getTeams'])->api();
+Route::put('/user/teams/{id}/favorite',[UserApiController::class, 'changeTeamFavorite'])->where('id', '\w{10}')->api();
 Route::get('/user/', [UserApiController::class, 'getMe'])->api();
+Route::get('/users/', [UserApiController::class, 'getUser'])->api();
 Route::get('/teams/{id}', [TeamsApiController::class, 'getTeam'])->where('id', '\w{10}')->api();
 Route::get('/teams/{id}/members', [TeamsApiController::class, 'getTeamMembers'])->where('id', '\w{10}')->api();
 Route::delete('/teams/{id}/members/{member}', [TeamsApiController::class, 'deleteMember'])->where('id', '\w{10}')->api();
 Route::put('/teams/{id}/members/{member}', [TeamsApiController::class, 'addMemberWithId'])->where('id', '\w{10}')->api();
 Route::post('/teams/{id}/members/{member}/role', [TeamsApiController::class, 'changeRoleMember'])->where('id', '\w{10}')->api();
 Route::get('/teams/{id}/settings', [TeamsApiController::class, 'getTeamSettings'])->where('id', '\w{10}')->api();
-Route::get('/users/', [UserApiController::class, 'getUser'])->api();
 
 
 Route::any('/404', function () {
