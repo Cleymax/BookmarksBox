@@ -87,23 +87,20 @@ class Auth
             throw new AuthException('Votre mot de passe doit faire 6 caractères avec un chiffre et une majuscule !');
         }
 
-        if ($_POST['login'] == 'iutannecy') {
-            // TODO USMB AD
-        } else {
-            $response = self::verifyLogin($email, $password);
-            if ($remember) {
-                setcookie(self::SESSION_NAME . '_RM', $response->id . '-' . hash_hmac('sha256', $response->email . $response->password, $_ENV['SALT']), time() + 3600 * 24 * 30, '/', '', true, true);
-            }
+        $response = self::verifyLogin($email, $password);
 
-            $hasTotp = $response->totp != null;
-            $_SESSION['user'] = array(
-                'id' => $response->id,
-                'email' => $response->email,
-                'username' => $response->username,
-                'logged' => !$hasTotp
-            );
-            return !$hasTotp;
+        if ($remember) {
+            setcookie(self::SESSION_NAME . '_RM', $response->id . '-' . hash_hmac('sha256', $response->email . $response->password, $_ENV['SALT']), time() + 3600 * 24 * 30, '/', '', true, true);
         }
+
+        $hasTotp = $response->totp != null;
+        $_SESSION['user'] = array(
+            'id' => $response->id,
+            'email' => $response->email,
+            'username' => $response->username,
+            'logged' => !$hasTotp
+        );
+        return !$hasTotp;
     }
 
     /**
@@ -178,8 +175,8 @@ class Auth
 
     public static function logout()
     {
-        setcookie(self::SESSION_NAME . '_RM', '', time() - 1000, '/', '', true, true);
-        $_SESSION['user'] = [];
+        setcookie(self::SESSION_NAME . '_RM', '', time() - 1000, '/', false, true);
+        $_SESSION['user'] = null;
         FlashService::success("Déconnexion réusis !", 5);
         header('Location: ' . $_ENV['BASE_URL'] . '/auth/login');
         die();
@@ -404,5 +401,42 @@ class Auth
         }
 
         return $response;
+    }
+
+
+    public static function checkCas($u): bool
+    {
+        $query = (new Query())
+            ->select("email", "id", "username")
+            ->from("users")
+            ->where("LOWER(username) = LOWER(?)")
+            ->params([$u]);
+
+        $count = $query->rowCount();
+        if ($count == 0) {
+            $email = "$u@etu.univ-smb.fr";
+            $query = (new Query())
+                ->insert("email", "username", "password", "verify")
+                ->into("users")
+                ->values(["?", "?", "?", true])
+                ->params([$email, $u, 'CAS'])
+                ->returning('id');
+
+            $response = $query->first();
+            $id = $response->id;
+            $username = $u;
+        } else {
+            $response = $query->first();
+            $id = $response->id;
+            $email = $response->email;
+            $username = $response->username;
+        }
+        $_SESSION['user'] = array(
+            'id' => $id,
+            'email' => $email,
+            'username' => $username,
+            'logged' => true
+        );
+        return true;
     }
 }

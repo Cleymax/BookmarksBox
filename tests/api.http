@@ -62,27 +62,27 @@ client.test('Request executed successfully', function (){
 %}
 
 ### Get Team information
-GET {{host}}api/teams/qmptd6oYS6
+GET {{host}}api/teams/gQviC4WnRu
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 ### Get Team members
-GET {{host}}api/teams/qmptd6oYS6/members
+GET {{host}}api/teams/gQviC4WnRu/members
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 ### Get Team members
-GET {{host}}api/teams/qmptd6oYS6/members?only=role:OWNER
+GET {{host}}api/teams/gQviC4WnRu/members?only=role:OWNER
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 ### Get count of Team members
-GET {{host}}api/teams/qmptd6oYS6/members?count
+GET {{host}}api/teams/gQviC4WnRu/members?count
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 ### Get count of Team settings
-GET {{host}}api/teams/qmptd6oYS6/settings?fields=setting_id,value,default_value
+GET {{host}}api/teams/gQviC4WnRu/settings?fields=setting_id,value,default_value
 Content-Type: application/json
 Authorization: Bearer {{token}}
 

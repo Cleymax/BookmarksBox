@@ -104,3 +104,18 @@ $(document).ready(() => {
     joinTeamsWithCode();
   });
 });
+
+document.querySelectorAll('.bookmark').forEach((value) => {
+  value.addEventListener('contextmenu', (event) => {
+    event.preventDefault();
+    const contextElement = document.getElementById('context-menu');
+    contextElement.style.top = `${event.clientY}px`;
+    contextElement.style.left = `${event.clientX}px`;
+    contextElement.classList.add('active');
+  });
+});
+
+window.addEventListener('click', () => {
+  document.getElementById('context-menu').classList.remove('active');
+});
+

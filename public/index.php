@@ -10,6 +10,7 @@ use App\Controllers\AuthController;
 use App\Controllers\BookmarkController;
 use App\Controllers\DashboardController;
 use App\Controllers\FolderController;
+use App\Controllers\SettingsController;
 use App\Controllers\TeamsController;
 use App\Controllers\UserController;
 use App\Router\Route;
@@ -24,6 +25,8 @@ require_once ROOT_PATH . '/../App/Bootstrap.php';
 
 Route::get('/auth/login', [AuthController::class, 'loginView'], false, 'login');
 Route::post('/auth/login', [AuthController::class, 'login']);
+
+Route::get('/auth/cas/', [AuthController::class, 'cas'], false, 'cas');
 
 Route::get('/auth/register', [AuthController::class, 'registerView'], false, 'register');
 Route::post('/auth/register', [AuthController::class, 'register']);
@@ -45,11 +48,34 @@ Route::get('/auth/logout', function () {
 
 Route::get('/profile', [UserController::class, 'profileView'], true, 'profile');
 
-Route::get('/settings', [UserController::class, 'settingsView'], true);
-Route::post('/settings', [UserController::class, 'settings'], true);
+Route::get('/settings/account', [SettingsController::class, 'accountView'], true, 'account');
+Route::get('/settings/security', [SettingsController::class, 'securityView'], true, 'security');
 
-Route::get('/settings/2fa', [UserController::class, 'settings2fa'], true, 'settings2fa');
-Route::post('/settings/2fa', [UserController::class, 'settings2faActivate'], true);
+Route::get('/settings/security/2fa', [UserController::class, 'settings2fa'], true, 'settings2fa');
+Route::post('/settings/security/2fa', [UserController::class, 'settings2faActivate'], true);
+
+Route::get('/settings/account/infos', [SettingsController::class, 'infosView'], true, 'infos');
+Route::post('/settings/account/infos', [SettingsController::class, 'infos'], true);
+
+Route::get('/settings/account/password', [SettingsController::class, 'passwordView'], true, 'password');
+Route::post('/settings/account/password', [SettingsController::class, 'password'], true);
+
+Route::get('/settings/account/email', [SettingsController::class, 'emailView'], true, 'email');
+Route::post('/settings/account/email', [SettingsController::class, 'email'], true);
+
+Route::get('/settings/account/identity', [SettingsController::class, 'identityView'], true, 'identity');
+Route::post('/settings/account/identity', [SettingsController::class, 'identity'], true);
+
+Route::get('/settings/account/profilpic', [SettingsController::class, 'profilpicView'], true, 'profil_picture');
+Route::post('/settings/account/profilpic', [SettingsController::class, 'profilpic'], true);
+
+Route::get('/settings/account/biography', [SettingsController::class, 'biographyView'], true, 'biography');
+Route::post('/settings/account/biography', [SettingsController::class, 'biography'], true);
+
+Route::get('/settings/account/delete', [SettingsController::class, 'deleteView'], true, 'delete');
+Route::post('/settings/account/delete', [SettingsController::class, 'delete'], true);
+
+
 
 Route::get('/dashboard', [DashboardController::class, 'dashboard'], true, 'dashboard');
 Route::post('/dashboard', [BookmarkController::class, 'update'], true);
