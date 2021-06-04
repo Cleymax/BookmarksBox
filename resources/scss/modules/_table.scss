@@ -92,3 +92,8 @@ td, th {
   padding: 15px 10px;
 }
 
+
+
+table[sortable] th:not([not-sortable]) {
+  cursor: pointer !important;
+}

@@ -134,7 +134,7 @@ abstract class Controller
             $request_body = $_POST;
         }
         foreach ($request_body as $k => $v) {
-            if (!array_key_exists($k, $fields) && $k != "_csrf_token") {
+            if (!array_key_exists($k, $fields) && $k != "_csrf_token" && !array_key_exists($k, $require)) {
                 throw new \Exception('unkhown key: ' . $k, 400);
             }
             if ($this->need_json() && gettype($v) != gettype($fields[$k])) {

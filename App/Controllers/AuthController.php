@@ -63,9 +63,9 @@ class AuthController extends Controller
         }
         try {
             $this->checkCsrf();
-            $this->checkPost('code', 'Merci de rentrer un code corect !', '\d{6}');
+            $this->checkPost('code2fa', 'Merci de rentrer un code corect !', '\d{6}');
 
-            if (!Auth::totp($_POST['code'])) {
+            if (!Auth::totp($_POST['code2fa'])) {
                 FlashService::error("Code éronné !");
                 $this->render(View::new('auth.2fa'), 'Double authentification');
             } else {

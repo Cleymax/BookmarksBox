@@ -16,7 +16,7 @@ include 'parts/header-dashboard.php';
                 </div>
                 <div class="line"></div>
                 <div class="menu__row">
-                    <a href="<?= get_query_url('account')?>">
+                    <a href="<?= get_query_url('account') ?>">
                         <span class="material-icons">person_outline</span>
                         <span>Mon Compte</span>
                         <span class="material-icons"
@@ -27,7 +27,7 @@ include 'parts/header-dashboard.php';
                 </div>
                 <div class="line"></div>
                 <div class="menu__row">
-                    <a href="<?= get_query_url('security')?>">
+                    <a href="<?= get_query_url('security') ?>">
                         <span class="material-icons">lock_open</span>
                         <span class="tooltipped">Sécurité</span>
                         <span class="material-icons"
@@ -60,12 +60,10 @@ include 'parts/header-dashboard.php';
                 </div>
                 <div class="line"></div>
                 <div class="menu__row">
-                    <a href="<?=get_query_url('settings2fa')?>">
+                    <a href="<?= get_query_url('settings2fa') ?>">
                         <span class="material-icons">info</span>
                         <span>Double Authentification</span>
-                        <span class="material-icons" style="
-    				margin-left: 90px;
-			"> navigate_next </span>
+                        <span class="material-icons">navigate_next</span>
                     </a>
                 </div>
             </div>

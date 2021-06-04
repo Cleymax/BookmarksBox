@@ -97,6 +97,7 @@ Route::delete('/bookmark/{id}', [BookmarkController::class, 'deleteBookmark'], t
 
 Route::get('/teams/{id}', [TeamsController::class, 'folderView'], true)->where('id', '\w{10}');
 Route::get('/teams/{id}/manager', [TeamsController::class, 'teamManageView'], true)->where('id', '\w{10}');
+Route::post('/teams/{id}/manager', [TeamsController::class, 'teamManage'], true)->where('id', '\w{10}');
 Route::get('/teams/{id}/leave', [TeamsController::class, 'leaveViewTeam'], true)->where('id', '\w{10}');
 Route::post('/teams/{id}/leave', [TeamsController::class, 'leaveView'], true)->where('id', '\w{10}');
 Route::get('/teams/', [TeamsController::class, 'getTeams'], true, 'teams');
@@ -116,8 +117,8 @@ Route::post('/teams/{id}/members/{member}/role', [TeamsApiController::class, 'ch
 Route::get('/teams/{id}/settings', [TeamsApiController::class, 'getTeamSettings'])->where('id', '\w{10}')->api();
 
 
-Route::any('/404', function () {
-    return View::new('404');
-}, false);
+//Route::any('/404', function () {
+//    return View::new('404');
+//}, false);
 Route::redirect('/', '/dashboard', true);
 Router::init();

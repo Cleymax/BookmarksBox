@@ -4,6 +4,7 @@ use App\Database\Query;
 use App\Exceptions\NotFoundException;
 use App\Models\Model;
 use App\Security\Auth;
+use App\Tools\Str;
 
 class Teams extends Model
 {
@@ -122,5 +123,37 @@ class Teams extends Model
             ->from($this->table . '_members')
             ->where('team_id = ?', 'user_id = ?')
             ->params([$id, Auth::user()->id])->execute();
+    }
+
+    public function regenerateInviteCode(string $team_id)
+    {
+        $query = (new Query())
+            ->update()
+            ->into($this->table)
+            ->where('id = ?')
+            ->set([
+                'invite_code' => '?'
+            ])
+            ->params([Str::random(6), $team_id]);
+
+        $query->execute();
+    }
+
+    public function editSettings(string $team_id, array $settings)
+    {
+
+        $value = [];
+        foreach ($settings as $k => $v) {
+            $value[$k] = '?';
+        }
+
+        $query = (new Query())
+            ->update()
+            ->into($this->table)
+            ->where("id = ?")
+            ->set($value)
+            ->params(array_merge(array_values($settings), [$team_id]));
+
+        $query->execute();
     }
 }

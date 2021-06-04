@@ -10,14 +10,20 @@ import registerAdminChangeRole from './admin';
 import { getWindowWidth } from './dom';
 import { removeFavorite } from './api';
 import registerTeam from './team';
+import FilesUploader from './elements/FilesUploader';
+import registerSortableTable from './table';
+import registerCopyClipboard from './CopyClipboard';
 
 registerWindowHeightCSS();
 registerTab();
 registerAdminChangeRole();
 registerTeam();
+registerSortableTable();
+registerCopyClipboard();
 
 window.customElements.define('alert-message', Alert);
 window.customElements.define('skeleton-box', Skeleton);
+window.customElements.define('files-uploader', FilesUploader);
 
 $(document).ready(() => {
   const themeswitch = $('#theme');
@@ -118,4 +124,3 @@ document.querySelectorAll('.bookmark').forEach((value) => {
 window.addEventListener('click', () => {
   document.getElementById('context-menu').classList.remove('active');
 });
-
