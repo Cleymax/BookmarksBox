@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Api\AuthApiController;
+use App\Api\BookmarkApiController;
 use App\Api\TeamsApiController;
 use App\Api\UserApiController;
 use App\Controllers\AuthController;
@@ -79,6 +80,7 @@ Route::post('/settings/account/delete', [SettingsController::class, 'delete'], t
 Route::get('/dashboard', [DashboardController::class, 'dashboard'], true, 'dashboard');
 Route::post('/dashboard', [BookmarkController::class, 'update'], true);
 Route::get('/favorite', [DashboardController::class, 'favorite'], true);
+Route::delete('/favorite/{id}', [BookmarkApiController::class, 'removeFavorite'], true)->where('id', '\w{10}')->api();
 
 Route::get('/folder/{id}', [FolderController::class, 'folderView'], true);
 Route::post('/folder/{id}', [FolderController::class, 'createFolder'], true);
@@ -95,6 +97,7 @@ Route::delete('/bookmark/{id}', [BookmarkController::class, 'deleteBookmark'], t
 
 Route::get('/teams/{id}', [TeamsController::class, 'folderView'], true)->where('id', '\w{10}');
 Route::get('/teams/{id}/manager', [TeamsController::class, 'teamManageView'], true)->where('id', '\w{10}');
+Route::post('/teams/{id}/manager', [TeamsController::class, 'teamManage'], true)->where('id', '\w{10}');
 Route::get('/teams/{id}/leave', [TeamsController::class, 'leaveViewTeam'], true)->where('id', '\w{10}');
 Route::post('/teams/{id}/leave', [TeamsController::class, 'leaveView'], true)->where('id', '\w{10}');
 Route::get('/teams/', [TeamsController::class, 'getTeams'], true, 'teams');
@@ -103,13 +106,19 @@ Route::get('/teams/invite/{code}', [TeamsController::class, 'inviteCode'], true)
 
 Route::post('/auth/login', [AuthApiController::class, 'login'])->api();
 Route::get('/user/teams', [UserApiController::class, 'getTeams'])->api();
+Route::put('/user/teams/{id}/favorite',[UserApiController::class, 'changeTeamFavorite'])->where('id', '\w{10}')->api();
 Route::get('/user/', [UserApiController::class, 'getMe'])->api();
+Route::get('/users/', [UserApiController::class, 'getUser'])->api();
 Route::get('/teams/{id}', [TeamsApiController::class, 'getTeam'])->where('id', '\w{10}')->api();
 Route::get('/teams/{id}/members', [TeamsApiController::class, 'getTeamMembers'])->where('id', '\w{10}')->api();
+Route::delete('/teams/{id}/members/{member}', [TeamsApiController::class, 'deleteMember'])->where('id', '\w{10}')->api();
+Route::put('/teams/{id}/members/{member}', [TeamsApiController::class, 'addMemberWithId'])->where('id', '\w{10}')->api();
+Route::post('/teams/{id}/members/{member}/role', [TeamsApiController::class, 'changeRoleMember'])->where('id', '\w{10}')->api();
 Route::get('/teams/{id}/settings', [TeamsApiController::class, 'getTeamSettings'])->where('id', '\w{10}')->api();
 
-Route::any('/404', function () {
-    return View::new('404');
-}, false);
+
+//Route::any('/404', function () {
+//    return View::new('404');
+//}, false);
 Route::redirect('/', '/dashboard', true);
 Router::init();

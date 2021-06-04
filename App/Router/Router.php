@@ -132,7 +132,7 @@ class Router
                 $this->respond_json(
                     [
                         'type' => 'error',
-                        'message ' => $e->getMessage(),
+                        'message' => $e->getMessage(),
                         'code' => $e->getCode()
                     ]
                 );
@@ -157,7 +157,7 @@ class Router
 
     public static function not_found(): void
     {
-        redirect('404');
+        http_response_code(404);
         die();
     }
 

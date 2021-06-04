@@ -133,7 +133,7 @@ class Auth
             $mail = $response->email;
             $password = $response->password;
 
-            if (hash_hmac('sha256',$mail . $password,$_ENV['SALT']) == $parts[1]) {
+            if (hash_hmac('sha256', $mail . $password, $_ENV['SALT']) == $parts[1]) {
                 $_SESSION['user'] = array(
                     'id' => $id,
                     'email' => $mail,
@@ -209,6 +209,10 @@ class Auth
      */
     public static function userApi(): object
     {
+        if(Auth::check()){
+            return Auth::user();
+        }
+
         if (!isset($_SERVER['HTTP_AUTHORIZATION']) || !preg_match('/Bearer\s(\S+)/', $_SERVER['HTTP_AUTHORIZATION'], $matches)) {
             throw new TokenNotFoundException(' Please authenticate you !');
         }

@@ -71,6 +71,26 @@ class TeamsController extends Controller
         $this->render(View::new('teams.manager', 'dashboard'), 'Equipe ' . $data->name, ['data' => $data, 'id' => $id, 'members' => $members]);
     }
 
+    public function teamManage(string $id)
+    {
+        try {
+            $this->checkCsrf();
+            if (isset($_POST['action'])) {
+                $this->Teams->regenerateInviteCode($id);
+            } else {
+                $request_values = $this->getRequestValue([], ['description' => '', 'name' => '']);
+                $this->Teams->editSettings($id, $request_values);
+            }
+
+            $members = $this->Teams->getMember($id);
+        } catch (\Exception $e) {
+            $members = [];
+            FlashService::error($e->getMessage(), 4);
+        }
+        $data = $this->Teams->getById($id);
+        $this->render(View::new('teams.manager', 'dashboard'), 'Equipe ' . $data->name, ['data' => $data, 'id' => $id, 'members' => $members]);
+    }
+
     public function inviteCode($code)
     {
         try {

@@ -5,11 +5,25 @@ import Skeleton from './elements/Skeleton';
 import Tooltip from './elements/Tooltip';
 import registerWindowHeightCSS from './window';
 import joinTeamsWithCode from './Teams';
+import registerTab from './tab';
+import registerAdminChangeRole from './admin';
+import { getWindowWidth } from './dom';
+import { removeFavorite } from './api';
+import registerTeam from './team';
+import FilesUploader from './elements/FilesUploader';
+import registerSortableTable from './table';
+import registerCopyClipboard from './CopyClipboard';
 
 registerWindowHeightCSS();
+registerTab();
+registerAdminChangeRole();
+registerTeam();
+registerSortableTable();
+registerCopyClipboard();
 
 window.customElements.define('alert-message', Alert);
 window.customElements.define('skeleton-box', Skeleton);
+window.customElements.define('files-uploader', FilesUploader);
 
 $(document).ready(() => {
   const themeswitch = $('#theme');
@@ -59,12 +73,21 @@ $(document).ready(() => {
     const menu = document.getElementById('menu');
     const content = document.getElementById('content');
     hamburger.addEventListener('click', () => {
+      const width = parseInt(`${getWindowWidth()}`, 10);
       if (menu.style.transform) {
         menu.style.transform = '';
+        if (width < 600) {
+          content.style.display = 'none';
+        }
         content.style.marginLeft = '280px';
       } else {
-        menu.style.transform = 'translateX(-280px)';
+        if (width < 600) {
+          menu.style.transform = 'translateX(-100%)';
+        } else {
+          menu.style.transform = 'translateX(-280px)';
+        }
         content.style.marginLeft = '0px';
+        content.style.display = 'block';
       }
     });
   }
@@ -72,11 +95,15 @@ $(document).ready(() => {
   document.querySelectorAll('#remove-favorite').forEach((value) => {
     value.addEventListener('click', () => {
       const box = value.parentNode.parentNode;
-      // const id = box.getAttribute('data-id');
-      box.classList.add('out');
-      setTimeout(() => {
-        box.parentNode.removeChild(box);
-      }, 600);
+      const id = box.getAttribute('data-id');
+      removeFavorite(id, (data) => {
+        if (data) {
+          box.classList.add('out');
+          setTimeout(() => {
+            box.parentNode.removeChild(box);
+          }, 600);
+        }
+      });
     });
   });
   $('#join-team').on('click', () => {
@@ -97,4 +124,3 @@ document.querySelectorAll('.bookmark').forEach((value) => {
 window.addEventListener('click', () => {
   document.getElementById('context-menu').classList.remove('active');
 });
-

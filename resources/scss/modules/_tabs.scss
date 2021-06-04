@@ -1,97 +1,35 @@
-.tabs {
-  &.tabs-transparent {
-    background-color: transparent;
-
-    .tab a,
-    .tab.disabled a,
-    .tab.disabled a:hover {
-      color: rgba(0, 0, 0, 0.7);
-    }
-
-    .tab a:hover,
-    .tab a.active {
-      color: var(--white);
-    }
-
-    .indicator {
-      background-color: var(--white);
-    }
-  }
-
-  &.tabs-fixed-width {
-    display: flex;
-
-    .tab {
-      flex-grow: 1;
-    }
-  }
-
-  position: relative;
-  overflow-x: auto;
-  overflow-y: hidden;
-  height: 48px;
-  width: 100%;
-  margin: 0 auto;
-  white-space: nowrap;
-
-  .tab {
-    display: inline-block;
-    text-align: center;
-    line-height: 48px;
-    height: 48px;
-    padding: 0;
-    margin: 0;
-    text-transform: uppercase;
-
-    a {
-      &:focus,
-      &:focus.active {
-        background-color: rgba(0, 0, 0, 0.8);
-        outline: none;
-      }
-
-      &:hover,
-      &.active {
-        background-color: transparent;
-      }
-
-      color: rgba(0, 0, 0, 0.7);
-      display: block;
-      width: 100%;
-      height: 100%;
-      padding: 0 24px;
-      font-size: 14px;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      transition: color .28s ease, background-color .28s ease;
-    }
-
-    &.disabled a,
-    &.disabled a:hover {
-      cursor: default;
-    }
-  }
-
-  .indicator {
-    position: absolute;
-    bottom: 0;
-    height: 2px;
-    background-color: var(--dark);
-    will-change: left, right;
-  }
+[data-tab-content] {
+  display: none;
+  padding-top: 20px;
 }
 
-// Fixed Sidenav hide on smaller
-@media screen and (max-width: 900px) {
-  .tabs {
-    display: flex;
+.active[data-tab-content] {
+  display: block;
+}
 
-    .tab {
-      flex-grow: 1;
+.tabs {
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 4px;
+  border-bottom: 4px solid rgba(0, 0, 0, 0.1);
+  gap: 15px;
 
-      a {
-        padding: 0 12px;
-      }
+  @include screen-down(600px){
+    flex-direction: column;
+  }
+
+  & > li > a {
+    padding: 5px;
+  }
+
+  & > li > a.active {
+    transition: all ease .3s;
+    border-radius: 3px 3px 0 0;
+    background-color: var(--dark);
+    color: var(--white);
+
+    @include screen-down(600px){
+      border-radius: 0 25px 25px 0;
     }
   }
 }

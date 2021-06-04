@@ -1,0 +1,12 @@
+.swal2-popup {
+  background: var(--background) !important;
+}
+
+.swal2-title {
+  color: var(--dark) !important;
+}
+
+.swal2-icon.swal2-warning.swal2-icon-show{
+  color: var(--dark-red);
+  border-color: var(--dark-red);
+}

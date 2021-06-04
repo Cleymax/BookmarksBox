@@ -23,11 +23,16 @@ abstract class Model
     public function getById($id, ?string...$field)
     {
         $query = (new Query())
-            ->select(empty($field) ? '*' : $field)
             ->from($this->table)
             ->where('id = ?')
             ->params([$id])
             ->limit(1);
+
+        if(empty($field)){
+            $query->select('*');
+        }else {
+            $query->selectArray($field);
+        }
         if($query->rowCount() == 0){
             throw new NotFoundException('Equipe inconnue !');
         }else {

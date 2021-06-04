@@ -9,10 +9,17 @@
 
   & .cards__hover > a {
     transition: all ease .3s;
-    color: var(--background);
+    color: var(--dark);
 
     &:hover {
       transform: scale(1.27);
     }
+  }
+}
+
+#add-members > label {
+  width: 50%;
+  @include screen-down(600px){
+    width: 100% !important;
   }
 }

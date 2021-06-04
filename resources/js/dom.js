@@ -6,6 +6,14 @@ export function getDocumentScrollLeft() {
   return window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0;
 }
 
+export function getWindowHeight() {
+  return window.innerHeight;
+}
+
+export function getWindowWidth() {
+  return window.innerWidth;
+}
+
 /**
  * @typedef {Object} Bounding
  * @property {Number} left  left offset coordinate

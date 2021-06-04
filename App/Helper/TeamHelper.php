@@ -3,6 +3,7 @@
 namespace App\Helper;
 
 use App\Database\Query;
+use App\Exceptions\InvalidParamException;
 use App\Security\Auth;
 
 class TeamHelper
@@ -23,5 +24,16 @@ class TeamHelper
         $role = $query->first()->role;
 
         return self::canManageWithRole($role);
+    }
+
+    /**
+     * @throws \App\Exceptions\InvalidParamException
+     */
+    public static function checkRoleExist($role): void
+    {
+        $roles = ['MEMBER', 'EDITOR', 'MANAGER', 'OWNER'];
+        if (!in_array($role, $roles)) {
+            throw new InvalidParamException("role", join(',', $roles));
+        }
     }
 }

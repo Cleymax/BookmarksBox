@@ -85,3 +85,8 @@ Authorization: Bearer {{token}}
 GET {{host}}api/teams/gQviC4WnRu/settings?fields=setting_id,value,default_value
 Content-Type: application/json
 Authorization: Bearer {{token}}
+
+### Change role of user
+POST {{host}}api/teams/qmptd6oYS6/members/9/role
+Content-Type: application/json
+Authorization: Bearer {{token}}

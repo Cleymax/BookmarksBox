@@ -1,4 +1,4 @@
-<h2 style="margin-top: 20px">Mes favoris:</h2>
+<h2 class="margin-bottom20">Mes favoris:</h2>
 
 <div class="flex flex-gap-20">
     <?php

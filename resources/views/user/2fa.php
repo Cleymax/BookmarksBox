@@ -17,14 +17,14 @@ use Sonata\GoogleAuthenticator\GoogleQrUrl;
                 Voici votre QrCode pour activer la double authentification.
             </p>
             <br>
-            <img src="<?= $url ?>" width="150px" height="150px" alt="QrCode">
+            <img src="<?= $url ?>" width="150px" height="150px" style="max-width: 150px !important;" alt="QrCode">
             <br>
             <br>
             <span style="color: var(--secondary); font-size: small">Code: <?= $secret ?></span>
             <div class="form-group">
                 <div class="input-auth">
-                    <label for="code" class="textfield">
-                        <input type="text" id="code" autocomplete="2fa" name="code" spellcheck="false"
+                    <label for="code2fa" class="textfield">
+                        <input type="text" id="code2fa" autocomplete="2fa" name="code2fa" spellcheck="false"
                                aria-label="Votre code 2FA" required aria-required="true"
                                title="Code 2FA" maxlength="6" pattern="\d{6}"
                                autocapitalize="none" dir="ltr" autofocus>
@@ -40,7 +40,7 @@ use Sonata\GoogleAuthenticator\GoogleQrUrl;
                 </div>
             </div>
         <?php } else { ?>
-            <h3>2FA déjà activé sur votre compte.</h3>
+            <h3>Déjà activé sur votre compte.</h3>
             <div class="btn-container">
                 <div class="button">
                     <button class="btn" aria-label="Réinitialiser" name="action" value="reset" title="Réinitialiser">

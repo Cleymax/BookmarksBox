@@ -1,10 +1,15 @@
- <?php
+<?php
+
+use App\Helper\TeamHelper;
+
 include 'parts/head.php';
 include 'parts/header-dashboard.php';
 ?>
-    <main>
+    <main <?php if (isset($id)) {
+        echo 'data-id="' . $id . '"';
+    } ?>>
         <div class="dashboard">
-            <div class="menu" id="menu">
+            <div class="menu active" id="menu">
                 <div class="menu__row">
                     <a href="<?= get_query_url('dashboard') ?>">
                         <span class="material-icons">home</span>
@@ -18,30 +23,27 @@ include 'parts/header-dashboard.php';
                     </a>
                 </div>
                 <div class="line"></div>
-                <div class="menu__row">
-                    <a href="">
-                        <span class="material-icons">folder</span>
-                        <span class="tooltipped" data-text="Je sais aps torp pkk tu pense ça !  dqzd">Je sais aps torp pkk tu pense ça !  dqzd</span>
-                    </a>
+                <div id="folders">
+                    <?php
+                    for ($i = 0; $i < 4; $i++) {
+                        ?>
+                        <div class="menu__row">
+                            <a href="">
+                                <skeleton-box rounded height="20px" width="20px"></skeleton-box>
+                                <div style="margin-right: 5px"></div>
+                                <skeleton-box width="140px"></skeleton-box>
+                            </a>
+                        </div>
+                        <?php
+                    }
+                    ?>
                 </div>
-                <div class="menu__row">
-                    <a href="">
-                        <span class="material-icons">folder</span>
-                        <span>2</span>
-                    </a>
-                </div>
-                <div class="menu__row">
-                    <a href="">
-                        <span class="material-icons">folder</span>
-                        <span>3</span>
-                    </a>
-                </div>
-                <div class="menu__row">
-                    <a href="">
-                        <span class="material-icons">folder</span>
-                        <span>10</span
-                        ></a
-                    ></div>
+                <!--                <div class="menu__row">-->
+                <!--                    <a href="">-->
+                <!--                        <span class="material-icons">folder</span>-->
+                <!--                        <span class="tooltipped" data-text="Je sais aps torp pkk tu pense ça !  dqzd">Je sais aps torp pkk tu pense ça !  dqzd</span>-->
+                <!--                    </a>-->
+                <!--                </div>-->
                 <div class="line"></div>
                 <div class="menu__row">
                     <a href="<?= get_query_url('/favorite') ?>">
@@ -60,18 +62,18 @@ include 'parts/header-dashboard.php';
                         </a>
                     </div>
                     <?php
-                    foreach ($equipes as $equipe) {
+                    foreach ($equipes as $team) {
                         ?>
                         <aside>
                             <div class="menu__row equipe">
-                                <a href="<?= get_query_url('/teams/' . $equipe->id) ?>">
+                                <a href="<?= get_query_url('/teams/' . $team->id) ?>">
                                     <div>
-                                        <img class="team__icon" src="<?= $equipe->icon ?>"
-                                             alt="<?= $equipe->name ?> icon">
-                                        <span><?= $equipe->name ?></span>
+                                        <img class="team__icon" src="<?= $team->icon ?>"
+                                             alt="<?= $team->name ?> icon">
+                                        <span><?= $team->name ?></span>
                                     </div>
                                     <?php
-                                    if ($equipe->favorite) {
+                                    if ($team->favorite) {
                                         ?>
                                         <span class="material-icons hide_on_hover">star</span>
                                         <?php
@@ -80,7 +82,15 @@ include 'parts/header-dashboard.php';
                                 </a>
                                 <div class="menu__row__hover">
                                     <div class="menu__row__hover__content">
-                                        <a href="<?= get_query_url('/teams/' . $equipe->id) . '/leave' ?>">
+                                        <?php
+                                        if (TeamHelper::canManageWithRole($team->role)) {
+                                            ?>
+                                            <a href="<?= get_query_url('/teams/' . $team->id . '/manager') ?>"
+                                               class="material-icons">settings</a>
+                                            <?php
+                                        }
+                                        ?>
+                                        <a href="<?= get_query_url('/teams/' . $team->id) . '/leave' ?>">
                                             <span class="material-icons" style="color: var(--red)">exit_to_app</span>
                                         </a>
                                     </div>
