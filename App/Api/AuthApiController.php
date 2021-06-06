@@ -9,6 +9,16 @@ use App\Security\AuthException;
 use App\Services\JwtService;
 use DateTimeImmutable;
 
+/**
+ * @OA\Info(title="My First API", version="0.1")
+ */
+
+/**
+ * @OA\Get(
+ *     path="/api/resource.json",
+ *     @OA\Response(response="200", description="An example resource")
+ * )
+ */
 class AuthApiController extends Controller
 {
     /**

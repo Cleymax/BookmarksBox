@@ -1,0 +1,95 @@
+swagger: "2.0"
+info:
+  description: "Simple BookmarksBox API use JWT authentication"
+  version: "1.0.0"
+  title: "BookmarksBox API"
+  contact:
+    email: "clement.perrin@etu.univ-smb.fr"
+host: "public.test"
+basePath: "/api"
+tags:
+  - name: "user"
+  - name: "bookmark"
+  - name: "folder"
+  - name: "team"
+schemes:
+  - "https"
+  - "http"
+paths:
+
+securityDefinitions:
+  Bearer:
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
+security:
+  - Bearer: [ ]
+definitions:
+  Team:
+    type: object
+    required:
+      - "name"
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+  Folder:
+    type: object
+    required:
+      - "name"
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+      parent_id_folder:
+        type: object
+        $ref: "#/definitions/Folder"
+      color:
+        type: string
+        pattern: "#[A-Fa-f0-9]{6}"
+        example: "#A8A8A8"
+        default: "#ffffff"
+      team_id:
+        type: object
+        $ref: "#/definitions/Team"
+      user_id:
+        type: object
+        $ref: "#/definitions/User"
+      created_at:
+        type: string
+        example: "2021-05-15 17:20:22.425821"
+      modified_at:
+        type: string
+        example: "2021-05-15 17:20:22.425821"
+  Bookmark:
+    type: "object"
+    required:
+      - "title"
+      - "link"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      title:
+        type: "string"
+      link:
+        type: "string"
+      thumbnail:
+        type: "string"
+      reading_time:
+        type: "string"
+        example: "5 hours 2 minutes"
+      pin:
+        type: "boolean"
+      difficulty:
+        type: string
+        enum:
+          - "EASY"
+          - "MEDIUM"
+          - "PRO"
+      created_at:
+        type: string
+        example: "2021-05-15 17:20:22.425821"
