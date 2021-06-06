@@ -3,10 +3,10 @@
 namespace App\Controllers;
 
 use App\Exceptions\CsrfException;
-use App\Exceptions\UnknownFieldException;
 use App\Router\Router;
 use App\Services\CsrfService;
 use App\Services\Debugbar\DebugBarService;
+use App\Tools\Str;
 use App\Views\View;
 
 abstract class Controller
@@ -134,22 +134,26 @@ abstract class Controller
             $request_body = $_POST;
         }
         foreach ($request_body as $k => $v) {
-            if (!array_key_exists($k, $fields) && $k != "_csrf_token" && !array_key_exists($k, $require)) {
+            if (!array_key_exists($k, $fields) && $k != "_csrf_token"  && !Str::startsWith('file', $k) && !array_key_exists($k, $require)) {
                 throw new \Exception('unkhown key: ' . $k, 400);
             }
             if ($this->need_json() && gettype($v) != gettype($fields[$k])) {
                 throw new \Exception('key: ' . $k . ' need to be a ' . gettype($fields[$k]), 400);
             }
-            if($k == "password"){
+            if ($k == "password") {
                 $request_values[$k] = password_hash($_ENV["SALT"] . $v, PASSWORD_BCRYPT);
-            }else{
+            } else {
                 $request_values[$k] = $v;
             }
         }
 
-        foreach ($require as $r) {
-            if (!isset($request_values[$r])) {
-                throw new \Exception('Key: ' . $r . ' is require !', 400);
+        foreach ($require as $r => $v) {
+            if (!isset($request_values[$r]) && !Str::startsWith('file', $r)) {
+                if (gettype($v) == "boolean") {
+                    $request_values[$r] = 'FALSE';
+                } else {
+                    throw new \Exception('Key: ' . $r . ' is require !', 400);
+                }
             }
         }
         unset($request_values["_csrf_token"]);

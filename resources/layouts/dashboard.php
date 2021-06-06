@@ -1,6 +1,7 @@
 <?php
 
 use App\Helper\TeamHelper;
+use App\Services\FileUploader;
 
 include 'parts/head.php';
 include 'parts/header-dashboard.php';
@@ -68,7 +69,7 @@ include 'parts/header-dashboard.php';
                             <div class="menu__row equipe">
                                 <a href="<?= get_query_url('/teams/' . $team->id) ?>">
                                     <div>
-                                        <img class="team__icon" src="<?= $team->icon ?>"
+                                        <img class="team__icon" src="<?= FileUploader::getSrc($team->icon) ?>"
                                              alt="<?= $team->name ?> icon">
                                         <span><?= $team->name ?></span>
                                     </div>

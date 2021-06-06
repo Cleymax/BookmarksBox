@@ -4,7 +4,7 @@
         <?= \App\Services\CsrfService::html() ?>
         <div class="form-group">
             <div class="file-upload">
-                <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image</button>
+                <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Ajouter une image</button>
                 <div class="image-upload-wrap">
                     <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" />
                     <div class="drag-text">
@@ -14,7 +14,7 @@
                 <div class="file-upload-content">
                     <img class="file-upload-image" src="#" alt="your image" />
                     <div class="image-title-wrap">
-                        <button type="button" onclick="removeUpload()" class="remove-image">Supprimer <span class="image-title">Uploaded Image</span></button>
+                        <button type="button" onclick="removeUpload()" class="remove-image">Supprimer <span class="image-title"></span></button>
                     </div>
                 </div>
             </div>
@@ -25,8 +25,6 @@
             </button>
         </div>
     </form>
-    <br><br><br><br><br>
-    <files-uploader multiple></files-uploader>
 </div>
 <script src="<?= getenv('BASE_URL').'/debugbar/vendor/jquery/dist/jquery.min.js' ?>"></script>
 <script>

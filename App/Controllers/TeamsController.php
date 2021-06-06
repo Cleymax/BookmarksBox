@@ -2,8 +2,17 @@
 
 namespace App\Controllers;
 
+use App\Database\Query;
+use App\Exceptions\UserNotFoundException;
+use App\Helper\TeamHelper;
+use App\Helper\UserHelper;
+use App\Security\Auth;
+use App\Security\AuthException;
+use App\Services\FileUploader;
 use App\Services\FlashService;
+use App\Services\IdenticonService;
 use App\Views\View;
+use Sonata\GoogleAuthenticator\GoogleAuthenticator;
 
 class TeamsController extends Controller
 {
@@ -60,7 +69,12 @@ class TeamsController extends Controller
 
     public function teamManageView(string $id)
     {
+        if (!TeamHelper::canManage($id)) {
+            FlashService::error("Tu n'as pas la permissionde faire cela !");
+            $this->redirect('teams');
+        }
         try {
+            $equipes = $this->Teams->getAllForMe();
             $data = $this->Teams->getById($id);
             $members = $this->Teams->getMember($id);
         } catch (\Exception $e) {
@@ -68,17 +82,64 @@ class TeamsController extends Controller
             FlashService::error($e->getMessage(), 4);
         }
 
-        $this->render(View::new('teams.manager', 'dashboard'), 'Equipe ' . $data->name, ['data' => $data, 'id' => $id, 'members' => $members]);
+        $this->render(View::new('teams.manager', 'dashboard'), 'Equipe ' . $data->name, ['equipes' => $equipes ?? [], 'data' => $data, 'id' => $id, 'members' => $members]);
     }
 
     public function teamManage(string $id)
     {
+        if (!TeamHelper::canManage($id)) {
+            FlashService::error("Tu n'as pas la permissionde faire cela !");
+            $this->redirect('teams');
+        }
         try {
+            $equipes = $this->Teams->getAllForMe();
             $this->checkCsrf();
             if (isset($_POST['action'])) {
                 $this->Teams->regenerateInviteCode($id);
+            } elseif (isset($_POST['delete'])) {
+                $this->Teams->deleteInviteCode($id);
+            } else if (isset($_POST['delete-teams'])) {
+                if (!TeamHelper::isOwner($id)) {
+                    FlashService::error("Tu n'as pas la permissionde faire cela !");
+                } else {
+                    $this->checkPost('name', 'Merci de préciser le nom de l\'équipe !');
+                    $has_2fa = UserHelper::has2fa();
+                    if ($has_2fa && !isset($_POST['code2fa'])) {
+                        FlashService::error("Double authentification activé ! Merci de préciser votre code.");
+                    }
+
+                    if ($this->Teams->getById($id, 'name')->name !== htmlspecialchars($_POST['name'])) {
+                        throw new \InvalidArgumentException("Nom d'équipe éronné !");
+                    }
+                    if ($has_2fa) {
+                        $query = (new Query())
+                            ->select("id", "totp")
+                            ->from("users")
+                            ->where("id = ?")
+                            ->params([Auth::user()->id]);
+
+                        if ($query->rowCount() == 0) {
+                            throw new UserNotFoundException();
+                        }
+
+                        $response = $query->first();
+
+                        $g = new GoogleAuthenticator();
+
+                        if (!$g->checkCode($response->totp, htmlspecialchars($_POST['code2fa']))) {
+                            throw  new AuthException("Code éronné !");
+                        }
+                    }
+                    $this->Teams->delete($id);
+                    FlashService::success("Equipe supprimé !");
+                    $this->redirect('teams');
+                }
             } else {
-                $request_values = $this->getRequestValue([], ['description' => '', 'name' => '']);
+                $new_path = FileUploader::getFileUpload('file');
+                if (!empty($new_path)) {
+                    $_POST['icon'] = $new_path['name'];
+                }
+                $request_values = $this->getRequestValue(["visibility" => false, 'description' => '', 'name' => ''], ['file' => '', 'icon' => '']);
                 $this->Teams->editSettings($id, $request_values);
             }
 
@@ -88,7 +149,7 @@ class TeamsController extends Controller
             FlashService::error($e->getMessage(), 4);
         }
         $data = $this->Teams->getById($id);
-        $this->render(View::new('teams.manager', 'dashboard'), 'Equipe ' . $data->name, ['data' => $data, 'id' => $id, 'members' => $members]);
+        $this->render(View::new('teams.manager', 'dashboard'), 'Equipe ' . $data->name, ['equipes' => $equipes, 'data' => $data, 'id' => $id, 'members' => $members]);
     }
 
     public function inviteCode($code)
@@ -128,5 +189,34 @@ class TeamsController extends Controller
             FlashService::error($e->getMessage(), 4);
         }
         $this->redirect('teams');
+    }
+
+    public function createView()
+    {
+        $equipes = $this->Teams->getAllForMe();
+        $this->render(View::new('teams.create', 'dashboard'), 'Créér une équipe', ['equipes' => $equipes]);
+    }
+
+    public function create()
+    {
+        try {
+            $this->checkPost('name', "Nom de l'équipe réquis !");
+            $new_path = FileUploader::getFileUpload('file');
+            if (!empty($new_path)) {
+                $_POST['icon'] = $new_path['name'];
+            } else {
+                $_POST['icon'] = IdenticonService::generate(htmlspecialchars($_POST['name']))['name'];
+            }
+            $request_values = $this->getRequestValue(['name' => ''], ['file' => '', 'icon' => '', 'description' => '']);
+            $id = $this->Teams->createTeams($request_values);
+            FlashService::success('Equipe créée avec succès !');
+        } catch (\Exception $e) {
+            FlashService::error($e->getMessage(), 4);
+        }
+        if (isset($id)) {
+            $this->redirect("teams/$id/manager");
+        } else {
+            $this->redirect('teams');
+        }
     }
 }

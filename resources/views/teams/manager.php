@@ -1,7 +1,10 @@
 <?php
 
+use App\Helper\TeamHelper;
+use App\Helper\UserHelper;
 use App\Security\Auth;
 use App\Services\CsrfService;
+use App\Services\FileUploader;
 
 ?>
 <h1 class="margin-bottom20">Gestion de l'équipe <?= $data->name ?></h1>
@@ -12,10 +15,17 @@ use App\Services\CsrfService;
     <li><a data-tab-target="#members" href="#members">Membres</a></li>
     <li><a data-tab-target="#add-members" href="#add-members">Ajouter des membres</a></li>
     <li><a data-tab-target="#authoriation" href="#authoriation">Authrorizations</a></li>
+    <?php
+    if (TeamHelper::isOwner($id)) {
+        ?>
+        <li><a data-tab-target="#danger" href="#danger">Danger</a></li>
+        <?php
+    }
+    ?>
 </ul>
 
 <div id="main" data-tab-content class="active">
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         <?= CsrfService::html(); ?>
         <h4>Choisiser un icon</h4>
         <div class="form-group">
@@ -26,7 +36,8 @@ use App\Services\CsrfService;
                 <div class="image-upload-wrap" <?php if (!is_null($data->icon)) {
                     echo 'style="display: none !important;"';
                 } ?>>
-                    <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*"/>
+                    <input class="file-upload-input" type='file' name="file" onchange="readURL(this);"
+                           accept="image/*"/>
                     <div class="drag-text">
                         <h3>Déplacer un fichier ici !</h3>
                     </div>
@@ -34,7 +45,8 @@ use App\Services\CsrfService;
                 <div class="file-upload-content" <?php if (!is_null($data->icon)) {
                     echo 'style="display: block !important;"';
                 } ?>>
-                    <img class="file-upload-image" src="<?= $data->icon ?? '' ?>" alt="your image"/>
+                    <img class="file-upload-image" src="<?= $data->icon ? FileUploader::getSrc($data->icon) : '' ?>"
+                         alt="your image"/>
                     <div class="image-title-wrap">
                         <button type="button" onclick="removeUpload()" class="remove-image">Supprimer <span
                                     class="image-title"></span></button>
@@ -54,9 +66,9 @@ use App\Services\CsrfService;
                 <span aria-hidden="true">Description</span>
             </label>
             <br>
-            <label for="public" class="switch" style="margin-right: 10px">
-                <input type="checkbox" id="public" <?= $data->public ? 'checked' : '' ?> name="public"
-                       aria-labelledby="public-label">
+            <label for="visibility" class="switch" style="margin-right: 10px">
+                <input name="visibility" type="checkbox" id="visibility" <?= $data->visibility ? 'checked' : '' ?>
+                       aria-labelledby="visibility-label">
                 <span class="slider round"></span>
             </label>
             <span id="public-label" aria-hidden="true">Visibilité de l'équipe</span>
@@ -174,6 +186,7 @@ use App\Services\CsrfService;
                    style="padding: 5px; background-color: rgba(0,0,0,0.13)"><?= $data->invite_code ?></p>
 
                 <button class="btn" name="action">Regénérer</button>
+                <button class="btn btn-red" name="delete">Supprimer</button>
                 <?php
             } else {
                 ?>
@@ -184,6 +197,56 @@ use App\Services\CsrfService;
         </form>
     </div>
 </div>
+<?php
+if (TeamHelper::isOwner($id)) {
+    ?>
+
+    <div id="danger" data-tab-content class="">
+        <div class="container card">
+            <h1>Supprimer l'équipe !</h1>
+            <form method="post">
+                <div class="form-group">
+                    <?= CsrfService::html() ?>
+                    <input type="hidden" name="delete-teams">
+                    <div class="input-auth">
+                        <label for="name" class="textfield">
+                            <input type="text" id="name" name="name" required aria-required="true" autofocus
+                                   spellcheck="false"
+                                   title="Nom de l'équipe" dir="ltr" autocapitalize="characters">
+                            <span aria-hidden="true">Nom de l'équipe</span>
+                        </label>
+                    </div>
+                    <?php
+                    if (UserHelper::has2fa()) {
+                        ?>
+                        <div class="input-auth">
+                            <p class="label-2fa" style="margin-bottom: 5px;">Entrez votre code de double
+                                authentification.</p>
+                            <label for="code" class="textfield">
+                                <input type="tel" pattern="[0-9]{6}" minlength="6" maxlength="6" id="code" tabindex="0"
+                                       spellcheck="false" aria-label="Saisir le code" name="code2fa" autocapitalize="off"
+                                       autofocus
+                                       required aria-required="true" dir="ltr" title="Entre votre code 2FA">
+                                <span>Saisir le code</span>
+                            </label>
+                        </div>
+                        <?php
+                    }
+                    ?>
+                    <div class="btn-container margin-top20">
+                        <div class="button">
+                            <button  class="btn btn-red" aria-label="Supprimer" title="Supprimer"><span
+                                        class="material-icons">delete</span>Supprimer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <?php
+}
+?>
 
 <script src="<?= getenv('BASE_URL') . '/debugbar/vendor/jquery/dist/jquery.min.js' ?>"></script>
 <script>
