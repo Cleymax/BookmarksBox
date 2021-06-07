@@ -1,4 +1,5 @@
 import Swal from 'sweetalert2';
+import $ from 'jquery';
 import { flash } from './elements/Alert';
 
 export default async function jsonFetch(url, params = {}) {
@@ -89,4 +90,31 @@ export async function deleteMember(teamId, userId, response) {
 
 export async function getUser(response, q) {
   await jsonFetch(`https://public.test/api/users?q=${encodeURI(q)}`).then(response);
+}
+
+export function getFolder(response) {
+  jsonFetch('https://public.test/api/folders').then(response);
+}
+
+export function getChildFolder(parentFolderId, response) {
+  jsonFetch(`https://public.test/api/folders/${parentFolderId}`).then(response);
+}
+
+export function initFolder() {
+  $(document).ready(() => {
+    const foldersDiv = document.getElementById('folders');
+    if (foldersDiv) {
+      getFolder((folders) => {
+        if (folders) {
+          let contentDiv = '';
+          for (const folder of folders.data) {
+            contentDiv += `<folder-menu-row folder-id="${folder.id}" name="${folder.name}" color="${folder.color}" parent-id="${folder.parent_id_folder}"></folder-menu-row>`;
+          }
+          foldersDiv.innerHTML = contentDiv;
+        } else {
+          flash('Erreur lors du chargement des dossiers !');
+        }
+      });
+    }
+  });
 }

@@ -8,11 +8,17 @@ import joinTeamsWithCode from './Teams';
 import registerTab from './tab';
 import registerAdminChangeRole from './admin';
 import { getWindowWidth } from './dom';
-import { removeFavorite } from './api';
+import { initFolder, removeFavorite } from './api';
 import registerTeam from './team';
 import FilesUploader from './elements/FilesUploader';
 import registerSortableTable from './table';
 import registerCopyClipboard from './CopyClipboard';
+import FolderMenuRow from './elements/FolderMenuRow';
+
+window.customElements.define('alert-message', Alert);
+window.customElements.define('skeleton-box', Skeleton);
+window.customElements.define('files-uploader', FilesUploader);
+window.customElements.define('folder-menu-row', FolderMenuRow);
 
 registerWindowHeightCSS();
 registerTab();
@@ -20,10 +26,7 @@ registerAdminChangeRole();
 registerTeam();
 registerSortableTable();
 registerCopyClipboard();
-
-window.customElements.define('alert-message', Alert);
-window.customElements.define('skeleton-box', Skeleton);
-window.customElements.define('files-uploader', FilesUploader);
+initFolder();
 
 $(document).ready(() => {
   const themeswitch = $('#theme');

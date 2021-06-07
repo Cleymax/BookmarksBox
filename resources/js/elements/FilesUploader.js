@@ -61,9 +61,6 @@ export default class FilesUploader extends HTMLElement {
     deleteBtn.setAttribute('type', 'button');
     deleteBtn.classList.add('remove-image');
     deleteBtn.innerHTML = 'Supprimer <span class="image-title"></span>';
-    deleteBtn.addEventListener('click', (event) => {
-
-    });
 
     imageWrap.appendChild(deleteBtn);
     this.contentDiv.appendChild(this.renderImg);

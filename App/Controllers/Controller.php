@@ -6,8 +6,10 @@ use App\Exceptions\CsrfException;
 use App\Router\Router;
 use App\Services\CsrfService;
 use App\Services\Debugbar\DebugBarService;
+use App\Services\RateLimitService;
 use App\Tools\Str;
 use App\Views\View;
+use RateLimit\Rate;
 
 abstract class Controller
 {
@@ -28,10 +30,15 @@ abstract class Controller
 
     public function respond_json($json)
     {
-        header("Content-Type: application/json");
+        $status = RateLimitService::getStatus();
         echo json_encode(
             [
                 'status' => 'ok',
+                'rate_limit' => [
+                    'limit' => $status->getLimit(),
+                    'remaining' => $status->getRemainingAttempts(),
+                    'reset_at' => $status->getResetAt()->format(DATE_ISO8601)
+                ],
                 'response' => $json
             ]
         );
@@ -134,7 +141,7 @@ abstract class Controller
             $request_body = $_POST;
         }
         foreach ($request_body as $k => $v) {
-            if (!array_key_exists($k, $fields) && $k != "_csrf_token"  && !Str::startsWith('file', $k) && !array_key_exists($k, $require)) {
+            if (!array_key_exists($k, $fields) && $k != "_csrf_token" && !Str::startsWith('file', $k) && !array_key_exists($k, $require)) {
                 throw new \Exception('unkhown key: ' . $k, 400);
             }
             if ($this->need_json() && gettype($v) != gettype($fields[$k])) {

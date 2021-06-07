@@ -1,4 +1,4 @@
-<div class="info-point tooltipped" data-text="Créer une équipe">
+<div class="info-point tooltipped" data-tooltip="left" data-text="Créer une équipe">
     <a href="<?= get_query_url('teams_add') ?>">
         <span class="material-icons">add</span>
     </a>
@@ -18,6 +18,11 @@
                 <h4>
                     <?= $team->name ?>
                 </h4>
+                <?php
+                if ($team->description) {
+                    echo "<p style='text-align: center'>$team->description</p>";
+                }
+                ?>
             </a>
             <?php
             if ($team->favorite) {
@@ -69,7 +74,7 @@
         </a>
     </div>
 </div>
-<h3>Equipe(s) public:</h3>
+<h3 class="margin-top20 margin-bottom10">Equipe(s) public:</h3>
 <div class="flex flex-gap-20">
     <?php
 

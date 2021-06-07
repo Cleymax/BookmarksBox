@@ -5,6 +5,7 @@ export default function registerCopyClipboard() {
   $(document).ready(() => {
     const copy = document.querySelectorAll('[data-copy]');
     copy.forEach((value) => {
+      // eslint-disable-next-line func-names
       $(value).on('click', function () {
         const text = this.getAttribute('data-copy');
         navigator.clipboard.writeText(text).then(() => {
