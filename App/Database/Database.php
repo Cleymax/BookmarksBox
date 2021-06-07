@@ -84,6 +84,8 @@ class Database
     {
         self::$instance = new \PDO("pgsql:host=$database->host;port=$database->port;dbname=$database->name", $database->user, $database->password, [
             \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_OBJ,
+            \PDO::ATTR_EMULATE_PREPARES => false,
+            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION
         ]);
     }
 }

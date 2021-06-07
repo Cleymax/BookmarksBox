@@ -227,6 +227,8 @@ temp/
 public/css/*
 public/js/*
 
+public/upload/*
+
 app/database/migration/LAST_UPDATE
 
 tests/http-client.private.env.json

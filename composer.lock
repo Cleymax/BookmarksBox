@@ -4,8 +4,51 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9cfb38520cc4cd8b2e3de275fcec27c9",
+    "content-hash": "9aab22423a3b8149880faec68a43d595",
     "packages": [
+        {
+            "name": "bitverse/identicon",
+            "version": "1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bitverseio/identicon.git",
+                "reference": "65a50a5a8bd86b3591795937f9652b2e9075626c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bitverseio/identicon/zipball/65a50a5a8bd86b3591795937f9652b2e9075626c",
+                "reference": "65a50a5a8bd86b3591795937f9652b2e9075626c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kuba Birecki",
+                    "email": "kuba.birecki@bitverse.io"
+                }
+            ],
+            "description": "A PHP library for generating identicons.",
+            "support": {
+                "issues": "https://github.com/bitverseio/identicon/issues",
+                "source": "https://github.com/bitverseio/identicon/tree/master"
+            },
+            "time": "2015-11-01T21:19:42+00:00"
+        },
         {
             "name": "filp/whoops",
             "version": "2.12.1",

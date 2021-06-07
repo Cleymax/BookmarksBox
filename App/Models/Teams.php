@@ -110,7 +110,7 @@ class Teams extends Model
         $query = (new Query())
             ->select()
             ->from($this->table)
-            ->where('public = True')
+            ->where('visibility = True')
             ->whereIn("id", $q, true)
             ->params([Auth::user()->id]);
         return $query->all();
@@ -123,6 +123,20 @@ class Teams extends Model
             ->from($this->table . '_members')
             ->where('team_id = ?', 'user_id = ?')
             ->params([$id, Auth::user()->id])->execute();
+    }
+
+    public function deleteInviteCode(string $team_id)
+    {
+        $query = (new Query())
+            ->update()
+            ->into($this->table)
+            ->where('id = ?')
+            ->set([
+                'invite_code' => 'NULL'
+            ])
+            ->params([$team_id]);
+
+        $query->execute();
     }
 
     public function regenerateInviteCode(string $team_id)
@@ -155,5 +169,42 @@ class Teams extends Model
             ->params(array_merge(array_values($settings), [$team_id]));
 
         $query->execute();
+    }
+
+    public function delete(string $team_id)
+    {
+        $query = (new Query())
+            ->delete()
+            ->into($this->table)
+            ->where("id = ?")
+            ->params([$team_id]);
+
+        $query->execute();
+    }
+
+    public function createTeams(array $request)
+    {
+        $query = (new Query())
+            ->insert('name', 'icon', 'description')
+            ->into($this->table)
+            ->values(["?", "?", "?"])
+            ->params([$request['name'], $request['icon'], $request['description']])
+            ->returning('id');
+
+        $team_id = $query->first()->id;
+
+        $query = (new Query())
+            ->insert('team_id', 'user_id', 'role')
+            ->into('teams_members')
+            ->values([
+                'team_id' => '?',
+                'user_id' => '?',
+                'role' => "'OWNER'"
+            ])
+            ->params([$team_id, Auth::user()->id]);
+
+        $query->execute();
+
+        return $team_id;
     }
 }

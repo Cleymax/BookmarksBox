@@ -59,7 +59,7 @@ class UserController extends Controller
             if ($action == 'reset') {
                 $this->User->resetTotp();
             } else {
-                $this->checkPost('code', 'Veuilliez entrer votre code !', '\d{6}');
+                $this->checkPost('code2fa', 'Veuilliez entrer votre code !', '\d{6}');
                 $this->checkPost('secret', 'Erreur interne !', '[A-Z0-9]{16}');
 
                 $data = $this->User->getById(Auth::user()->id);
@@ -69,7 +69,7 @@ class UserController extends Controller
                 }
                 $secret = $_POST['secret'];
 
-                if ($g->checkCode($secret, $_POST['code'])) {
+                if ($g->checkCode($secret, $_POST['code2fa'])) {
                     $this->User->changeTotp($secret);
                     FlashService::success('2FA activé !');
                 } else {

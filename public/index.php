@@ -16,7 +16,6 @@ use App\Controllers\UserController;
 use App\Router\Route;
 use App\Router\Router;
 use App\Security\Auth;
-use App\Views\View;
 
 define('ROOT_PATH', dirname(__FILE__));
 
@@ -76,7 +75,6 @@ Route::get('/settings/account/delete', [SettingsController::class, 'deleteView']
 Route::post('/settings/account/delete', [SettingsController::class, 'delete'], true);
 
 
-
 Route::get('/dashboard', [DashboardController::class, 'dashboard'], true, 'dashboard');
 Route::post('/dashboard', [BookmarkController::class, 'update'], true);
 Route::get('/favorite', [DashboardController::class, 'favorite'], true);
@@ -95,6 +93,8 @@ Route::post('/bookmark/', [BookmarkController::class, 'createBookmark'], true);
 Route::put('/bookmark/{id}', [BookmarkController::class, 'editBookmark'], true);
 Route::delete('/bookmark/{id}', [BookmarkController::class, 'deleteBookmark'], true);
 
+Route::get('/teams/create', [TeamsController::class, 'createView'], true, 'teams_add');
+Route::post('/teams/create', [TeamsController::class, 'create'], true);
 Route::get('/teams/{id}', [TeamsController::class, 'folderView'], true)->where('id', '\w{10}');
 Route::get('/teams/{id}/manager', [TeamsController::class, 'teamManageView'], true)->where('id', '\w{10}');
 Route::post('/teams/{id}/manager', [TeamsController::class, 'teamManage'], true)->where('id', '\w{10}');
@@ -106,7 +106,7 @@ Route::get('/teams/invite/{code}', [TeamsController::class, 'inviteCode'], true)
 
 Route::post('/auth/login', [AuthApiController::class, 'login'])->api();
 Route::get('/user/teams', [UserApiController::class, 'getTeams'])->api();
-Route::put('/user/teams/{id}/favorite',[UserApiController::class, 'changeTeamFavorite'])->where('id', '\w{10}')->api();
+Route::put('/user/teams/{id}/favorite', [UserApiController::class, 'changeTeamFavorite'])->where('id', '\w{10}')->api();
 Route::get('/user/', [UserApiController::class, 'getMe'])->api();
 Route::get('/users/', [UserApiController::class, 'getUser'])->api();
 Route::get('/teams/{id}', [TeamsApiController::class, 'getTeam'])->where('id', '\w{10}')->api();

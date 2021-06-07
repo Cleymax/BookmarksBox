@@ -1,14 +1,20 @@
+<div class="info-point tooltipped" data-text="Créer une équipe">
+    <a href="<?= get_query_url('teams_add') ?>">
+        <span class="material-icons">add</span>
+    </a>
+</div>
 <h2 class="margin-bottom20">Mes équipes:</h2>
 <div class="flex flex-gap-20">
     <?php
 
     use App\Helper\TeamHelper;
+    use App\Services\FileUploader;
 
     foreach ($equipes as $team) {
         ?>
         <div class="team cards" id="card-<?= $team->id ?>" data-id="<?= $team->id ?>">
             <a href="<?= get_query_url('/teams/' . $team->id) ?>">
-                <img src="<?= $team->icon ?>" alt="Avatar de l'équpe <?= $team->name ?>">
+                <img src="<?= FileUploader::getSrc($team->icon) ?>" alt="Avatar de l'équpe <?= $team->name ?>">
                 <h4>
                     <?= $team->name ?>
                 </h4>
@@ -71,7 +77,7 @@
         ?>
         <div class="team cards">
             <a href="<?= get_query_url('/teams/' . $team->id) ?>">
-                <img src="<?= $team->icon ?>" alt="Avatar de l'équpe <?= $team->name ?>">
+                <img src="<?= FileUploader::getSrc($team->icon) ?>" alt="Avatar de l'équpe <?= $team->name ?>">
                 <h4>
                     <?= $team->name ?>
                 </h4>

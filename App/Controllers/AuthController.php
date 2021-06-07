@@ -13,6 +13,10 @@ class AuthController extends Controller
 {
     public function loginView()
     {
+        if (Auth::check()) {
+            $this->redirect("dashboard");
+            return;
+        }
         $this->render(View::new('auth.login'), 'Connexion', ['username' => $_GET['username'] ?? '']);
     }
 
@@ -47,6 +51,10 @@ class AuthController extends Controller
 
     public function registerView()
     {
+        if (Auth::check()) {
+            $this->redirect("dashboard");
+            return;
+        }
         $this->render(View::new('auth.register'), 'Inscription');
     }
 
