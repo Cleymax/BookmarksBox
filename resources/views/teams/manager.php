@@ -10,9 +10,9 @@ use App\Services\FileUploader;
 <h1 class="margin-bottom20">Gestion de l'équipe <?= $data->name ?></h1>
 
 <ul class="tabs" role="tablist">
-    <li><a class="active" data-tab-target="#main" href="#main">Parramètres</a></li>
+    <li><a data-tab-target="#main" href="#main">Parramètres</a></li>
     <li><a data-tab-target="#invitations" href="#invitations">Invitations</a></li>
-    <li><a data-tab-target="#members" href="#members">Membres</a></li>
+    <li><a class="active" data-tab-target="#members" href="#members">Membres</a></li>
     <li><a data-tab-target="#add-members" href="#add-members">Ajouter des membres</a></li>
     <li><a data-tab-target="#authoriation" href="#authoriation">Authrorizations</a></li>
     <?php

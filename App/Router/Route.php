@@ -107,7 +107,7 @@ class Route
 
     public function isApi(): bool
     {
-        return Str::startsWith('api', $this->uri);
+        return str_starts_with($this->uri,'api');
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App;
 
 use App\Api\AuthApiController;
 use App\Api\BookmarkApiController;
+use App\Api\FolderApiController;
 use App\Api\TeamsApiController;
 use App\Api\UserApiController;
 use App\Controllers\AuthController;
@@ -115,6 +116,9 @@ Route::delete('/teams/{id}/members/{member}', [TeamsApiController::class, 'delet
 Route::put('/teams/{id}/members/{member}', [TeamsApiController::class, 'addMemberWithId'])->where('id', '\w{10}')->api();
 Route::post('/teams/{id}/members/{member}/role', [TeamsApiController::class, 'changeRoleMember'])->where('id', '\w{10}')->api();
 Route::get('/teams/{id}/settings', [TeamsApiController::class, 'getTeamSettings'])->where('id', '\w{10}')->api();
+
+Route::get('/folders/{id}',[FolderApiController::class, 'getFolderById'])->where('id','\w{10}')->api();
+Route::get('/folders',[FolderApiController::class, 'getFolders'])->where('id','\w{10}')->api();
 
 
 //Route::any('/404', function () {

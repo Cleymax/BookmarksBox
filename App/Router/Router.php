@@ -2,12 +2,12 @@
 
 namespace App\Router;
 
-use App\Exceptions\NotFoundException;
 use App\Security\Auth;
 use App\Services\Debugbar\DebugBarService;
 use App\Services\FlashService;
+use App\Services\RateLimitService;
 use App\Views\View;
-use function App\debug;
+use RateLimit\Rate;
 
 class Router
 {
@@ -104,6 +104,27 @@ class Router
     {
         self::$current = $route;
         try {
+            if ($route->isApi()) {
+                $status = RateLimitService::getStatus();
+                header("Content-Type: application/json");
+                header("X-RateLimit-Limit: {$status->getLimit()}");
+                header("X-RateLimit-Remaining: {$status->getRemainingAttempts()}");
+                header("X-RateLimit-Reset: {$status->getResetAt()->getTimestamp()}");
+                if($status->getRemainingAttempts() == 0) {
+                    echo json_encode(
+                        [
+                            'status' => 'error',
+                            'rate_limit' => [
+                                'limit' => $status->getLimit(),
+                                'remaining' => $status->getRemainingAttempts(),
+                                'reset_at' => $status->getResetAt()->format(DATE_ISO8601)
+                            ],
+                            "message" => "Number of requests per minute exceeded!"
+                        ]
+                    );
+                    die();
+                }
+            }
             if (empty($prams)) {
                 if (is_array($callback)) {
                     $function = $callback[1];
