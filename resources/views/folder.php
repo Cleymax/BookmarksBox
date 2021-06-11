@@ -10,20 +10,11 @@
     </div>
 </div>
 
-<div class="btn-container"style="margin: 10px;">
-    <button class="btn" aria-label="Ajouter un Bookmarks" title="addBookmarks" name="addBookmarks" value="addBookmarks"><span
-                class="material-icons">add</span>Ajouter un Bookmarks
-    </button>
-    <button class="btn" aria-label="Ajouter un dossier" title="addFolders" name="addFolders" value="addFolders"><span
-                class="material-icons">add</span>Ajouter un dossier
-    </button>
-</div>
-
 <div class="flex" style="justify-content: space-evenly;gap:15px;">
 
     <?php
     foreach ($folders as $folder) {
-    ?>
+        ?>
         <a href="<?= get_query_url('/folder/'.$folder->id)?>">
             <div class="folder">
                 <span class="material-icons">folder</span>
@@ -32,20 +23,15 @@
                 </h3>
             </div>
         </a>
-    <?php
+        <?php
     }
     ?>
 
 
-<?php
+    <?php
     foreach ($data as $bookmarks) {
         ?>
-        <div class="bookmark" bookmark-id="<?= $bookmarks->id?>">
-            <input type="hidden" value="<?= $bookmarks->thumbnail?>" name="link">
-            <input type="hidden" value="<?= $bookmarks->title?>" name="title">
-            <input type="hidden" value="<?= $bookmarks->reading_time?>" name="reading_time">
-            <input type="hidden" value="<?= $bookmarks->difficulty?>" name="difficulty">
-
+        <div class="bookmark">
             <img width="200px" height="200px" src="<?= $bookmarks->thumbnail ?>"
                  alt="Avatar de l'équpe <?= $bookmarks->title ?>">
             <h3>
@@ -74,7 +60,6 @@
         <div class="modal-frame">
             <h4>Edit Settings</h4>
             <form method="post">
-                <input type="hidden" value="default" id="id_bookmarks" name="id_bookmarks">
                 <label for="title-modal" class="textfield">
                     <input type="text" id="title-modal" autocomplete="title" name="title" spellcheck="false"
                            tabindex="2" aria-label="Titre" required aria-required="true"
@@ -106,7 +91,7 @@
                     }
                     ?>
                 </select>
-                <button class="btn" aria-label="edit" title="edit" name="action" value="edit"><span
+                <button class="btn" aria-label="edit" title="edit" name="edit-modal"><span
                         class="material-icons">edit</span>Edit
                 </button>
             </form>
@@ -116,4 +101,74 @@
 
 <script>
 
+  const modal = document.getElementById('modal');
+  // eslint-disable-next-line no-unused-vars
+  const btn = document.getElementsByName('edit');
+
+  // eslint-disable-next-line no-unused-vars
+  function edit(e) {
+    document.getElementById('id_bookmarks_modal').value = e.parentNode.children[5].children.namedItem('id_bookmarks').value;
+
+    // Get values
+    const title_value = e.parentNode.children.namedItem('title').value;
+    const thumbail_value = e.parentNode.children.namedItem('thumbnail').value;
+    const link_value = e.parentNode.children.namedItem('link').value;
+    const difficulty_value = e.parentNode.children.namedItem('difficulty').value;
+
+    // Set values
+    document.getElementById('bookmarks-modal').value = title_value;
+    document.getElementById('thumbnail-modal').value = thumbail_value;
+    document.getElementById('link-modal').value = link_value;
+    document.getElementById('difficulty-modal').value = difficulty_value;
+
+    document.getElementsByName('action')[4].value = 'edit';
+    document.getElementsByName('action')[4].style.backgroundColor = '';
+    document.getElementsByName('action')[4].textContent = 'Edit';
+
+    modal.style.display = 'block';
+  }
+
+  window.onclick = function (event) {
+    if (event.target === modal) {
+      modal.style.display = 'none';
+    }
+  };
+
+  function addBookmarks(e) {
+    document.getElementById('bookmarks-modal').value = '';
+    document.getElementById('thumbnail-modal').value = '';
+    document.getElementById('link-modal').value = '';
+    document.getElementById('difficulty-modal').value = '';
+
+    document.getElementById('thumbnail-modal').parentNode.style.display = "";
+    document.getElementById('link-modal').parentNode.style.display = "";
+    document.getElementById('difficulty-modal').style.display = "";
+    document.getElementsByClassName('title-modal').innerText = 'Ajouter un Bookmarks';
+
+    document.getElementsByName('action')[4].value = 'add';
+    document.getElementsByName('action')[4].style.backgroundColor = 'green';
+    document.getElementsByName('action')[4].textContent = 'Ajouter';
+
+    modal.style.display = 'block';
+  }
+
+  function addFolders(e){
+    console.log("yo");
+    document.getElementById('bookmarks-modal').value = '';
+    document.getElementById('thumbnail-modal').value = '';
+    document.getElementById('link-modal').value = '';
+    document.getElementById('difficulty-modal').value = '';
+
+    document.getElementById('thumbnail-modal').parentNode.style.display = "none";
+    document.getElementById('link-modal').parentNode.style.display = "none";
+    document.getElementById('difficulty-modal').style.display = "none";
+
+    document.getElementsByClassName('title-modal').innerText = 'Ajouter un dossier';
+
+    document.getElementsByName('action')[4].value = 'add';
+    document.getElementsByName('action')[4].style.backgroundColor = 'green';
+    document.getElementsByName('action')[4].textContent = 'Ajouter';
+  }
+
 </script>
+

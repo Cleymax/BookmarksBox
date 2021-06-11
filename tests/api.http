@@ -90,3 +90,8 @@ Authorization: Bearer {{token}}
 POST {{host}}api/teams/qmptd6oYS6/members/9/role
 Content-Type: application/json
 Authorization: Bearer {{token}}
+
+### Make bookmarks as favorite
+GET {{host}}api/bookmark/S6P9jJbUM2/favorite
+Content-Type: application/json
+Authorization: Bearer {{token}}

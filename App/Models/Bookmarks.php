@@ -23,6 +23,21 @@ class Bookmarks extends Model
         }
     }
 
+    public function getAllForMeInDir(string $bookmark_id): array
+    {
+        $query = (new Query())
+            ->select()
+            ->from($this->table)
+            ->where('created_by = ?', 'folder = ?')
+            ->params([Auth::user()->id, $bookmark_id]);
+
+        if ($query->rowCount() == 0) {
+            throw new NotFoundException("Aucun favoris");
+        } else {
+            return $query->all();
+        }
+    }
+
     public function getFavorite(): array
     {
         $query = (new Query())
@@ -66,20 +81,6 @@ class Bookmarks extends Model
         $query->execute();
     }
 
-    public function pin(string $id)
-    {
-        $query = (new Query())
-            ->insert("user_id", "bookmark_id")
-            ->into("user_favorite_bookmarks")
-            ->values(["?", "?"])
-            ->params([Auth::user()->id, $id])
-            ->returning("bookmark_id");
-
-        $response = $query->first();
-
-        return $response;
-    }
-
     public function getAllPinForMe(): array
     {
         $query = (new Query())
@@ -95,17 +96,41 @@ class Bookmarks extends Model
         }
     }
 
-    public function isPin(string $id){
+    public function addFavorite(string $id)
+    {
         $query = (new Query())
-            ->select()
-            ->from("user_favorite_bookmarks")
-            ->where("user_id = ?", "bookmark_id = ?")
-            ->params([Auth::User()->id, $id])
+            ->insert("user_id", "bookmark_id")
+            ->into("user_favorite_bookmarks")
+            ->values(["?", "?"])
+            ->params([Auth::user()->id, $id])
             ->returning("bookmark_id");
 
         $response = $query->first();
 
         return $response;
+    }
+
+    public function isFavorite(string $id){
+        $query = (new Query())
+            ->select()
+            ->from("user_favorite_bookmarks")
+            ->where("user_id = ?", "bookmark_id = ?")
+            ->params([Auth::user()->id, $id])
+            ->returning("bookmark_id");
+
+        $response = $query->first();
+
+        return $response;
+    }
+
+    public function removeFavorite(string $id){
+        $query = (new Query())
+            ->delete()
+            ->from("user_favorite_bookmarks")
+            ->where("user_id = ?", "bookmark_id = ?")
+            ->params([Auth::user()->id, $id]);
+
+        $query->execute();
     }
 
     public function add(string $title, string $link, string $thumbnail, string $difficulty)

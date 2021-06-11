@@ -81,18 +81,18 @@ Route::post('/dashboard', [BookmarkController::class, 'update'], true);
 Route::get('/favorite', [DashboardController::class, 'favorite'], true);
 Route::delete('/favorite/{id}', [BookmarkApiController::class, 'removeFavorite'], true)->where('id', '\w{10}')->api();
 
-Route::get('/folder/{id}', [FolderController::class, 'folderView'], true);
+Route::get('/folder/{id}', [FolderController::class, 'folderView'], true, 'folder')->where('id', '\w{10}');
 Route::post('/folder/{id}', [FolderController::class, 'createFolder'], true);
 Route::put('/folder/{id}', [FolderController::class, 'editFolder'], true);
 Route::delete('/folder/{id}', [FolderController::class, 'deleteFolder'], true);
 Route::get('/folder/{id}/bookmarks', [FolderController::class, 'getFolderBookmark'], false);
 Route::get('/folder/{id}/info', [FolderController::class, 'getFolderInfo'], true);
 
-Route::get('/bookmarks/', [BookmarkController::class, 'getAllBookmark'], true);
-Route::get('/bookmark/{id}', [BookmarkController::class, 'getBookmark'], true);
-Route::post('/bookmark/', [BookmarkController::class, 'createBookmark'], true);
-Route::put('/bookmark/{id}', [BookmarkController::class, 'editBookmark'], true);
-Route::delete('/bookmark/{id}', [BookmarkController::class, 'deleteBookmark'], true);
+Route::get('/bookmarks', [BookmarkApiController::class, 'getAllBookmarks'], true)->api();
+Route::get('/bookmark/{id}', [BookmarkApiController::class, 'getBookmark'], true)->where('id', '\w{10}')->api();
+Route::get('/bookmark/{id}/favorite/add', [BookmarkApiController::class, 'addFavorite'], true)->where('id', '\w{10}')->api();
+Route::get('/bookmark/{id}/favorite/delete', [BookmarkApiController::class, 'removeFavorite'], true)->where('id', '\w{10}')->api();
+Route::get('/bookmark/{id}/delete', [BookmarkApiController::class, 'delete'], true)->where('id', '\w{10}')->api();
 
 Route::get('/teams/create', [TeamsController::class, 'createView'], true, 'teams_add');
 Route::post('/teams/create', [TeamsController::class, 'create'], true);
