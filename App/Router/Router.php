@@ -104,7 +104,7 @@ class Router
     {
         self::$current = $route;
         try {
-            if ($route->isApi()) {
+            if ($route->isApi() && getenv('API_RATE_LIMIT_ENABLE')) {
                 $status = RateLimitService::getStatus();
                 header("Content-Type: application/json");
                 header("X-RateLimit-Limit: {$status->getLimit()}");

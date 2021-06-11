@@ -233,7 +233,7 @@ class Route
     {
         return self::addRoute(self::$METHODS, $uri, function () use ($destination) {
             http_response_code(302);
-            header('Location: ' . $destination);
+            header('Location: '. $_ENV['BASE_URL'] . $destination);
         }, $auth);
     }
 

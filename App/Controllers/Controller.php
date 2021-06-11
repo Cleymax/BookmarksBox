@@ -9,7 +9,6 @@ use App\Services\Debugbar\DebugBarService;
 use App\Services\RateLimitService;
 use App\Tools\Str;
 use App\Views\View;
-use RateLimit\Rate;
 
 abstract class Controller
 {
@@ -30,15 +29,19 @@ abstract class Controller
 
     public function respond_json($json)
     {
-        $status = RateLimitService::getStatus();
+        if(getenv('API_RATE_LIMIT_ENABLE')){
+            $status = RateLimitService::getStatus();
+            $rate =  [
+                'limit' => $status->getLimit(),
+                'remaining' => $status->getRemainingAttempts(),
+                'reset_at' => $status->getResetAt()->format(DATE_ISO8601)
+            ];
+        }
+
         echo json_encode(
             [
                 'status' => 'ok',
-                'rate_limit' => [
-                    'limit' => $status->getLimit(),
-                    'remaining' => $status->getRemainingAttempts(),
-                    'reset_at' => $status->getResetAt()->format(DATE_ISO8601)
-                ],
+                'rate_limit' => $rate ?? 'false',
                 'response' => $json
             ]
         );

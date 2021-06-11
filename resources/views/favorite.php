@@ -5,7 +5,7 @@
     foreach ($data as $bookmark) {
         ?>
         <div class="team cards" data-id="<?= $bookmark->id ?>">
-            <a href="<?= get_query_url('/boomark/' . $bookmark->id) ?>">
+            <a href="#<?= $bookmark->id ?>">
                 <img class="img-200" src="<?= $bookmark->thumbnail ?>" alt="Miniature de  <?= $bookmark->title ?>">
                 <h3>
                     <?= $bookmark->title ?>
