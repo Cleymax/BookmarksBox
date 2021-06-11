@@ -125,5 +125,8 @@ document.querySelectorAll('.bookmark').forEach((value) => {
 });
 
 window.addEventListener('click', () => {
-  document.getElementById('context-menu').classList.remove('active');
+  const contextMenu = document.getElementById('context-menu');
+  if (contextMenu) {
+    contextMenu.classList.remove('active');
+  }
 });
