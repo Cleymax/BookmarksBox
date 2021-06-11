@@ -118,3 +118,41 @@ export function initFolder() {
     }
   });
 }
+
+export async function removeFavorite(bookmarkId, response) {
+  Swal.fire({
+    icon: 'warning',
+    title: 'Voulez vous vraiment le supprimer de vos favoris ?',
+    showDenyButton: true,
+    confirmButtonText: 'Oui',
+    denyButtonText: 'Non',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      jsonFetch(`https://public.test/api/bookmark/${bookmarkId}/favorite/remove`, { method: 'GET' }).then(response);
+    } else if (result.isDenied) {
+      response(false);
+    }
+  });
+}
+
+export async function deleteBookmark(bookmarkId, response) {
+  Swal.fire({
+    icon: 'warning',
+    title: "Voulez vous vraiment supprimer cette bookmark ?",
+    showDenyButton: true,
+    confirmButtonText: 'Oui',
+    denyButtonText: 'Non',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      jsonFetch(`https://public.test/api/bookmark/${bookmarkId}/delete`, { method: 'GET' }).then(response);
+    } else if (result.isDenied) {
+      response(false);
+    }
+  });
+}
+
+export async function getBookmarkInfo(bookmarkId, response){
+  jsonFetch(`https://public.test/api/bookmark/${bookmarkId}?fields=id,title,link,difficulty,thumbnail`, {
+    method: 'get',
+  }).then(response);
+}

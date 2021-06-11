@@ -49,6 +49,7 @@
     </div>
 </header>
 <div id="context-menu">
+    <input type="hidden" value="default" name="id">
     <div class="item" onclick="addFolders(this)">
         <span class="material-icons">add</span>  Ajouter un dossier
     </div>
@@ -56,16 +57,16 @@
         <span class="material-icons">add</span>  Ajouter une bookmarks
     </div>
     <hr>
-    <div class="item">
+    <div class="item" move>
         <span class="material-icons">drive_file_move</span>  Déplacer
     </div>
-    <div class="item">
+    <div class="item" edit>
         <span class="material-icons">edit</span>  Modifier
     </div>
-    <div class="item">
+    <div class="item" delete>
         <span class="material-icons">delete</span>  Supprimer
     </div>
-    <div class="item">
+    <div class="item" favorite>
         <span class="material-icons">star</span>  Mettre en favoris
     </div>
 </div>

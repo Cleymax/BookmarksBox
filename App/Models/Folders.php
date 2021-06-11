@@ -12,8 +12,22 @@ class Folders extends Model
         $query = (new Query())
             ->select()
             ->from("folders")
-            ->where('user_id = ?')
+            ->where('user_id = ?', 'parent_id_folder IS NULL')
             ->params([Auth::user()->id]);
+
+        if ($query->rowCount() == 0) {
+            throw new NotFoundException("Aucun dossier");
+        } else {
+            return $query->all();
+        }
+    }
+    public function getAllForMeInDir(string $id): array
+    {
+        $query = (new Query())
+            ->select()
+            ->from("folders")
+            ->where('user_id = ?', 'parent_id_folder = ?')
+            ->params([Auth::user()->id, $id]);
 
         if ($query->rowCount() == 0) {
             throw new NotFoundException("Aucun dossier");
@@ -32,6 +46,8 @@ class Folders extends Model
 
         $query->execute();
     }
+
+
 
 
 }

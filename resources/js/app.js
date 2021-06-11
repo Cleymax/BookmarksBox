@@ -14,6 +14,7 @@ import FilesUploader from './elements/FilesUploader';
 import registerSortableTable from './table';
 import registerCopyClipboard from './CopyClipboard';
 import FolderMenuRow from './elements/FolderMenuRow';
+import itemMenu from './dashboard';
 
 window.customElements.define('alert-message', Alert);
 window.customElements.define('skeleton-box', Skeleton);
@@ -27,6 +28,7 @@ registerTeam();
 registerSortableTable();
 registerCopyClipboard();
 initFolder();
+itemMenu();
 
 $(document).ready(() => {
   const themeswitch = $('#theme');
@@ -125,8 +127,8 @@ document.querySelectorAll('.bookmark').forEach((value) => {
 });
 
 window.addEventListener('click', () => {
-  const contextMenu = document.getElementById('context-menu');
-  if (contextMenu) {
+  const contextMenu = document.getElementById('context-menu')
+  if(contextMenu){
     contextMenu.classList.remove('active');
   }
 });
