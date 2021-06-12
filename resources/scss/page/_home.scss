@@ -141,3 +141,19 @@
     margin: 0 10px 1em;
   }
 }
+
+.folder{
+  background: var(--background);
+  border-radius: 15px;
+  width: 250px;
+  height: 310px;
+  & span{
+    display: flex;
+    align-items: center;
+    font-size: 250px;
+  }
+  & h3{
+    display: flex;
+    justify-content: center;
+  }
+}

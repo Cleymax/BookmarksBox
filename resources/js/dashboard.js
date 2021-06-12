@@ -28,9 +28,19 @@ export default function itemMenu() {
           document.getElementById('id_bookmarks').value = response.data[0].id;
           modal.style.display = 'block';
         });
+      }else if (value.hasAttribute('info')) {
+          const menu = document.getElementsByClassName('menu-info')[0];
+          menu.parentNode.children[2].style.marginRight = '280px';
+          menu.style.display = 'block';
       }
     });
   });
+}
+const close = document.getElementsByClassName('info-close')[0];
+
+close.onclick = function(){
+  close.parentNode.style.display = 'none';
+  close.parentNode.parentNode.children[2].style.marginRight = '0px';
 }
 
 window.onclick = function (event) {
