@@ -52,22 +52,6 @@ export async function changeTeamFavorite(team, response) {
   jsonFetch(`https://public.test/api/user/teams/${team}/favorite`, { method: 'PUT' }).then(response);
 }
 
-export async function removeFavorite(bookmarkId, response) {
-  Swal.fire({
-    icon: 'warning',
-    title: 'Voulez vous vraiment le supprimer de vos favoris ?',
-    showDenyButton: true,
-    confirmButtonText: 'Oui',
-    denyButtonText: 'Non',
-  }).then((result) => {
-    if (result.isConfirmed) {
-      jsonFetch(`https://public.test/api/favorite/${bookmarkId}`, { method: 'DELETE' }).then(response);
-    } else if (result.isDenied) {
-      response(false);
-    }
-  });
-}
-
 export async function addMemberToTeam(teamId, userId, response) {
   jsonFetch(`https://public.test/api/teams/${teamId}/members/${userId}`, { method: 'PUT' }).then(response);
 }
@@ -117,6 +101,10 @@ export function initFolder() {
       });
     }
   });
+}
+
+export async function addFavorite(bookmarkId, response){
+  jsonFetch(`https://public.test/api/bookmark/${bookmarkId}/favorite/add`, { method: 'GET' }).then(response);
 }
 
 export async function removeFavorite(bookmarkId, response) {

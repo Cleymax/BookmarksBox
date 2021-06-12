@@ -123,12 +123,13 @@ document.querySelectorAll('.bookmark').forEach((value) => {
     contextElement.style.top = `${event.clientY}px`;
     contextElement.style.left = `${event.clientX}px`;
     contextElement.classList.add('active');
+    document.getElementById('context-menu').children[0].value = value.getAttribute('bookmark-id');
   });
 });
 
 window.addEventListener('click', () => {
-  const contextMenu = document.getElementById('context-menu')
-  if(contextMenu){
+  const contextMenu = document.getElementById('context-menu');
+  if (contextMenu) {
     contextMenu.classList.remove('active');
   }
 });
