@@ -1,4 +1,4 @@
-<div class="menu-info" id="menu" style="display: none">
+<div class="menu active menu-info" id="menu" style="right: 0;display: none" menu-info>
     <span class="material-icons info-close">close</span>
     <img src="https://placeimg.com/200/200/any" class="img-info">
     <h3 class="flex-center">Mon Bookmarks</h3>
@@ -23,7 +23,7 @@
 
     <?php
     foreach ($folders as $folder) {
-    ?>
+        ?>
         <a href="<?= get_query_url('/folder/'.$folder->id)?>">
             <div class="folder">
                 <span class="material-icons">folder</span>
@@ -32,12 +32,12 @@
                 </h3>
             </div>
         </a>
-    <?php
+        <?php
     }
     ?>
 
 
-<?php
+    <?php
     foreach ($data as $bookmarks) {
         ?>
         <div class="bookmark" bookmark-id="<?= $bookmarks->id?>">
@@ -107,7 +107,7 @@
                     ?>
                 </select>
                 <button class="btn" aria-label="edit" title="edit" name="action" value="edit"><span
-                        class="material-icons">edit</span>Edit
+                            class="material-icons">edit</span>Edit
                 </button>
             </form>
         </div>
