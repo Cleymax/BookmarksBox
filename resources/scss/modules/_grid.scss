@@ -4,3 +4,17 @@
   grid-auto-flow: row dense;
   grid-gap: 2rem;
 }
+
+.grid-250 {
+  gap: 15px;
+  display: grid;
+  grid-auto-flow: dense;
+  grid-template-columns: repeat(auto-fill,minmax(250px,1fr));
+}
+
+.grid-170 {
+  gap: 10px;
+  display: grid;
+  grid-auto-flow: dense;
+  grid-template-columns: repeat(auto-fill,minmax(170px,1fr));
+}

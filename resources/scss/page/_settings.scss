@@ -2,7 +2,7 @@
   position: relative;
   height: calc(var(--windowHeight) - 110px);
 
-  & .second-menu{
+  & .second-menu {
     left: 281px;
     box-shadow: 3px 5px 6px rgba(0, 0, 0, 0.25);
   }
@@ -17,7 +17,7 @@
     transition: all ease .3s;
     padding: 10px;
 
-    @include screen-down(600px){
+    @include screen-down(600px) {
       width: 100%;
     }
 
@@ -110,37 +110,39 @@
     }
   }
 
-    @include screen-down(600px){
-      width: 100%;
-    }
-
-    & > aside > .menu__row {
-      margin-left: 15px;
-    }
+  @include screen-down(600px) {
+    width: 100%;
   }
 
-  .line {
-    height: 2px;
-    width: 90%;
-    background-color: rgba(0, 0, 0, 0.10);
-    margin: 10px 15px;
+  & > aside > .menu__row {
+    margin-left: 15px;
+  }
+}
+
+.line {
+  height: 2px;
+  width: 90%;
+  background-color: rgba(0, 0, 0, 0.10);
+  margin: 10px 15px;
+}
+
+.content {
+  transition: all ease .3s;
+  padding: 10px;
+  margin-left: 561px;
+  height: calc(100% - 5px);
+  overflow-y: scroll;
+}
+
+.settings-container {
+  margin: 20px;
+
+  & form {
+    display: flex;
+    flex-direction: column;
   }
 
-  .content {
-    transition: margin-left ease .3s;
-    padding: 10px;
-    margin-left: 561px;
-    height: calc(100% - 5px);
-    overflow-y: scroll;
+  & form label {
+    margin: 15px 0 15px;
   }
-
-  .settings-container{
-    margin: 20px;
-    & form{
-      display: flex;
-      flex-direction: column;
-    }
-    & form label{
-      margin: 15px 0 15px;
-    }
-  }
+}

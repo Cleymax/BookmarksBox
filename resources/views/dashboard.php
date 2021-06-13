@@ -1,14 +1,3 @@
-<div class="menu active menu-info" id="menu" style="right: 0;display: none" menu-info>
-    <span class="material-icons info-close">close</span>
-    <img src="https://placeimg.com/200/200/any" class="img-info">
-    <h3 class="flex-center">Mon Bookmarks</h3>
-    <div class="info">
-        <h5><span class="material-icons">description</span> Description</h5>
-        <textarea class="description-info" disabled="disabled">Description</textarea>
-        <h5><span class="material-icons">link</span> Liens</h5>
-        <textarea disabled="disabled">liens</textarea>
-    </div>
-</div>
 
 <div class="btn-container"style="margin: 10px;">
     <button class="btn" aria-label="Ajouter un Bookmarks" title="addBookmarks" name="addBookmarks" value="addBookmarks"><span
@@ -19,7 +8,7 @@
     </button>
 </div>
 
-<div class="flex" style="justify-content: space-evenly;gap:15px;">
+<div class="grid-250">
 
     <?php
     foreach ($folders as $folder) {
