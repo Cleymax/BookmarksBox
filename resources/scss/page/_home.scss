@@ -176,3 +176,34 @@
     justify-content: center;
   }
 }
+
+.moveMenuContainer{
+  display: none;
+}
+
+.moveMenu{
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  z-index:1;
+  background-color: var(--background);
+  min-width: 250px;
+  min-height: 200px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
+
+}
+
+.moveMenu:after{
+  content:'';
+  position: absolute;
+  top: 0;
+  left: 35%;
+  margin-left: -15px;
+  margin-top:-15px;
+  width: 0;
+  z-index:1;
+  height: 0;
+  border-bottom: solid 15px var(--background);
+  border-left: solid 15px transparent;
+  border-right: solid 15px transparent;
+}

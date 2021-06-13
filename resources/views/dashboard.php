@@ -8,6 +8,16 @@
     </button>
 </div>
 
+<div class="moveMenuContainer">
+    <div class="moveMenu" id="moveMenu">
+        <input type="hidden" value="default" name="id">
+        <span class="material-icons" style="margin: 10px;position: absolute;right: 0;">close</span>
+        <div id="foldersMove"></div>
+        <hr>
+        <button class="btn" style="width: 80px; margin: 15px; position: absolute;bottom: 0;right: 0;">Déplacer</button>
+    </div>
+</div>
+
 <div class="grid-250">
 
     <?php

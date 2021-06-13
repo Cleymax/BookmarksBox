@@ -58,6 +58,14 @@ class BookmarkApiController extends Controller
 
     }
 
+    public function isFavorite(string $bookmark_id)
+    {
+        $favorite = $this->Bookmarks->isFavorite($bookmark_id);
+        $this->respond_json([
+            'isFavorite' => $favorite
+        ]);
+    }
+
     public function addFavorite(string $bookmark_id)
     {
             $this->Bookmarks->addFavorite($bookmark_id);
@@ -80,7 +88,7 @@ class BookmarkApiController extends Controller
         $this->Bookmarks->removeFavorite($bookmark_id);
 
         $this->respond_json([
-            'message' => 'Favoris supprimé de vos favoris !'
+            'message' => 'Bookmark supprimé de vos favoris !'
         ]);
     }
 
