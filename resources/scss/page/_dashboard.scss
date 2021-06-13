@@ -1,10 +1,13 @@
 .dashboard {
   position: relative;
   height: calc(var(--windowHeight) - 110px);
+  overflow: hidden;
+  transition: all ease .3s;
 
   & .menu {
     width: 280px;
     top: 0;
+    left: 0;
     height: inherit;
     overflow-y: auto;
     overflow-x: hidden;
@@ -112,13 +115,13 @@
   & .menu-info {
     width: 280px;
     top: 0;
-    right: 1em;
+    right: 0;
     height: inherit;
     overflow-y: auto;
     overflow-x: hidden;
     position: absolute;
     transition: all ease .3s;
-    box-shadow: -3px 5px 6px rgba(0, 0, 0, 0.25);
+    box-shadow: 3px 5px 6px rgba(0, 0, 0, 0.25);
     padding: 10px;
 
     & h5{

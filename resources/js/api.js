@@ -103,8 +103,8 @@ export function initFolder() {
   });
 }
 
-export async function addFavorite(bookmarkId, response){
-  jsonFetch(`https://public.test/api/bookmark/${bookmarkId}/favorite/add`, { method: 'GET' }).then(response);
+export async function addFavorite(bookmarkId) {
+  return jsonFetch(`https://public.test/api/bookmark/${bookmarkId}/favorite/add`, { method: 'GET' });
 }
 
 export async function removeFavorite(bookmarkId, response) {
@@ -126,7 +126,7 @@ export async function removeFavorite(bookmarkId, response) {
 export async function deleteBookmark(bookmarkId, response) {
   Swal.fire({
     icon: 'warning',
-    title: "Voulez vous vraiment supprimer cette bookmark ?",
+    title: 'Voulez vous vraiment supprimer cette bookmark ?',
     showDenyButton: true,
     confirmButtonText: 'Oui',
     denyButtonText: 'Non',
@@ -139,8 +139,8 @@ export async function deleteBookmark(bookmarkId, response) {
   });
 }
 
-export async function getBookmarkInfo(bookmarkId, response){
-  jsonFetch(`https://public.test/api/bookmark/${bookmarkId}?fields=id,title,link,difficulty,thumbnail`, {
+export async function getBookmarkInfo(bookmarkId) {
+  return jsonFetch(`https://public.test/api/bookmark/${bookmarkId}?fields=id,title,link,difficulty,thumbnail`, {
     method: 'get',
-  }).then(response);
+  });
 }
