@@ -40,16 +40,12 @@ function closeModalInfo() {
   const menuInfo = document.getElementById('menu-info');
   menuInfo.style.transform = 'translateX(280px)';
 
-  setTimeout(() => {
-    const content = document.getElementById('content');
-    content.style.marginRight = '0px';
-  }, 100);
+  const content = document.getElementById('content');
+  content.style.marginRight = '0px';
 }
 
 const close = document.getElementsByClassName('info-close')[0];
 
 if (close) {
-  close.onclick = () => {
-    closeModalInfo();
-  };
+  close.onclick = closeModalInfo;
 }
