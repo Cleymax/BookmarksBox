@@ -51,18 +51,20 @@
 <div id="context-menu">
     <input type="hidden" value="default" name="id">
     <div class="item" move>
-        <span class="material-icons">drive_file_move</span>  Déplacer
+        <span class="material-icons" style="margin-right: 10px">drive_file_move</span>  Déplacer
     </div>
     <div class="item" edit>
-        <span class="material-icons">edit</span>  Modifier
+        <span class="material-icons" style="margin-right: 10px">edit</span>  Modifier
     </div>
     <div class="item" delete>
-        <span class="material-icons">delete</span>  Supprimer
+        <span class="material-icons" style="margin-right: 10px">delete</span>  Supprimer
     </div>
     <div class="item" favorite>
-        <span class="material-icons">star</span>  Mettre en favoris
+        <span class="material-icons" style="margin-right: 10px">star</span>  Mettre en favoris
     </div>
     <div class="item" info>
-        <span class="material-icons">info</span>  Informations
+        <span class="material-icons" style="margin-right: 10px">info</span>  Informations
     </div>
 </div>
+
+

@@ -46,9 +46,10 @@
     "webpack-node-externals": "^3.0.0"
   },
   "dependencies": {
+    "@sweetalert2/theme-dark": "^5.0.0",
     "jquery": "^3.6.0",
+    "moment": "^2.29.1",
     "regenerator-runtime": "^0.13.7",
-    "sweetalert2": "^11.0.16",
-    "@sweetalert2/theme-dark": "^5.0.0"
+    "sweetalert2": "^11.0.16"
   }
 }

@@ -103,8 +103,30 @@ export function initFolder() {
   });
 }
 
-export async function addFavorite(bookmarkId) {
-  return jsonFetch(`https://public.test/api/bookmark/${bookmarkId}/favorite/add`, { method: 'GET' });
+export function moveBookmark() {
+  const foldersDiv = document.getElementById('foldersMove');
+  if (foldersDiv) {
+    getFolder((folders) => {
+      if (folders) {
+        let contentDiv = '';
+        for (const folder of folders.data) {
+          contentDiv += `<folder-menu-row folder-id="${folder.id}" name="${folder.name}" color="${folder.color}" parent-id="${folder.parent_id_folder}"></folder-menu-row>`;
+        }
+        foldersDiv.innerHTML = contentDiv;
+      } else {
+        flash('Erreur lors du chargement des dossiers !');
+      }
+    });
+  }
+}
+
+export async function isFavorite(bookmarkId, response){
+  jsonFetch(`https://public.test/api/bookmark/${bookmarkId}/favorite/isFavorite`,  { method: 'GET'}).then(response)
+}
+
+
+export async function addFavorite(bookmarkId, response) {
+  return jsonFetch(`https://public.test/api/bookmark/${bookmarkId}/favorite/add`, { method: 'GET' }).then(response);
 }
 
 export async function removeFavorite(bookmarkId, response) {
@@ -116,8 +138,10 @@ export async function removeFavorite(bookmarkId, response) {
     denyButtonText: 'Non',
   }).then((result) => {
     if (result.isConfirmed) {
+      console.log('is confirm');
       jsonFetch(`https://public.test/api/bookmark/${bookmarkId}/favorite/remove`, { method: 'GET' }).then(response);
     } else if (result.isDenied) {
+      console.log('is Denied');
       response(false);
     }
   });
