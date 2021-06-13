@@ -6,15 +6,15 @@ use App\Security\Auth;
 use App\Services\CsrfService;
 use App\Services\FileUploader;
 
+require ROOT_PATH.'/../App/Tools/Array.php'
 ?>
 <h1 class="margin-bottom20">Gestion de l'équipe <?= $data->name ?></h1>
 
 <ul class="tabs" role="tablist">
-    <li><a data-tab-target="#main" href="#main">Parramètres</a></li>
+    <li><a class="active" data-tab-target="#main" href="#main">Parramètres</a></li>
     <li><a data-tab-target="#invitations" href="#invitations">Invitations</a></li>
-    <li><a class="active" data-tab-target="#members" href="#members">Membres</a></li>
+    <li><a data-tab-target="#members" href="#members">Membres</a></li>
     <li><a data-tab-target="#add-members" href="#add-members">Ajouter des membres</a></li>
-    <li><a data-tab-target="#authoriation" href="#authoriation">Authrorizations</a></li>
     <?php
     if (TeamHelper::isOwner($id)) {
         ?>
@@ -124,13 +124,13 @@ use App\Services\FileUploader;
                                 'OWNER' => 'Propriétaire'
                         ];
                         ?>
-                        <select name="role" id="change-role">
+                        <select name="role" id="change-role" <?= $member->id == Auth::user()->id || (get_array_index($member->role,$role) > get_array_index(TeamHelper::getRole($id), $role)) ? 'disabled' : '' ?>>
                             <?php
                             foreach ($role as $key => $value) {
                                 ?>
                                 <option <?php if ($member->role == $key) {
                                     echo "selected";
-                                } ?> value="<?= $key ?>"><?= $value ?></option>
+                                } ?> <?= get_array_index($key, TeamHelper::getRoles()) > get_array_index(TeamHelper::getRole($id), TeamHelper::getRoles()) ? 'disabled ': '' ?>value="<?= $key ?>"><?= $value ?></option>
                                 <?php
                             }
                             ?>
@@ -138,7 +138,7 @@ use App\Services\FileUploader;
                     </td>
                     <td>
                         <?php
-                        if (Auth::user()->id != $member->user_id) {
+                        if (Auth::user()->id != $member->user_id && get_array_index($member->role, TeamHelper::getRoles()) < get_array_index(TeamHelper::getRole($id), TeamHelper::getRoles())) {
                             ?>
                             <a id="delete-member"><span class="material-icons">delete</span> </a>
                             <?php
@@ -224,7 +224,8 @@ if (TeamHelper::isOwner($id)) {
                                 authentification.</p>
                             <label for="code" class="textfield">
                                 <input type="tel" pattern="[0-9]{6}" minlength="6" maxlength="6" id="code" tabindex="0"
-                                       spellcheck="false" aria-label="Saisir le code" name="code2fa" autocapitalize="off"
+                                       spellcheck="false" aria-label="Saisir le code" name="code2fa"
+                                       autocapitalize="off"
                                        autofocus
                                        required aria-required="true" dir="ltr" title="Entre votre code 2FA">
                                 <span>Saisir le code</span>
@@ -235,7 +236,7 @@ if (TeamHelper::isOwner($id)) {
                     ?>
                     <div class="btn-container margin-top20">
                         <div class="button">
-                            <button  class="btn btn-red" aria-label="Supprimer" title="Supprimer"><span
+                            <button class="btn btn-red" aria-label="Supprimer" title="Supprimer"><span
                                         class="material-icons">delete</span>Supprimer
                             </button>
                         </div>

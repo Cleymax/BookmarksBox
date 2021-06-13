@@ -21,7 +21,9 @@ class TeamsController extends Controller
      */
     public function __construct()
     {
+        $this->loadModel('Bookmarks');
         $this->loadModel('Teams');
+        $this->loadModel('Folders');
     }
 
     /**
@@ -51,9 +53,16 @@ class TeamsController extends Controller
 
     public function folderView(string $id)
     {
-        $equipes = $this->Teams->getAllForMe();
-        $data = $this->Teams->getById($id);
-        $this->render(View::new('teams.dashboard', 'dashboard'), 'Equipe ' . $data->name, ['data' => $data, 'id' => $id, 'equipes' => $equipes]);
+        try {
+            $equipe = $this->Teams->getById($id);
+            $data = $this->Bookmarks->getAllForMe();
+            $equipes = $this->Teams->getAllForMe();
+            $folders = $this->Folders->getAllForMe();
+        } catch (\Exception $e) {
+            FlashService::error($e->getMessage());
+            http_response_code($e->getCode());
+        }
+        $this->render(View::new('teams.dashboard', 'dashboard'), 'Equipe ' . $equipe->name, ['data' => $data ?? [],'id' => $id, 'equipes' => $equipes ?? [],'equipe' => $equipe, 'folders' => $folders ?? []]);
     }
 
     public function getTeams()
