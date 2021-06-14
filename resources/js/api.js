@@ -2,6 +2,8 @@ import Swal from 'sweetalert2';
 import $ from 'jquery';
 import { flash } from './elements/Alert';
 
+const BASE_URL = `${window.BB.BASE_URL}/api/`;
+
 export default async function jsonFetch(url, params = {}) {
   if (params.body instanceof FormData) {
     params.body = Object.fromEntries(params.body);
@@ -19,7 +21,7 @@ export default async function jsonFetch(url, params = {}) {
     ...params,
   };
 
-  const response = await fetch(url, params);
+  const response = await fetch(`${BASE_URL}${url}`, params);
   if (response.status === 204) {
     return null;
   }
@@ -40,7 +42,7 @@ export default async function jsonFetch(url, params = {}) {
  * @returns {boolean} if success
  */
 export function changeRole(teamId, userId, roleId, response) {
-  jsonFetch(`https://public.test/api/teams/${teamId}/members/${userId}/role`, {
+  jsonFetch(`teams/${teamId}/members/${userId}/role`, {
     body: {
       role: roleId,
     },
@@ -49,11 +51,11 @@ export function changeRole(teamId, userId, roleId, response) {
 }
 
 export async function changeTeamFavorite(team, response) {
-  jsonFetch(`https://public.test/api/user/teams/${team}/favorite`, { method: 'PUT' }).then(response);
+  jsonFetch(`user/teams/${team}/favorite`, { method: 'PUT' }).then(response);
 }
 
 export async function addMemberToTeam(teamId, userId, response) {
-  jsonFetch(`https://public.test/api/teams/${teamId}/members/${userId}`, { method: 'PUT' }).then(response);
+  jsonFetch(`teams/${teamId}/members/${userId}`, { method: 'PUT' }).then(response);
 }
 
 export async function deleteMember(teamId, userId, response) {
@@ -65,7 +67,7 @@ export async function deleteMember(teamId, userId, response) {
     denyButtonText: 'Non',
   }).then((result) => {
     if (result.isConfirmed) {
-      jsonFetch(`https://public.test/api/teams/${teamId}/members/${userId}`, { method: 'DELETE' }).then(response);
+      jsonFetch(`teams/${teamId}/members/${userId}`, { method: 'DELETE' }).then(response);
     } else if (result.isDenied) {
       response(false);
     }
@@ -73,15 +75,15 @@ export async function deleteMember(teamId, userId, response) {
 }
 
 export async function getUser(response, q) {
-  await jsonFetch(`https://public.test/api/users?q=${encodeURI(q)}`).then(response);
+  await jsonFetch(`users?q=${encodeURI(q)}`).then(response);
 }
 
 export function getFolder(response) {
-  jsonFetch('https://public.test/api/folders').then(response);
+  jsonFetch('folders').then(response);
 }
 
 export function getChildFolder(parentFolderId, response) {
-  jsonFetch(`https://public.test/api/folders/${parentFolderId}`).then(response);
+  jsonFetch(`folders/${parentFolderId}`).then(response);
 }
 
 export function initFolder() {
@@ -120,13 +122,12 @@ export function moveBookmark() {
   }
 }
 
-export async function isFavorite(bookmarkId, response){
-  jsonFetch(`https://public.test/api/bookmark/${bookmarkId}/favorite/isFavorite`,  { method: 'GET'}).then(response)
+export async function isFavorite(bookmarkId, response) {
+  jsonFetch(`bookmark/${bookmarkId}/favorite/isFavorite`, { method: 'GET' }).then(response);
 }
 
-
 export async function addFavorite(bookmarkId, response) {
-  return jsonFetch(`https://public.test/api/bookmark/${bookmarkId}/favorite/add`, { method: 'GET' }).then(response);
+  return jsonFetch(`bookmark/${bookmarkId}/favorite/add`, { method: 'GET' }).then(response);
 }
 
 export async function removeFavorite(bookmarkId, response) {
@@ -139,7 +140,7 @@ export async function removeFavorite(bookmarkId, response) {
   }).then((result) => {
     if (result.isConfirmed) {
       console.log('is confirm');
-      jsonFetch(`https://public.test/api/bookmark/${bookmarkId}/favorite/remove`, { method: 'GET' }).then(response);
+      jsonFetch(`bookmark/${bookmarkId}/favorite/remove`, { method: 'GET' }).then(response);
     } else if (result.isDenied) {
       console.log('is Denied');
       response(false);
@@ -156,7 +157,7 @@ export async function deleteBookmark(bookmarkId, response) {
     denyButtonText: 'Non',
   }).then((result) => {
     if (result.isConfirmed) {
-      jsonFetch(`https://public.test/api/bookmark/${bookmarkId}/delete`, { method: 'GET' }).then(response);
+      jsonFetch(`bookmark/${bookmarkId}/delete`, { method: 'GET' }).then(response);
     } else if (result.isDenied) {
       response(false);
     }
@@ -164,7 +165,7 @@ export async function deleteBookmark(bookmarkId, response) {
 }
 
 export async function getBookmarkInfo(bookmarkId) {
-  return jsonFetch(`https://public.test/api/bookmark/${bookmarkId}?fields=id,title,link,difficulty,thumbnail`, {
+  return jsonFetch(`bookmark/${bookmarkId}?fields=id,title,link,difficulty,thumbnail`, {
     method: 'get',
   });
 }

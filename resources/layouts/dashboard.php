@@ -90,10 +90,15 @@ include 'parts/header-dashboard.php';
                                                class="material-icons">settings</a>
                                             <?php
                                         }
+                                        if (TeamHelper::getRole($team->id) != 'OWNER') {
+                                            ?>
+                                            <a href="<?= get_query_url('/teams/' . $team->id) . '/leave' ?>">
+                                                <span class="material-icons"
+                                                      style="color: var(--red)">exit_to_app</span>
+                                            </a>
+                                            <?php
+                                        }
                                         ?>
-                                        <a href="<?= get_query_url('/teams/' . $team->id) . '/leave' ?>">
-                                            <span class="material-icons" style="color: var(--red)">exit_to_app</span>
-                                        </a>
                                     </div>
                                 </div>
                             </div>

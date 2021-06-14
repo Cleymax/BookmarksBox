@@ -47,4 +47,27 @@ class TeamHelper
             throw new InvalidParamException("role", join(',', $roles));
         }
     }
+
+    public static function getRole(string $team_id)
+    {
+        $query = (new Query())
+            ->select('role')
+            ->from('teams_members')
+            ->where('user_id = ?', 'team_id = ?')
+            ->params([Auth::user()->id, $team_id]);
+
+        $role = $query->first()->role;
+
+        return $role;
+    }
+
+    public static function getRoles(): array
+    {
+        return [
+            'MEMBER' => 'Membre',
+            'EDITOR' => 'Editeur',
+            'MANAGER' => 'Manager',
+            'OWNER' => 'Propriétaire'
+        ];
+    }
 }
