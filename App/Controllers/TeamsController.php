@@ -51,18 +51,32 @@ class TeamsController extends Controller
         }
     }
 
-    public function folderView(string $id)
+    public function teamView(string $id)
     {
         try {
             $equipe = $this->Teams->getById($id);
-            $data = $this->Bookmarks->getAllForMe();
+            $data = $this->Bookmarks->getAllForTeam($id);
             $equipes = $this->Teams->getAllForMe();
-            $folders = $this->Folders->getAllForMe();
+            $folders = $this->Folders->getAllForTeam($id);
         } catch (\Exception $e) {
             FlashService::error($e->getMessage());
             http_response_code($e->getCode());
         }
-        $this->render(View::new('teams.dashboard', 'dashboard'), 'Equipe ' . $equipe->name, ['data' => $data ?? [],'id' => $id, 'equipes' => $equipes ?? [],'equipe' => $equipe, 'folders' => $folders ?? []]);
+        $this->render(View::new('teams.dashboard', 'dashboard'), 'Equipe ' . $equipe->name, ['data' => $data ?? [], 'id' => $id, 'equipes' => $equipes ?? [], 'equipe' => $equipe, 'folders' => $folders ?? []]);
+    }
+
+    public function folderView(string $team_id, string $folder_id)
+    {
+        try {
+            $equipe = $this->Teams->getById($team_id);
+            $data = $this->Bookmarks->getAllForTeamInDir($team_id, $folder_id);
+            $equipes = $this->Teams->getAllForMe();
+            $folders = $this->Folders->getAllForTeamInDir($team_id, $folder_id);
+        } catch (\Exception $e) {
+            FlashService::error($e->getMessage());
+            http_response_code($e->getCode());
+        }
+        $this->render(View::new('teams.dashboard', 'dashboard'), 'Equipe ' . $equipe->name, ['data' => $data ?? [], 'id' => $team_id, 'equipes' => $equipes ?? [], 'equipe' => $equipe, 'folders' => $folders ?? []]);
     }
 
     public function getTeams()

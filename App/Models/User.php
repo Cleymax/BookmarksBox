@@ -75,4 +75,17 @@ class User extends Model
 
         return $query->all();
     }
+
+    public function lastCreated(int $user_id)
+    {
+        $query = (new Query())
+            ->select()
+            ->from('bookmarks')
+            ->where('created_by = ?')
+            ->params([$user_id])
+            ->order('modified_at', false)
+        ->limit(5);
+
+        return $query->all();
+    }
 }

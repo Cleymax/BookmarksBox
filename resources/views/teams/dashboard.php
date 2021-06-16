@@ -2,18 +2,18 @@
 
 use App\Helper\TeamHelper;
 
-if (TeamHelper::canManage($id)) {
+if (isset($id) && TeamHelper::canManage($id)) {
     ?>
     <div class="info-point tooltipped" data-tooltip="left" data-text="Gérer l'équipe">
         <a href="<?= get_query_url('/teams/' . $id . '/manager') ?>">
-            <span class="material-icons">edit</span>
+            <span class="material-icons">settings</span>
         </a>
     </div>
     <?php
 }
 ?>
 
-<div class="btn-container"style="margin: 10px;">
+<div class="btn-container" style="margin: 10px;">
     <button class="btn" aria-label="Ajouter un Bookmarks" title="addBookmarks" name="addBookmarks" value="addBookmarks"><span
                 class="material-icons">add</span>Ajouter un Bookmarks
     </button>
@@ -37,7 +37,7 @@ if (TeamHelper::canManage($id)) {
     <?php
     foreach ($folders as $folder) {
         ?>
-        <a href="<?= get_query_url('/folder/'.$folder->id)?>">
+        <a href="<?= get_query_url('/teams/' . $id . '/folder/' . $folder->id) ?>">
             <div class="folder">
                 <span class="material-icons">folder</span>
                 <h3>
@@ -53,11 +53,12 @@ if (TeamHelper::canManage($id)) {
     <?php
     foreach ($data as $bookmarks) {
         ?>
-        <div class="bookmark" bookmark-id="<?= $bookmarks->id?>">
-            <input type="hidden" value="<?= $bookmarks->thumbnail?>" name="link">
-            <input type="hidden" value="<?= $bookmarks->title?>" name="title">
-            <input type="hidden" value="<?= $bookmarks->reading_time?>" name="reading_time">
-            <input type="hidden" value="<?= $bookmarks->difficulty?>" name="difficulty">
+        <div class="bookmark" bookmark-id="<?= $bookmarks->id ?>">
+            <input type="hidden" value="<?= $bookmarks->thumbnail ?>" name="link">
+            <input type="hidden" value="<?= $bookmarks->title ?>" name="title">
+            <input type="hidden" value="<?= $bookmarks->reading_time ?>" name="reading_time">
+            <input type="hidden" value="<?= $bookmarks->difficulty ?>" name="difficulty">
+            <input type="hidden" name="team_id" value="<?= $id ?>">
 
             <img width="200px" height="200px" src="<?= $bookmarks->thumbnail ?>"
                  alt="Avatar de l'équpe <?= $bookmarks->title ?>">
@@ -66,7 +67,8 @@ if (TeamHelper::canManage($id)) {
             </h3>
             <div class="bookmark-infos">
                 <h4>
-                    <span class="material-icons" style="margin-right: 5px">schedule</span><?= $bookmarks->reading_time ?>
+                    <span class="material-icons"
+                          style="margin-right: 5px">schedule</span><?= $bookmarks->reading_time ?>
                 </h4>
                 <h4>
                     Difficultés : <?= $bookmarks->difficulty ?>
@@ -115,7 +117,7 @@ if (TeamHelper::canManage($id)) {
                     $value = ["EASY", "MEDIUM", "DIFFICILE", "PRO"];
 
                     foreach ($value as $v) {
-                        echo "<option value=" . $v . "" . ($v == $bookmarks->difficulty ? ' selected' : '') . ">$v</option>";
+                        echo "<option value=\"" . $v . "\">$v</option>";
                     }
                     ?>
                 </select>
