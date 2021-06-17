@@ -60,16 +60,6 @@ include 'parts/header-dashboard.php';
             </div>
             <div class="line"></div>
             <div class="menu__row">
-                <a href="<?=get_query_url('infos')?>">
-                    <span class="material-icons">info</span>
-                    <span>Informations</span>
-                    <span class="material-icons" style="
-    				margin-left: 90px;
-			"> navigate_next </span>
-                </a>
-            </div>
-            <div class="line"></div>
-            <div class="menu__row">
                 <a href="<?= get_query_url('password')?>">
                     <span class="material-icons">vpn_key</span>
                     <span>Mot de passe</span>

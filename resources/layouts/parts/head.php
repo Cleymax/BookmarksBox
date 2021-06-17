@@ -29,6 +29,8 @@ use App\Services\FlashService;
           integrity="<?= hash_file('sha256', ROOT_PATH . '/css/app.css') ?>" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 
+    <link rel="shortcut icon" href="<?= $_ENV['BASE_URL'] ?>/favicon.ico" type="image/x-icon">
+
     <?php if ($_ENV['MODE'] == 'dev') {
         echo $render->renderHead();
     } ?>

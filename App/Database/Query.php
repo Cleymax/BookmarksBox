@@ -273,11 +273,17 @@ class Query
      * Condition in which the value of a column is in the list of values returned in another query.
      * @param string $column
      * @param \App\Database\Query $q
+     * @param bool $not
+     * @param bool $or
      * @return $this
      */
-    public function whereIn(string $column, Query $q, bool $not = false): self
+    public function whereIn(string $column, Query $q, bool $not = false, bool $or = true): self
     {
-        $this->where[] = $column . ' ' . ($not ? 'NOT ' : ' ') . 'IN (' . $q->__toString() . ')';
+        if ($or) {
+            $this->where[] = $column . ' ' . ($not ? 'NOT ' : ' ') . 'IN (' . $q->__toString() . ')';
+        } else {
+            $this->where[sizeof($this->where) - 1] .= ' OR '. $column . '' . ($not ? 'NOT ' : ' ') . 'IN (' . $q->__toString() . ')';
+        }
         return $this;
     }
 

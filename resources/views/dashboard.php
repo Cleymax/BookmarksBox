@@ -112,7 +112,7 @@
                     $value = ["EASY", "MEDIUM", "DIFFICILE", "PRO"];
 
                     foreach ($value as $v) {
-                        echo "<option value=''" . $v . "'>$v</option>";
+                        echo "<option value=\"" . $v . "\">$v</option>";
                     }
                     ?>
                 </select>
@@ -203,7 +203,7 @@
                         $value = ["EASY", "MEDIUM", "DIFFICILE", "PRO"];
 
                         foreach ($value as $v) {
-                            echo "<option value=''" . $v ."'>$v</option>";
+                            echo "<option value=\"" . $v . "\">$v</option>";
                         }
                         ?>
                     </select>

@@ -84,8 +84,22 @@ class User extends Model
             ->where('created_by = ?')
             ->params([$user_id])
             ->order('modified_at', false)
-        ->limit(5);
+            ->limit(5);
 
         return $query->all();
+    }
+
+    public function changeAvatar(string $avatar)
+    {
+        $query = (new Query())
+            ->update()
+            ->into($this->table)
+            ->where("id = ?")
+            ->set([
+                'avatar' => '?'
+            ])
+            ->params([$avatar, Auth::user()->id]);
+
+        $query->execute();
     }
 }
