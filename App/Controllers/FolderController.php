@@ -25,7 +25,7 @@ class FolderController extends Controller
             FlashService::error($e->getMessage());
             http_response_code($e->getCode());
         }
-        $this->render(View::new('dashboard', 'dashboard'), 'Accueil', ['data' => $data ?? [], 'equipes' => $equipes ?? [], 'folders' => $folders ?? []]);
+        $this->render(View::new('dashboard', 'dashboard'), 'Accueil', ['data' => $data ?? [], 'equipes' => $equipes ?? [], 'folders' => $folders ?? [], 'folder_id' => $id]);
     }
 
 }

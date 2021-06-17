@@ -105,6 +105,7 @@ if (btnAddBookmark2) {
   });
 }
 
+
 const btnaddFolders = document.getElementById('addFolders');
 if (btnaddFolders) {
   btnaddFolders.addEventListener('click', () => {
@@ -145,10 +146,60 @@ if (finalBtnAdd) {
     const link = document.getElementById('link-Finalmodal').value;
     createBookmark(title, link, thumbnail, difficulty, description).then((response) => {
       flash('ça marche', 'success', 2);
+
+
+const btnaddFolders = document.getElementById('addFolders');
+if(btnaddFolders){
+  btnaddFolders.addEventListener('click', () => {
+    const modal = document.getElementById('modal-add-folder');
+    modal.style.display = 'block';
+  });
+}
+const btnAddBookmark = document.getElementById('addBookmarks');
+if(btnAddBookmark){
+  btnAddBookmark.addEventListener('click', () => {
+    const modal = document.getElementById('modal-add');
+    const title = document.getElementById('title-addModal');
+    const link = document.getElementById('link-addModal');
+    link.parentNode.style.display = 'block';
+    title.parentNode.style.display = 'none';
+    modal.style.display = 'block';
+    document.getElementById('titleModalAdd').innerHTML = "Ajouter un bookmark";
+  });
+}
+const btnAddFolder = document.getElementById('btnAddFolder');
+if(btnAddFolder){
+  btnAddFolder.addEventListener('click', () => {
+    const color = document.getElementById('color-addModal').value;
+    const name = document.getElementById('title-addModal').value;
+    if(window.BB.FOLDER_ID == null){
+      createFolder(name, color).then((response) => {
+        flash("ça marche", "success", 2);
+      })
+    }else{
+      createFolder(name, color, window.BB.FOLDER_ID).then((response) => {
+        flash("ça marche", "success", 2);
+      })
+    }
+  });
+}
+const finalBtnAdd = document.getElementById('finalBtnAdd');
+if(finalBtnAdd){
+  finalBtnAdd.addEventListener('click', () => {
+    const title = document.getElementById('title-Finalmodal').value;
+    const thumbnail = document.getElementById('thumbnail-Finalmodal').value;
+    const description = document.getElementById('description-Finalmodal').value;
+    const difficulty = document.getElementById('difficulty-Finalmodal').value;
+    const link = document.getElementById('link-Finalmodal').value;
+    createBookmark(title, link, thumbnail, difficulty, description).then((response) => {
+      flash("ça marche", "success", 2);
     });
     document.location.reload();
   });
-}
+  document.location.reload();
+});
+
+
 
 function resetAddModal() {
   const title = document.getElementById('title-addModal');
@@ -159,6 +210,7 @@ function resetAddModal() {
   color.parentNode.style.display = 'none';
   document.getElementById('titleModalAdd').innerHTML = 'Ajouter un bookmark';
 }
+
 
 function closeModalInfo() {
   const menuInfo = document.getElementById('menu-info');

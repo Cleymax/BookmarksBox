@@ -91,6 +91,7 @@ Route::get('/folder/create/{name}/color/{color}', [FolderApiController::class, '
 Route::get('/folder/{id}',  [FolderApiController::class, 'getFolder'], true)->where('id', '\w{10}')->api();
 Route::get('/isFolder/{id]}', [FolderApiController::class, 'isFolder'], true)->where('id', '\w{10}')->api();
 Route::get('/folder/{id}/bookmarks', [FolderApiController::class, 'getFolderBookmark'], false)->api();
+Route::post('/folder', [FolderApiController::class, 'createFolder'], false)->api();
 
 Route::get('/bookmarks', [BookmarkApiController::class, 'getAllBookmarks'], true)->api();
 Route::get('/bookmark/{id}', [BookmarkApiController::class, 'getBookmark'], true)->where('id', '\w{10}')->api();

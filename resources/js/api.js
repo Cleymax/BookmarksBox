@@ -212,3 +212,14 @@ export async function createBookmark(title, link, thumbnail, difficulty, descrip
     },
   });
 }
+
+export async function createFolder(name, color, parent_id = null) {
+  return jsonFetch(`folder`, {
+    method: 'post',
+    body: {
+      name: name,
+      color: color,
+      parent: parent_id,
+    }
+  });
+}
