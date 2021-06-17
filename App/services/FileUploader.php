@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Database\Query;
 use App\Exceptions\FileUploadException;
+use App\Security\Auth;
 use App\Tools\Str;
 
 class FileUploader
@@ -50,5 +52,15 @@ class FileUploader
         } else {
             return $_ENV['UPLOAD_FOLDER_URI'] . '/' . $file_name;
         }
+    }
+
+    public static function getSrcAvatar()
+    {
+        $query = (new Query())
+            ->select('avatar')
+            ->from('users')
+            ->where('id = ?')
+            ->params([Auth::user()->id]);
+        return self::getSrc($query->first()->avatar);
     }
 }

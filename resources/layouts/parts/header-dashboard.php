@@ -24,8 +24,8 @@
     <div class="header-right">
         <?php
 
-        use App\Router\Router;
         use App\Security\Auth;
+        use App\Services\FileUploader;
 
         if (!Auth::check()) {
             ?>
@@ -38,7 +38,7 @@
             ?>
             <a href="<?= get_query_url('profile') ?>" class="btn btn-rounded btn-outlined btn-white profile"
                accesskey="p">
-                <img src="https://www.belin.re/wp-content/uploads/2018/11/default-avatar.png" alt="Avatar">
+                <img src="<?= FileUploader::getSrcAvatar() ?>" alt="Avatar">
                 <span><?= Auth::user()->username ?></span>
             </a>
             <a href="<?= get_query_url('logout') ?>" class="btn btn-rounded btn-outlined btn-white" accesskey="i"><span
@@ -51,19 +51,19 @@
 <div id="context-menu">
     <input type="hidden" value="default" name="id">
     <div class="item" move>
-        <span class="material-icons" style="margin-right: 10px">drive_file_move</span>  Déplacer
+        <span class="material-icons" style="margin-right: 10px">drive_file_move</span> Déplacer
     </div>
     <div class="item" edit>
-        <span class="material-icons" style="margin-right: 10px">edit</span>  Modifier
+        <span class="material-icons" style="margin-right: 10px">edit</span> Modifier
     </div>
     <div class="item" delete>
-        <span class="material-icons" style="margin-right: 10px">delete</span>  Supprimer
+        <span class="material-icons" style="margin-right: 10px">delete</span> Supprimer
     </div>
     <div class="item" favorite>
-        <span class="material-icons" style="margin-right: 10px">star</span>  Mettre en favoris
+        <span class="material-icons" style="margin-right: 10px">star</span> Mettre en favoris
     </div>
     <div class="item" info>
-        <span class="material-icons" style="margin-right: 10px">info</span>  Informations
+        <span class="material-icons" style="margin-right: 10px">info</span> Informations
     </div>
 </div>
 

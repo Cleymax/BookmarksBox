@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Security\Auth;
 use App\Security\AuthException;
+use App\Services\FileUploader;
 use App\Services\FlashService;
 use App\Views\View;
 
@@ -71,7 +72,25 @@ class SettingsController extends Controller
 
     public function profilpicView()
     {
-        $this->render(View::new('settings.profil_picture', 'settings'), "Image de Profile");
+
+        $data = $this->User->getById(Auth::user()->id);
+        $this->render(View::new('settings.profil_picture', 'settings'), "Image de Profile", ['data' => $data]);
+    }
+
+    public function profilpic()
+    {
+        try {
+            $new_path = FileUploader::getFileUpload('file');
+            if (!empty($new_path)) {
+                $avatar = $new_path['name'];
+                $this->User->changeAvatar($avatar);
+                FlashService::success('Avatar modifié !',5);
+            }
+        } catch (\Exception $e) {
+            FlashService::error($e->getMessage(), 4);
+        }
+        $data = $this->User->getById(Auth::user()->id);
+        $this->render(View::new('settings.profil_picture', 'settings'), "Image de Profile", ['data' => $data]);
     }
 
     public function biographyView()
@@ -104,6 +123,7 @@ class SettingsController extends Controller
     {
         $this->render(View::new('settings.delete', 'settings'), "Supprimer");
     }
+
     public function passwordView()
     {
         $user = $this->User->getById(Auth::user()->id);

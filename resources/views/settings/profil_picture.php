@@ -1,18 +1,28 @@
+<?php
+
+use App\Services\CsrfService;
+use App\Services\FileUploader;
+
+?>
 <div class="settings-container">
     <h3>Changez votre photo de profil</h3>
-    <form method="post">
-        <?= \App\Services\CsrfService::html() ?>
+    <form method="post" enctype="multipart/form-data">
+        <?= CsrfService::html() ?>
         <div class="form-group">
             <div class="file-upload">
                 <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Ajouter une image</button>
-                <div class="image-upload-wrap">
-                    <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" />
+                <div class="image-upload-wrap" <?php if (!is_null($data->avatar)) {
+                    echo 'style="display: none !important;"';
+                } ?>>
+                    <input class="file-upload-input" type='file' name="file" onchange="readURL(this);" accept="image/*" />
                     <div class="drag-text">
                         <h3>Déplacer un fichier ici !</h3>
                     </div>
                 </div>
-                <div class="file-upload-content">
-                    <img class="file-upload-image" src="#" alt="your image" />
+                <div class="file-upload-content"  <?php if (!is_null($data->avatar)) {
+                    echo 'style="display: block !important;"';
+                } ?>>
+                    <img class="file-upload-image" src="<?= $data->avatar ? FileUploader::getSrc($data->avatar) : '' ?>" alt="your image" />
                     <div class="image-title-wrap">
                         <button type="button" onclick="removeUpload()" class="remove-image">Supprimer <span class="image-title"></span></button>
                     </div>

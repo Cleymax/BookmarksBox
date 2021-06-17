@@ -78,6 +78,7 @@ Route::post('/settings/account/delete', [SettingsController::class, 'delete'], t
 
 
 Route::get('/dashboard', [DashboardController::class, 'dashboard'], true, 'dashboard');
+Route::get('/recherche', [DashboardController::class, 'recherche'], true, 'recherche');
 Route::post('/dashboard', [BookmarkController::class, 'update'], true);
 Route::get('/favorite', [DashboardController::class, 'favorite'], true);
 Route::delete('/favorite/{id}', [BookmarkApiController::class, 'removeFavorite'], true)->where('id', '\w{10}')->api();
@@ -131,9 +132,5 @@ Route::get('/folders-main', [FolderApiController::class, 'getFolders'])->where('
 
 Route::get('/scrape', [ScrapingApiController::class, 'scrape'])->api();
 
-
-//Route::any('/404', function () {
-//    return View::new('404');
-//}, false);
 Route::redirect('/', '/dashboard', true);
 Router::init();

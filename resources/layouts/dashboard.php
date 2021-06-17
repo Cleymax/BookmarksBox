@@ -24,6 +24,17 @@ include 'parts/header-dashboard.php';
                     </a>
                 </div>
                 <div class="line"></div>
+
+                <form action="recherche" method="get">
+                    <label for="search" class="textfield" style="width: 100%;">
+                        <input type="text" name="q">
+                        <span>Rechercher</span>
+                        <span class="material-icons"
+                              style="    top: 10px; position: absolute; right: 5px;">search</span>
+                    </label>
+                    <input style="display: none" type="submit" value="Rechercher">
+                </form>
+                <div class="line"></div>
                 <div id="folders">
                     <?php
                     for ($i = 0; $i < 4; $i++) {
@@ -110,7 +121,7 @@ include 'parts/header-dashboard.php';
                 <img src="https://placeimg.com/200/200/any" class="img-info">
                 <h3 class="flex-center">Mon Bookmarks</h3>
                 <div class="info">
-                    <h5>Temps de lecture  : </h5>
+                    <h5>Temps de lecture : </h5>
                     <h5>Difficultés : </h5>
                     <h5><span class="material-icons">description</span> Description</h5>
                     <textarea class="description-info" disabled="disabled">Description</textarea>

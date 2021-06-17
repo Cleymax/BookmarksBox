@@ -160,4 +160,15 @@ class Bookmarks extends Model
 
         return $query->first();
     }
+
+    public function search(string $recherche)
+    {
+        $query = (new Query())
+            ->select('id', 'thumbnail', 'title', 'reading_time', 'difficulty', 'team_id')
+            ->into("bookmarks")
+            ->where('(created_by = ? AND LOWER(title) LIKE LOWER(?)) OR (LOWER(title) LIKE LOWER(?) AND team_id  IN (SELECT team_id FROM teams_members WHERE (user_id = ?)))')
+            ->params([Auth::user()->id, "%$recherche%", "%$recherche%", Auth::user()->id]);
+
+        return $query->all();
+    }
 }
