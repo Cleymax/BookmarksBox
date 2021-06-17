@@ -2,8 +2,10 @@
 
 namespace App\Api;
 
+use _HumbugBox15516bb2b566\React\Dns\Query\Query;
 use App\Controllers\Controller;
 use App\Database\QueryApi;
+use App\Exceptions\NotFoundException;
 use App\Security\Auth;
 
 class FolderApiController extends Controller
@@ -49,4 +51,123 @@ class FolderApiController extends Controller
     {
         $this->getFolderById(null);
     }
+
+    public function getAllFolders()
+    {
+        $query = (new QueryApi())
+            ->select()
+            ->from('folders')
+            ->where('user_id = ?')
+            ->params([Auth::userApi()->id]);
+
+        $query->setPossibility(['id', 'name', 'parent_id_folder', 'color', 'team_id', 'user_id', 'created_at']);
+        $query->setDefault(['id', 'name', 'color', 'created_at']);
+        $query->build();
+
+        $this->respond_json([
+            'user_id' => Auth::userApi()->id,
+            'data' => $query->all(),
+        ]);
+    }
+
+    public function getFolder(string $folder_id)
+    {
+        $query = (new QueryApi())
+            ->select()
+            ->from('folders')
+            ->where('user_id = ?', 'id = ?')
+            ->params([Auth::userApi()->id, $folder_id]);
+
+        $query->setPossibility(['id', 'name', 'parent_id_folder', 'color', 'team_id', 'user_id', 'created_at']);
+        $query->setDefault(['id', 'name', 'color', 'created_at']);
+        $query->build();
+
+        $this->respond_json([
+            'user_id' => Auth::userApi()->id,
+            'data' => $query->all(),
+        ]);
+
+    }
+
+    public function deleteFolder(string $folder_id)
+    {
+        $this->Folders->delete($folder_id);
+
+        $this->respond_json([
+            'type' => 'success',
+            'message' => 'Vous avez bien supprime ce dossier',
+        ]);
+    }
+
+    public function createFolder(string $name, string $color)
+    {
+        $color = "#".$color;
+
+        $query = (new Query())
+            ->insert("name", "color")
+            ->into("folders")
+            ->values(["?", "?"])
+            ->params([$name, $color]);
+
+        $query->execute();
+
+        $this->respond_json([
+            'type' => 'success',
+            'message' => 'Vous avez bien crée un nouveau dossier',
+        ]);
+    }
+
+    public function isFolder(string $id)
+    {
+        $query = (new Query())
+            ->select()
+            ->from('bookmarks')
+            ->where('created_by = ?', 'id = ?')
+            ->params([Auth::userApi()->id, $id])
+            ->returning("id");
+
+        $response = $query->first();
+
+        $this->respond_json([
+            'type' => 'success',
+            'result' => $response,
+        ]);
+    }
+
+    function moveFolder(string $folderId, string $parentFolderId)
+    {
+        $query = (new Query())
+            ->update()
+            ->into("bookmarks")
+            ->where("id = ?")
+            ->set(["parent_id_folder" => '?'])
+            ->params([$parentFolderId, $folderId])
+            ->returning("id");
+
+        $query->first();
+
+        $this->respond_json([
+            'type' => 'success',
+            'message' => 'Vous avez bien déplacer ce dossier',
+        ]);
+    }
+
+    function getFolderBookmark(string $folderId)
+    {
+        $query = (new QueryApi())
+            ->select()
+            ->from('bookmarks')
+            ->where('folder = ?')
+            ->params([$folderId]);
+
+        $query->setPossibility(['id', 'title', 'link', 'thumbnail', 'reading_time', 'pin', 'difficulty', 'created_at']);
+        $query->setDefault(['id', 'title', 'link', 'created_at']);
+        $query->build();
+
+        $this->respond_json([
+            'parent_folder' => $folderId,
+            'data' => $query->all(),
+        ]);
+    }
+
 }

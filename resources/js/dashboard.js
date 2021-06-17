@@ -2,6 +2,9 @@ import { addFavorite, removeFavorite, deleteBookmark, getBookmarkInfo, isFavorit
 import { flash } from './elements/Alert';
 import moment from 'moment';
 
+OnClickMove();
+onAdd();
+
 export default function itemMenu() {
   const btnMenu = document.querySelectorAll('.item');
 
@@ -11,7 +14,6 @@ export default function itemMenu() {
       if (value.hasAttribute('favorite')) {
         isFavorite(bookmarkId, (response) => {
           if(response.isFavorite === false){
-            console.log("isFavorite is false");
             addFavorite(bookmarkId, (response) => {
               flash(response.message, 'success', 2);
             });
@@ -67,10 +69,8 @@ export function OnClickMove(){
   if(btn){
     console.log("btn");
     btn.addEventListener('click', () => {
-      console.log('move');
       const folderId = document.querySelector("folder-menu-row[moveSelected]").getAttribute('folder-id');
       const bookmarkId = document.getElementById('moveMenu').children[0].value;
-      console.log("Bookmark ID : " + bookmarkId + "\n Folder ID : " + folderId);
       moveItem(bookmarkId, folderId).then((response) => {
         const bookmarks = document.querySelectorAll('.bookmark')
         bookmarks.forEach((bookmark) => {
@@ -80,25 +80,46 @@ export function OnClickMove(){
         });
         const menuMove = document.getElementById('moveMenu');
         menuMove.parentNode.style.display = 'none';
-        flash('ça marche', 'success', 2);
+        flash(response.message, 'success', 2); /* Casser ça flash pas*/
       });
     });
   }
 }
 
-export function onAddFolder(){
-  const btn = document.getElementById('addFolders');
-  if(btn){
-    btn.addEventListener('click', () => {
+export function onAdd(){
+  const btnaddFolders = document.getElementById('addFolders');
+  if(btnaddFolders){
+    btnaddFolders.addEventListener('click', () => {
       const modal = document.getElementById('modal-add');
+      const color = document.getElementById('color-addModal');
+      color.parentNode.style.display = 'block';
       modal.style.display = 'block';
+      document.getElementById('titleModalAdd').innerHTML = "Ajouter un dossier";
     });
   }
-
+  const btnAddBookmark = document.getElementById('addBookmarks');
+  if(btnAddBookmark){
+    btnAddBookmark.addEventListener('click', () => {
+      const modal = document.getElementById('modal-add');
+      const title = document.getElementById('title-addModal');
+      const link = document.getElementById('link-addModal');
+      link.parentNode.style.display = 'block';
+      title.parentNode.style.display = 'none';
+      modal.style.display = 'block';
+      document.getElementById('titleModalAdd').innerHTML = "Ajouter un bookmark";
+    });
+  }
 }
 
-OnClickMove();
-onAddFolder();
+function resetAddModal(){
+  const title = document.getElementById('title-addModal');
+  const color = document.getElementById('color-addModal');
+  const link = document.getElementById('link-addModal');
+  title.parentNode.style.display = 'block';
+  link.parentNode.style.display = 'none';
+  color.parentNode.style.display = 'none';
+  document.getElementById('titleModalAdd').innerHTML = "Ajouter un bookmark";
+}
 
 function closeModalInfo() {
   const menuInfo = document.getElementById('menu-info');
@@ -124,5 +145,10 @@ if(closeMove) {
 window.onclick = function (event) {
   if (event.target === modal) {
     modal.style.display = 'none';
+  }
+  const modalAdd = document.getElementById('modal-add');
+  if(event.target === modalAdd){
+    resetAddModal()
+    modalAdd.style.display = 'none';
   }
 };

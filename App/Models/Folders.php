@@ -46,8 +46,4 @@ class Folders extends Model
 
         $query->execute();
     }
-
-
-
-
 }

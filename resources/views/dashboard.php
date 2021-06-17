@@ -1,6 +1,6 @@
 
 <div class="btn-container"style="margin: 10px;">
-    <button class="btn" aria-label="Ajouter un Bookmarks" title="addBookmarks" name="addBookmarks" value="addBookmarks"><span
+    <button class="btn" id="addBookmarks" aria-label="Ajouter un Bookmarks" title="addBookmarks" name="addBookmarks" value="addBookmarks"><span
                 class="material-icons">add</span>Ajouter un Bookmarks
     </button>
     <button class="btn" id="addFolders" aria-label="Ajouter un dossier" title="addFolders" name="addFolders" value="addFolders"><span
@@ -24,7 +24,7 @@
     foreach ($folders as $folder) {
         ?>
         <a href="<?= get_query_url('/folder/'.$folder->id)?>">
-            <div class="folder">
+            <div class="folder" style="color: <?= $folder->color?>">
                 <span class="material-icons">folder</span>
                 <h3>
                     <?= $folder->name ?>
@@ -111,9 +111,9 @@
             </form>
         </div>
     </div>
-    <div class="modal" id="modal-add" style="padding-top: 200px;">
+    <div class="modal" id="modal-add" style="padding-top: 250px;">
         <div class="modal-frame">
-            <h4>Ajouter un dossier</h4>
+            <h4 id="titleModalAdd">Ajouter un dossier</h4>
             <form method="post">
                 <label for="title-addModal" class="textfield">
                     <input type="text" id="title-addModal" autocomplete="title" name="title" spellcheck="false"
@@ -122,12 +122,19 @@
                            autocapitalize="none" dir="ltr">
                     <span aria-hidden="true">Titre</span>
                 </label>
-                <label for="color-addModal" class="">
+                <label for="link-addModal" class="textfield" style="display: none">
+                    <input type="text" id="link-addModal" autocomplete="link" name="link" spellcheck="false"
+                           tabindex="2" aria-label="Liens" required aria-required="true"
+                           title="Liens"
+                           autocapitalize="none" dir="ltr">
+                    <span aria-hidden="true">Liens</span>
+                </label>
+                <label for="color-addModal" style="display: none">
+                    <span aria-hidden="true">Code Couleur Hexa</span>
                     <input type="color" id="color-addModal" name="color" spellcheck="false"
                            tabindex="2" aria-label="Couleur" required aria-required="true"
                            title="Couleur"
                            autocapitalize="none" dir="ltr">
-                    <span aria-hidden="true">Code Couleur Hexa</span>
                 </label>
                 <button class="btn" aria-label="add" title="add" name="action" value="add"><span
                             class="material-icons">add</span>Ajouter

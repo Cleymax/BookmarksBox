@@ -82,11 +82,16 @@ Route::get('/favorite', [DashboardController::class, 'favorite'], true);
 Route::delete('/favorite/{id}', [BookmarkApiController::class, 'removeFavorite'], true)->where('id', '\w{10}')->api();
 
 Route::get('/folder/{id}', [FolderController::class, 'folderView'], true, 'folder')->where('id', '\w{10}');
-Route::post('/folder/{id}', [FolderController::class, 'createFolder'], true);
-Route::put('/folder/{id}', [FolderController::class, 'editFolder'], true);
-Route::delete('/folder/{id}', [FolderController::class, 'deleteFolder'], true);
-Route::get('/folder/{id}/bookmarks', [FolderController::class, 'getFolderBookmark'], false);
-Route::get('/folder/{id}/info', [FolderController::class, 'getFolderInfo'], true);
+/* Problème sur les routes avec les dossier sur la navbar
+Route::get('/folders',  [FolderApiController::class, 'getAllFolders'], true)->api();
+*/
+Route::post('/folder/create/{name}/color/{color}', [FolderApiController::class, 'createFolder'], true)->api();
+Route::get('/folder/{id}/delete', [FolderApiController::class, 'deleteFolder'], true)->where('id', '\w{10}')->api();
+Route::get('/folder/create/{name}/color/{color}', [FolderApiController::class, 'createFolder'], true)->api();
+Route::get('/folder/{id}',  [FolderApiController::class, 'getFolder'], true)->where('id', '\w{10}')->api();
+Route::get('/isFolder/{id]}', [FolderApiController::class, 'isFolder'], true)->where('id', '\w{10}')->api();
+/*Route::put('/folder/{id}/edit', [FolderController::class, 'editFolder'], true);*/
+Route::get('/folder/{id}/bookmarks', [FolderApiController::class, 'getFolderBookmark'], false)->api();
 
 Route::get('/bookmarks', [BookmarkApiController::class, 'getAllBookmarks'], true)->api();
 Route::get('/bookmark/{id}', [BookmarkApiController::class, 'getBookmark'], true)->where('id', '\w{10}')->api();
