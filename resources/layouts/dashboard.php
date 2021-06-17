@@ -39,12 +39,6 @@ include 'parts/header-dashboard.php';
                     }
                     ?>
                 </div>
-                <!--                <div class="menu__row">-->
-                <!--                    <a href="">-->
-                <!--                        <span class="material-icons">folder</span>-->
-                <!--                        <span class="tooltipped" data-text="Je sais aps torp pkk tu pense ça !  dqzd">Je sais aps torp pkk tu pense ça !  dqzd</span>-->
-                <!--                    </a>-->
-                <!--                </div>-->
                 <div class="line"></div>
                 <div class="menu__row">
                     <a href="<?= get_query_url('/favorite') ?>">

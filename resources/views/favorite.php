@@ -4,7 +4,7 @@
     <?php
     foreach ($data as $bookmark) {
         ?>
-        <div class="team cards" data-id="<?= $bookmark->id ?>" style="width: 170px;">
+        <div class="team  cards" data-id="<?= $bookmark->id ?>" style="width: 170px;">
             <a href="#<?= $bookmark->id ?>">
                 <img class="img-200" src="<?= $bookmark->thumbnail ?>" alt="Miniature de  <?= $bookmark->title ?>">
                 <h3>

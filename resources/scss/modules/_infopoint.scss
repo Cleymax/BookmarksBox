@@ -2,6 +2,7 @@
   position: absolute;
   top: 30px;
   right: 30px;
+  z-index: 5000;
 
   & a span.material-icons {
     font-size: 35px;
@@ -16,5 +17,18 @@
       transform: scale(1.15) rotate(45deg);
     }
 
+  }
+}
+
+.grid-250 > a {
+  @include screen-down(500) {
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
+.grid-250 > .bookmark {
+  @include screen-down(500) {
+    margin-right: auto;
+    margin-left: auto;
   }
 }

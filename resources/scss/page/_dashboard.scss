@@ -124,31 +124,27 @@
     box-shadow: 3px 5px 6px rgba(0, 0, 0, 0.25);
     padding: 10px;
 
-    & h5{
+    & h5 {
       display: flex;
       align-items: center;
       margin-bottom: 10px;
     }
 
-    & .info{
+    & .info {
       display: flex;
       flex-direction: column;
       align-items: center;
     }
 
-    & textarea{
+    & textarea {
       display: flex;
       align-items: center;
       justify-content: center;
       width: 220px;
     }
 
-    & .description-info{
+    & .description-info {
       height: 200px;
-    }
-
-    @include screen-down(600px){
-      width: 100%;
     }
 
     & .equipe a {
@@ -254,7 +250,7 @@
     height: calc(100% - 5px);
     overflow-y: scroll;
 
-    @include screen-down(600px){
+    @include screen-down(600px) {
       display: none;
     }
   }
@@ -294,4 +290,13 @@
 
 .star {
   color: var(--yellow) !important;
+}
+
+.btn-container {
+  display: flex;
+  gap: 10px;
+
+  @include screen-down(600) {
+    flex-direction: column;
+  }
 }

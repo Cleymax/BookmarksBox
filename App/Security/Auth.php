@@ -414,7 +414,7 @@ class Auth
 
         $count = $query->rowCount();
         if ($count == 0) {
-            $email = "$u@etu.univ-smb.fr";
+            $email = "$u@iut-acy.univ-smb.fr";
             $query = (new Query())
                 ->insert("email", "username", "password", "verify")
                 ->into("users")

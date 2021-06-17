@@ -29,9 +29,9 @@ abstract class Controller
 
     public function respond_json($json)
     {
-        if(getenv('API_RATE_LIMIT_ENABLE')){
+        if (getenv('API_RATE_LIMIT_ENABLE')) {
             $status = RateLimitService::getStatus();
-            $rate =  [
+            $rate = [
                 'limit' => $status->getLimit(),
                 'remaining' => $status->getRemainingAttempts(),
                 'reset_at' => $status->getResetAt()->format(DATE_ISO8601)
@@ -90,12 +90,12 @@ abstract class Controller
     public function checkGet(string $value, string $message, ?string $regex = null): void
     {
         if (!isset($_GET[$value]) || $_GET[$value] == null || $_GET[$value] == '') {
-            throw new \Exception($message);
+            throw new \Exception($message, 500);
         }
         if (!is_null($regex)) {
             preg_match("@$regex@", $_GET[$value], $matchs);
             if (empty($matchs)) {
-                throw new \Exception($message);
+                throw new \Exception($message, 500);
             }
         }
     }
