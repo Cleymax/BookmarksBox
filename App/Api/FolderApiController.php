@@ -102,15 +102,16 @@ class FolderApiController extends Controller
         ]);
     }
 
-    public function createFolder(string $name, string $color)
+    public function createFolder()
     {
-        $color = "#".$color;
+        $data = getBody();
+        $json = json_decode($data, true);
 
         $query = (new Query())
-            ->insert("name", "color", "user_id")
+            ->insert("name", "color", "parent_id_folder","user_id")
             ->into("folders")
-            ->values(["?", "?", "?"])
-            ->params([$name, $color, Auth::userApi()->id]);
+            ->values(["?", "?", "?", "?"])
+            ->params([$json["name"], $json["color"], $json["parent"], Auth::userApi()->id]);
 
         $query->execute();
 
@@ -172,5 +173,7 @@ class FolderApiController extends Controller
             'data' => $query->all(),
         ]);
     }
+
+
 
 }
