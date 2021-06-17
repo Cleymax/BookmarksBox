@@ -5,6 +5,7 @@ namespace App;
 use App\Api\AuthApiController;
 use App\Api\BookmarkApiController;
 use App\Api\FolderApiController;
+use App\Api\ScrapingApiController;
 use App\Api\TeamsApiController;
 use App\Api\UserApiController;
 use App\Controllers\AuthController;
@@ -81,16 +82,14 @@ Route::post('/dashboard', [BookmarkController::class, 'update'], true);
 Route::get('/favorite', [DashboardController::class, 'favorite'], true);
 Route::delete('/favorite/{id}', [BookmarkApiController::class, 'removeFavorite'], true)->where('id', '\w{10}')->api();
 
+
 Route::get('/folder/{id}', [FolderController::class, 'folderView'], true, 'folder')->where('id', '\w{10}');
-/* Problème sur les routes avec les dossier sur la navbar
 Route::get('/folders',  [FolderApiController::class, 'getAllFolders'], true)->api();
-*/
 Route::post('/folder/create/{name}/color/{color}', [FolderApiController::class, 'createFolder'], true)->api();
 Route::get('/folder/{id}/delete', [FolderApiController::class, 'deleteFolder'], true)->where('id', '\w{10}')->api();
 Route::get('/folder/create/{name}/color/{color}', [FolderApiController::class, 'createFolder'], true)->api();
 Route::get('/folder/{id}',  [FolderApiController::class, 'getFolder'], true)->where('id', '\w{10}')->api();
 Route::get('/isFolder/{id]}', [FolderApiController::class, 'isFolder'], true)->where('id', '\w{10}')->api();
-/*Route::put('/folder/{id}/edit', [FolderController::class, 'editFolder'], true);*/
 Route::get('/folder/{id}/bookmarks', [FolderApiController::class, 'getFolderBookmark'], false)->api();
 
 Route::get('/bookmarks', [BookmarkApiController::class, 'getAllBookmarks'], true)->api();
@@ -103,7 +102,8 @@ Route::get('/bookmark/{id}/delete', [BookmarkApiController::class, 'delete'], tr
 
 Route::get('/teams/create', [TeamsController::class, 'createView'], true, 'teams_add');
 Route::post('/teams/create', [TeamsController::class, 'create'], true);
-Route::get('/teams/{id}', [TeamsController::class, 'folderView'], true)->where('id', '\w{10}');
+Route::get('/teams/{id}', [TeamsController::class, 'teamView'], true)->where('id', '\w{10}');
+Route::get('/teams/{id}/folder/{folder}', [TeamsController::class, 'folderView'], true)->where('folder', '\w{10}')->where('id', '\w{10}');
 Route::get('/teams/{id}/manager', [TeamsController::class, 'teamManageView'], true)->where('id', '\w{10}');
 Route::post('/teams/{id}/manager', [TeamsController::class, 'teamManage'], true)->where('id', '\w{10}');
 Route::get('/teams/{id}/leave', [TeamsController::class, 'leaveViewTeam'], true)->where('id', '\w{10}');
@@ -124,8 +124,10 @@ Route::put('/teams/{id}/members/{member}', [TeamsApiController::class, 'addMembe
 Route::post('/teams/{id}/members/{member}/role', [TeamsApiController::class, 'changeRoleMember'])->where('id', '\w{10}')->api();
 Route::get('/teams/{id}/settings', [TeamsApiController::class, 'getTeamSettings'])->where('id', '\w{10}')->api();
 
-Route::get('/folders/{id}',[FolderApiController::class, 'getFolderById'])->where('id','\w{10}')->api();
-Route::get('/folders',[FolderApiController::class, 'getFolders'])->where('id','\w{10}')->api();
+Route::get('/folders/{id}', [FolderApiController::class, 'getFolderById'])->where('id', '\w{10}')->api();
+Route::get('/folders', [FolderApiController::class, 'getFolders'])->where('id', '\w{10}')->api();
+
+Route::get('/scrape', [ScrapingApiController::class, 'scrape'])->api();
 
 
 //Route::any('/404', function () {

@@ -14,6 +14,8 @@ use App\Exceptions\UnknownFieldException;
 use App\Helper\TeamHelper;
 use App\Security\Auth;
 
+require ROOT_PATH . '/../App/Tools/Array.php';
+
 class TeamsApiController extends Controller
 {
     /**
@@ -137,26 +139,33 @@ class TeamsApiController extends Controller
      */
     public function changeRoleMember(string $team_id, int $member_id)
     {
+        $json = get_body_json();
+        $role = $json['role'] ?? '';
+
+        TeamHelper::checkRoleExist($role);
+
         $query = (new Query())
             ->select('role')
             ->from('teams_members')
             ->where('team_id = ?', 'user_id = ?')
             ->params([$team_id, Auth::userApi()->id]);
 
-        if ($query->rowCount() == 0) {
+        $query2 = (new Query())
+            ->select('role')
+            ->from('teams_members')
+            ->where('team_id = ?', 'user_id = ?')
+            ->params([$team_id, $member_id]);
+
+        if ($query->rowCount() == 0 || $query2->rowCount() == 0) {
             throw new NotFoundException('Equipe non trouvé !');
         }
 
         $response = $query->first();
+        $response2 = $query2->first();
 
-        if (!TeamHelper::canManageWithRole($response->role)) {
-            throw new MissingAccessException("Tu n'as pas la permission !");
+        if (!TeamHelper::canManageWithRole($response->role) || get_array_index($response2->role, TeamHelper::getRoles()) > get_array_index($response->role, TeamHelper::getRoles()) || get_array_index($role,TeamHelper::getRoles()) > get_array_index($response->role, TeamHelper::getRoles())) {
+            throw new MissingAccessException();
         }
-
-        $json = get_body_json();
-        $role = $json['role'] ?? '';
-
-        TeamHelper::checkRoleExist($role);
 
         $query = (new Query())
             ->update()
@@ -221,14 +230,21 @@ class TeamsApiController extends Controller
             ->where('team_id = ?', 'user_id = ?')
             ->params([$team_id, Auth::userApi()->id]);
 
-        if ($query->rowCount() == 0) {
+        $query2 = (new Query())
+            ->select('role')
+            ->from('teams_members')
+            ->where('team_id = ?', 'user_id = ?')
+            ->params([$team_id,$member_id]);
+
+        if ($query->rowCount() == 0 || $query2->rowCount() == 0) {
             throw new NotFoundException('Equipe non trouvé !');
         }
 
         $response = $query->first();
+        $response2 = $query2->first();
 
-        if (!TeamHelper::canManageWithRole($response->role)) {
-            throw new MissingAccessException("Tu n'as pas la permission !");
+        if (!TeamHelper::canManageWithRole($response->role) || get_array_index($response2->role, TeamHelper::getRoles()) >= get_array_index($response->role, TeamHelper::getRoles())) {
+            throw new MissingAccessException();
         }
         $query = (new Query())
             ->delete()
@@ -237,6 +253,6 @@ class TeamsApiController extends Controller
             ->params([$team_id, $member_id]);
 
         $query->execute();
-        $this->respond_json(['ok' => 'user removed !']);
+        $this->respond_json(['ok' => 'Membre supprimé !']);
     }
 }

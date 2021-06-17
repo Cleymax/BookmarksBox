@@ -2,15 +2,18 @@
 
 namespace App\Api;
 
-use _HumbugBox15516bb2b566\React\Dns\Query\Query;
 use App\Controllers\Controller;
+use App\Database\Query;
 use App\Database\QueryApi;
-use App\Exceptions\NotFoundException;
 use App\Security\Auth;
 
 class FolderApiController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->loadModel('Folders');
+    }
     /**
      * @throws \App\Exceptions\UnknownFieldException
      * @throws \App\Exceptions\TokenNotFoundException
@@ -104,10 +107,10 @@ class FolderApiController extends Controller
         $color = "#".$color;
 
         $query = (new Query())
-            ->insert("name", "color")
+            ->insert("name", "color", "user_id")
             ->into("folders")
-            ->values(["?", "?"])
-            ->params([$name, $color]);
+            ->values(["?", "?", "?"])
+            ->params([$name, $color, Auth::userApi()->id]);
 
         $query->execute();
 
