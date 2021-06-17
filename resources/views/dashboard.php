@@ -123,7 +123,7 @@
                     }
                     ?>
                 </select>
-                <button class="btn" aria-label="edit" title="edit" name="action" value="edit"><span
+                <button class="btn" type="button" id="btnEdit" aria-label="edit" title="edit" name="action" value="edit" editBookmark><span
                             class="material-icons">edit</span>Edit
                 </button>
             </form>

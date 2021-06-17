@@ -296,3 +296,28 @@ export async function createFolder(name, color, parent_id = null, team_id = null
 export async function isFolder(id) {
   return jsonFetch(`isFolder/${id}`, {method: 'GET'});
 }
+export async function editBookmark(title = null, link = null, thumbnail = null, difficulty = null, id, description = null)
+{
+  return jsonFetch(`bookmark/edit/${id}`, {
+    method: 'post',
+    body: {
+      title: title,
+      link: link,
+      thumbnail: thumbnail,
+      difficulty: difficulty,
+      description: description,
+    }
+  });
+}
+
+export async function editFolder(name = null, color = null, id)
+{
+  return jsonFetch(`folder/edit/${id}`, {
+    method: 'post',
+    body: {
+      name: name,
+      color: color,
+    }
+  });
+}
+

@@ -127,7 +127,6 @@ class BookmarkApiController extends Controller
      */
     function createBookmark()
     {
-
         $data = getBody();
         $json = json_decode($data, true);
 
@@ -170,5 +169,27 @@ class BookmarkApiController extends Controller
             'type' => 'success',
             'message' => 'Vous avez bien déplacer cette bookmarks',
         ]);
+    }
+
+    function editBookmark(string $bookmark_id)
+    {
+        $data = getBody();
+        $json = json_decode($data, true);
+
+        $query = (new Query())
+            ->update()
+            ->into("bookmarks")
+            ->where("id = ?")
+            ->set(["title" => '?', "link" => '?', "thumbnail" => '?', "difficulty" => '?', "description" => '?'])
+            ->params([$json["title"], $json["link"], $json["thumbnail"], $json["difficulty"], $json["description"], $bookmark_id])
+            ->returning("id");
+
+        $query->execute();
+
+        $this->respond_json([
+            'type' => 'success',
+            'message' => 'Vous avez bien modifier cette bookmarks',
+        ]);
+
     }
 }
