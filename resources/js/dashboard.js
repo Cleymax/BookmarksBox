@@ -1,9 +1,20 @@
-import { addFavorite, removeFavorite, deleteBookmark, getBookmarkInfo, isFavorite, moveBookmark, moveItem } from './api';
+import {
+  addFavorite,
+  removeFavorite,
+  deleteBookmark,
+  getBookmarkInfo,
+  isFavorite,
+  moveBookmark,
+  moveItem,
+  scrape,
+  createBookmark
+} from './api';
 import { flash } from './elements/Alert';
 import moment from 'moment';
 
 OnClickMove();
 onAdd();
+scrapper();
 
 export default function itemMenu() {
   const btnMenu = document.querySelectorAll('.item');
@@ -67,7 +78,6 @@ export default function itemMenu() {
 export function OnClickMove(){
   const btn = document.getElementById('move-btn');
   if(btn){
-    console.log("btn");
     btn.addEventListener('click', () => {
       const folderId = document.querySelector("folder-menu-row[moveSelected]").getAttribute('folder-id');
       const bookmarkId = document.getElementById('moveMenu').children[0].value;
@@ -80,7 +90,26 @@ export function OnClickMove(){
         });
         const menuMove = document.getElementById('moveMenu');
         menuMove.parentNode.style.display = 'none';
-        flash(response.message, 'success', 2); /* Casser ça flash pas*/
+        flash(response.json().message, 'success', 2); /* Casser ça flash pas*/
+      });
+    });
+  }
+}
+
+export function scrapper(){
+  const btnAddBookmark = document.getElementById('btnAddBookmark');
+  if(btnAddBookmark){
+    btnAddBookmark.addEventListener('click', () => {
+      const input = document.getElementById('link-addModal');
+      scrape(input.value).then((response) => {
+        const modalAdd = document.getElementById('modal-add');
+        modalAdd.style.display = "none";
+        const modal = document.getElementById('final-modal');
+        document.getElementById('title-Finalmodal').value = response.data["title"];
+        document.getElementById('thumbnail-Finalmodal').value = response.data["image"];
+        document.getElementById('description-Finalmodal').value = response.data["description"];
+        document.getElementById('link-Finalmodal').value = input.value;
+        modal.style.display = 'block';
       });
     });
   }
@@ -92,6 +121,10 @@ export function onAdd(){
     btnaddFolders.addEventListener('click', () => {
       const modal = document.getElementById('modal-add');
       const color = document.getElementById('color-addModal');
+      const btn = document.getElementById('btnAddBookmark')
+      if(btn){
+        btn.setAttribute("id", "btnAddFolder")
+      }
       color.parentNode.style.display = 'block';
       modal.style.display = 'block';
       document.getElementById('titleModalAdd').innerHTML = "Ajouter un dossier";
@@ -100,6 +133,10 @@ export function onAdd(){
   const btnAddBookmark = document.getElementById('addBookmarks');
   if(btnAddBookmark){
     btnAddBookmark.addEventListener('click', () => {
+      const btn = document.getElementById('btnAddFolder')
+      if(btn){
+        btn.setAttribute("id", "btnAddBookmark")
+      }
       const modal = document.getElementById('modal-add');
       const title = document.getElementById('title-addModal');
       const link = document.getElementById('link-addModal');
@@ -107,6 +144,20 @@ export function onAdd(){
       title.parentNode.style.display = 'none';
       modal.style.display = 'block';
       document.getElementById('titleModalAdd').innerHTML = "Ajouter un bookmark";
+    });
+  }
+  const finalBtnAdd = document.getElementById('finalBtnAdd');
+  if(finalBtnAdd){
+    finalBtnAdd.addEventListener('click', () => {
+      const title = document.getElementById('title-Finalmodal').value;
+      const thumbnail = document.getElementById('thumbnail-Finalmodal').value;
+      const description = document.getElementById('description-Finalmodal').value;
+      const difficulty = document.getElementById('difficulty-Finalmodal').value;
+      const link = document.getElementById('link-Finalmodal').value;
+      createBookmark(title, link, thumbnail, difficulty, description).then((response) => {
+        flash("ça marche", "success", 2);
+      });
+      document.location.reload();
     });
   }
 }

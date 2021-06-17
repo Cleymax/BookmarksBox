@@ -99,6 +99,7 @@ Route::get('/bookmark/{id}/favorite/add', [BookmarkApiController::class, 'addFav
 Route::get('/bookmark/{id}/favorite/remove', [BookmarkApiController::class, 'removeFavorite'], true)->where('id', '\w{10}')->api();
 Route::get('/bookmark/{id}/favorite/isFavorite', [BookmarkApiController::class, 'isFavorite'], true)->where('id', '\w{10}')->api();
 Route::get('/bookmark/{id}/delete', [BookmarkApiController::class, 'delete'], true)->where('id', '\w{10}')->api();
+Route::post('/bookmark', [BookmarkApiController::class, 'createBookmark'], true)->api();
 
 Route::get('/teams/create', [TeamsController::class, 'createView'], true, 'teams_add');
 Route::post('/teams/create', [TeamsController::class, 'create'], true);
