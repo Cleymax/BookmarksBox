@@ -186,5 +186,27 @@ class FolderApiController extends Controller
         ]);
     }
 
+    function editFolder(string $folder_id)
+    {
+        $data = getBody();
+        $json = json_decode($data, true);
+
+        $query = (new Query())
+            ->update()
+            ->into("folders")
+            ->where("id = ?")
+            ->set(["name" => '?', "color" => '?'])
+            ->params([$json["name"], $json["color"], $folder_id])
+            ->returning("id");
+
+        $query->execute();
+
+        $this->respond_json([
+            'type' => 'success',
+            'message' => 'Vous avez bien modifier ce dossier',
+        ]);
+
+    }
+
 
 }
