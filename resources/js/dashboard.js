@@ -1,6 +1,7 @@
 import {
   addFavorite,
   createBookmark,
+  createFolder,
   deleteBookmark,
   getBookmarkInfo,
   isFavorite,
@@ -15,7 +16,6 @@ const btnMenu = document.querySelectorAll('.item');
 
 btnMenu.forEach((value) => {
   value.addEventListener('click', (event) => {
-    console.log('click');
     const bookmarkId = value.parentNode.children[0].value;
     if (value.hasAttribute('favorite')) {
       isFavorite(bookmarkId, (response) => {
@@ -88,9 +88,9 @@ if (btn) {
   });
 }
 
-const btnAddBookmark2 = document.getElementById('btnAddBookmark');
-if (btnAddBookmark2) {
-  btnAddBookmark2.addEventListener('click', () => {
+const btnAddBookmark = document.getElementById('btnAddBookmark');
+if (btnAddBookmark) {
+  btnAddBookmark.addEventListener('click', () => {
     const input = document.getElementById('link-addModal');
     scrape(input.value).then((response) => {
       const modalAdd = document.getElementById('modal-add');
@@ -105,28 +105,16 @@ if (btnAddBookmark2) {
   });
 }
 
-
 const btnaddFolders = document.getElementById('addFolders');
 if (btnaddFolders) {
   btnaddFolders.addEventListener('click', () => {
-    const modal = document.getElementById('modal-add');
-    const color = document.getElementById('color-addModal');
-    const btn = document.getElementById('btnAddBookmark');
-    if (btn) {
-      btn.setAttribute('id', 'btnAddFolder');
-    }
-    color.parentNode.style.display = 'block';
+    const modal = document.getElementById('modal-add-folder');
     modal.style.display = 'block';
-    document.getElementById('titleModalAdd').innerHTML = 'Ajouter un dossier';
   });
 }
-const btnAddBookmark = document.getElementById('addBookmarks');
-if (btnAddBookmark) {
-  btnAddBookmark.addEventListener('click', () => {
-    const btn2 = document.getElementById('btnAddFolder');
-    if (btn2) {
-      btn2.setAttribute('id', 'btnAddBookmark');
-    }
+const btnAddBookmark2 = document.getElementById('addBookmarks');
+if (btnAddBookmark2) {
+  btnAddBookmark2.addEventListener('click', () => {
     const modal = document.getElementById('modal-add');
     const title = document.getElementById('title-addModal');
     const link = document.getElementById('link-addModal');
@@ -134,6 +122,22 @@ if (btnAddBookmark) {
     title.parentNode.style.display = 'none';
     modal.style.display = 'block';
     document.getElementById('titleModalAdd').innerHTML = 'Ajouter un bookmark';
+  });
+}
+const btnAddFolder = document.getElementById('btnAddFolder');
+if (btnAddFolder) {
+  btnAddFolder.addEventListener('click', () => {
+    const color = document.getElementById('color-addModal').value;
+    const name = document.getElementById('title-addModal').value;
+    if (window.BB.FOLDER_ID == null) {
+      createFolder(name, color).then((response) => {
+        flash('ça marche', 'success', 2);
+      });
+    } else {
+      createFolder(name, color, window.BB.FOLDER_ID).then((response) => {
+        flash('ça marche', 'success', 2);
+      });
+    }
   });
 }
 const finalBtnAdd = document.getElementById('finalBtnAdd');
@@ -146,71 +150,10 @@ if (finalBtnAdd) {
     const link = document.getElementById('link-Finalmodal').value;
     createBookmark(title, link, thumbnail, difficulty, description).then((response) => {
       flash('ça marche', 'success', 2);
-
-
-const btnaddFolders = document.getElementById('addFolders');
-if(btnaddFolders){
-  btnaddFolders.addEventListener('click', () => {
-    const modal = document.getElementById('modal-add-folder');
-    modal.style.display = 'block';
-  });
-}
-const btnAddBookmark = document.getElementById('addBookmarks');
-if(btnAddBookmark){
-  btnAddBookmark.addEventListener('click', () => {
-    const modal = document.getElementById('modal-add');
-    const title = document.getElementById('title-addModal');
-    const link = document.getElementById('link-addModal');
-    link.parentNode.style.display = 'block';
-    title.parentNode.style.display = 'none';
-    modal.style.display = 'block';
-    document.getElementById('titleModalAdd').innerHTML = "Ajouter un bookmark";
-  });
-}
-const btnAddFolder = document.getElementById('btnAddFolder');
-if(btnAddFolder){
-  btnAddFolder.addEventListener('click', () => {
-    const color = document.getElementById('color-addModal').value;
-    const name = document.getElementById('title-addModal').value;
-    if(window.BB.FOLDER_ID == null){
-      createFolder(name, color).then((response) => {
-        flash("ça marche", "success", 2);
-      })
-    }else{
-      createFolder(name, color, window.BB.FOLDER_ID).then((response) => {
-        flash("ça marche", "success", 2);
-      })
-    }
-  });
-}
-const finalBtnAdd = document.getElementById('finalBtnAdd');
-if(finalBtnAdd){
-  finalBtnAdd.addEventListener('click', () => {
-    const title = document.getElementById('title-Finalmodal').value;
-    const thumbnail = document.getElementById('thumbnail-Finalmodal').value;
-    const description = document.getElementById('description-Finalmodal').value;
-    const difficulty = document.getElementById('difficulty-Finalmodal').value;
-    const link = document.getElementById('link-Finalmodal').value;
-    createBookmark(title, link, thumbnail, difficulty, description).then((response) => {
-      flash("ça marche", "success", 2);
     });
     document.location.reload();
   });
-  document.location.reload();
-});
-
-
-
-function resetAddModal() {
-  const title = document.getElementById('title-addModal');
-  const color = document.getElementById('color-addModal');
-  const link = document.getElementById('link-addModal');
-  title.parentNode.style.display = 'block';
-  link.parentNode.style.display = 'none';
-  color.parentNode.style.display = 'none';
-  document.getElementById('titleModalAdd').innerHTML = 'Ajouter un bookmark';
 }
-
 
 function closeModalInfo() {
   const menuInfo = document.getElementById('menu-info');
@@ -232,7 +175,6 @@ if (closeMove) {
     closeMove.parentNode.parentNode.style.display = 'none';
   });
 }
-
 const modal = document.getElementById('modal');
 if (modal) {
   window.onclick = function (event) {
@@ -241,8 +183,11 @@ if (modal) {
     }
     const modalAdd = document.getElementById('modal-add');
     if (event.target === modalAdd) {
-      resetAddModal();
       modalAdd.style.display = 'none';
+    }
+    const modalAdd2 = document.getElementById('modal-add-folder');
+    if (event.target === modalAdd2) {
+      modalAdd2.style.display = 'none';
     }
   };
 }

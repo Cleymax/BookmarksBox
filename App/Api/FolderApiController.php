@@ -14,6 +14,7 @@ class FolderApiController extends Controller
     {
         $this->loadModel('Folders');
     }
+
     /**
      * @throws \App\Exceptions\UnknownFieldException
      * @throws \App\Exceptions\TokenNotFoundException
@@ -102,16 +103,27 @@ class FolderApiController extends Controller
         ]);
     }
 
+    /**
+     * @throws \App\Exceptions\TokenNotFoundException
+     */
     public function createFolder()
     {
         $data = getBody();
         $json = json_decode($data, true);
 
-        $query = (new Query())
-            ->insert("name", "color", "parent_id_folder","user_id")
-            ->into("folders")
-            ->values(["?", "?", "?", "?"])
-            ->params([$json["name"], $json["color"], $json["parent"], Auth::userApi()->id]);
+        if ($json['parent'] == 'null') {
+            $query = (new Query())
+                ->insert("name", "color", "user_id")
+                ->into("folders")
+                ->values(["?", "?", "?"])
+                ->params([$json["name"], $json["color"], Auth::userApi()->id]);
+        } else {
+            $query = (new Query())
+                ->insert("name", "color", "parent_id_folder", "user_id")
+                ->into("folders")
+                ->values(["?", "?", "?", "?"])
+                ->params([$json["name"], $json["color"], $json['parent'], Auth::userApi()->id]);
+        }
 
         $query->execute();
 
@@ -173,7 +185,6 @@ class FolderApiController extends Controller
             'data' => $query->all(),
         ]);
     }
-
 
 
 }
