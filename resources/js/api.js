@@ -1,6 +1,6 @@
 import Swal from 'sweetalert2';
 import $ from 'jquery';
-import { flash } from './elements/Alert';
+import {flash} from './elements/Alert';
 
 const BASE_URL = `${window.BB.BASE_URL}/api/`;
 
@@ -52,12 +52,12 @@ export function changeRole(teamId, userId, roleId, response) {
 }
 
 export async function changeTeamFavorite(team, response) {
-  jsonFetch(`user/teams/${team}/favorite`, { method: 'PUT' })
+  jsonFetch(`user/teams/${team}/favorite`, {method: 'PUT'})
     .then(response);
 }
 
 export async function addMemberToTeam(teamId, userId, response) {
-  jsonFetch(`teams/${teamId}/members/${userId}`, { method: 'PUT' })
+  jsonFetch(`teams/${teamId}/members/${userId}`, {method: 'PUT'})
     .then(response);
 }
 
@@ -71,7 +71,7 @@ export async function deleteMember(teamId, userId, response) {
   })
     .then((result) => {
       if (result.isConfirmed) {
-        jsonFetch(`teams/${teamId}/members/${userId}`, { method: 'DELETE' })
+        jsonFetch(`teams/${teamId}/members/${userId}`, {method: 'DELETE'})
           .then(response);
       } else if (result.isDenied) {
         response(false);
@@ -89,6 +89,11 @@ export function getFolder(response) {
     .then(response);
 }
 
+export function getFolderInTeam(reponse) {
+  jsonFetch(`teams/${window.BB.TEAM_ID}/folders-main`)
+    .then(reponse);
+}
+
 export function getChildFolder(parentFolderId, response) {
   jsonFetch(`folders/${parentFolderId}`)
     .then(response);
@@ -99,22 +104,41 @@ export function initFolder() {
     .ready(() => {
       const foldersDiv = document.getElementById('folders');
       if (foldersDiv) {
-        getFolder((folders) => {
-          if (folders) {
-            const count = parseInt(folders.data.length, 10);
-            if (count > 0) {
-              let contentDiv = '';
-              for (const folder of folders.data) {
-                contentDiv += `<folder-menu-row folder-id="${folder.id}" name="${folder.name}" color="${folder.color}" parent-id="${folder.parent_id_folder}"></folder-menu-row>`;
+        if (window.BB.TEAM_ID === 'null') {
+          getFolder((folders) => {
+            if (folders) {
+              const count = parseInt(folders.data.length, 10);
+              if (count > 0) {
+                let contentDiv = '';
+                for (const folder of folders.data) {
+                  contentDiv += `<folder-menu-row folder-id="${folder.id}" name="${folder.name}" color="${folder.color}" parent-id="${folder.parent_id_folder}"></folder-menu-row>`;
+                }
+                foldersDiv.innerHTML = contentDiv;
+              } else {
+                foldersDiv.innerHTML = '<span>Aucun dossier</span>';
               }
-              foldersDiv.innerHTML = contentDiv;
             } else {
-              foldersDiv.innerHTML = '<span>Aucun dossier</span>';
+              flash('Erreur lors du chargement des dossiers !', 'danger');
             }
-          } else {
-            flash('Erreur lors du chargement des dossiers !');
-          }
-        });
+          });
+        } else {
+          getFolderInTeam((folders) => {
+            if (folders) {
+              const count = parseInt(folders.length, 10);
+              if (count > 0) {
+                let contentDiv = '';
+                for (const folder of folders) {
+                  contentDiv += `<folder-menu-row folder-id="${folder.id}" name="${folder.name}" color="${folder.color}" parent-id="${folder.parent_id_folder}"></folder-menu-row>`;
+                }
+                foldersDiv.innerHTML = contentDiv;
+              } else {
+                foldersDiv.innerHTML = '<span>Aucun dossier</span>';
+              }
+            } else {
+              flash('Erreur lors du chargement des dossiers !', 'danger');
+            }
+          });
+        }
       }
     });
 }
@@ -122,34 +146,49 @@ export function initFolder() {
 export function moveBookmark() {
   const foldersDiv = document.getElementById('foldersMove');
   if (foldersDiv) {
-    getFolder((folders) => {
-      if (folders) {
-        let contentDiv = '';
-        for (const folder of folders.data) {
-          contentDiv += `<folder-menu-row folder-id="${folder.id}" name="${folder.name}" color="${folder.color}" parent-id="${folder.parent_id_folder}"></folder-menu-row>`;
+    if (window.BB.TEAM_ID === 'null') {
+      getFolder((folders) => {
+        if (folders) {
+          let contentDiv = '';
+          for (const folder of folders.data) {
+            contentDiv += `<folder-menu-row folder-id="${folder.id}" name="${folder.name}" color="${folder.color}" parent-id="${folder.parent_id_folder}"></folder-menu-row>`;
+          }
+          foldersDiv.innerHTML = contentDiv;
+        } else {
+          flash('Erreur lors du chargement des dossiers !','danger');
         }
-        foldersDiv.innerHTML = contentDiv;
-      } else {
-        flash('Erreur lors du chargement des dossiers !');
-      }
-    });
+      });
+    } else {
+      getFolderInTeam((folders) => {
+        if (folders) {
+          let contentDiv = '';
+          for (const folder of folders) {
+            contentDiv += `<folder-menu-row folder-id="${folder.id}" name="${folder.name}" color="${folder.color}" parent-id="${folder.parent_id_folder}"></folder-menu-row>`;
+          }
+          foldersDiv.innerHTML = contentDiv;
+        } else {
+          flash('Erreur lors du chargement des dossiers !', 'danger');
+        }
+      });
+    }
   }
 }
 
 export async function moveItem(bookmarkId, folderId) {
-  return jsonFetch(`bookmark/${bookmarkId}/move/${folderId}`, { method: 'GET' });
+  return jsonFetch(`bookmark/${bookmarkId}/move/${folderId}`, {method: 'GET'});
 }
+
 export async function moveFolder(folder, folderId) {
-  return jsonFetch(`folder/${folder}/move/${folderId}`, { method: 'GET' });
+  return jsonFetch(`folder/${folder}/move/${folderId}`, {method: 'GET'});
 }
 
 export async function isFavorite(bookmarkId, response) {
-  return jsonFetch(`bookmark/${bookmarkId}/favorite/isFavorite`, { method: 'GET' })
+  return jsonFetch(`bookmark/${bookmarkId}/favorite/isFavorite`, {method: 'GET'})
     .then(response);
 }
 
 export async function addFavorite(bookmarkId, response) {
-  return jsonFetch(`bookmark/${bookmarkId}/favorite/add`, { method: 'GET' })
+  return jsonFetch(`bookmark/${bookmarkId}/favorite/add`, {method: 'GET'})
     .then(response);
 }
 
@@ -164,7 +203,7 @@ export async function removeFavorite(bookmarkId, response) {
     .then((result) => {
       if (result.isConfirmed) {
         console.log('is confirm');
-        jsonFetch(`bookmark/${bookmarkId}/favorite/remove`, { method: 'GET' })
+        jsonFetch(`bookmark/${bookmarkId}/favorite/remove`, {method: 'GET'})
           .then(response);
       } else if (result.isDenied) {
         console.log('is Denied');
@@ -183,7 +222,7 @@ export async function deleteBookmark(bookmarkId, response) {
   })
     .then((result) => {
       if (result.isConfirmed) {
-        jsonFetch(`bookmark/${bookmarkId}/delete`, { method: 'GET' })
+        jsonFetch(`bookmark/${bookmarkId}/delete`, {method: 'GET'})
           .then(response);
       } else if (result.isDenied) {
         response(false);
@@ -201,7 +240,7 @@ export async function deleteFolder(folderId, response) {
   })
     .then((result) => {
       if (result.isConfirmed) {
-        jsonFetch(`folder/${folderId}/delete`, { method: 'GET' })
+        jsonFetch(`folder/${folderId}/delete`, {method: 'GET'})
           .then(response);
       } else if (result.isDenied) {
         response(false);
@@ -227,7 +266,7 @@ export async function scrape(query) {
   });
 }
 
-export async function createBookmark(title, link, thumbnail, difficulty, description, parent_id = null) {
+export async function createBookmark(title, link, thumbnail, difficulty, description, parent_id = null, team_id = null) {
   return jsonFetch('bookmark', {
     method: 'post',
     body: {
@@ -237,22 +276,23 @@ export async function createBookmark(title, link, thumbnail, difficulty, descrip
       difficultyFinal: difficulty,
       descriptionFinal: description,
       parent: parent_id,
+      team: team_id,
     },
   });
 }
 
-export async function createFolder(name, color, parent_id = null) {
-  return jsonFetch(`folder`, {
+export async function createFolder(name, color, parent_id = null, team_id = null) {
+  return jsonFetch('folder', {
     method: 'post',
     body: {
-      name: name,
-      color: color,
+      name,
+      color,
       parent: parent_id,
-    }
+      team: team_id,
+    },
   });
 }
 
-export async function isFolder(id)
-{
+export async function isFolder(id) {
   return jsonFetch(`isFolder/${id}`, {method: 'GET'});
 }

@@ -97,18 +97,25 @@ class Teams extends Model
 
     public function getPublic(): array
     {
-        $q = (new Query())
-            ->select('team_id')
-            ->from($this->table . '_members')
-            ->inner($this->table, 'team_id', 'id')
-            ->where('user_id = ?');
+        if (Auth::check()) {
+            $q = (new Query())
+                ->select('team_id')
+                ->from($this->table . '_members')
+                ->inner($this->table, 'team_id', 'id')
+                ->where('user_id = ?');
+            $query = (new Query())
+                ->select()
+                ->from($this->table)
+                ->where('visibility = True')
+                ->whereIn("id", $q, true)
+                ->params([Auth::user()->id]);
+        } else {
+            $query = (new Query())
+                ->select()
+                ->from($this->table)
+                ->where('visibility = True');
+        }
 
-        $query = (new Query())
-            ->select()
-            ->from($this->table)
-            ->where('visibility = True')
-            ->whereIn("id", $q, true)
-            ->params([Auth::user()->id]);
         return $query->all();
     }
 

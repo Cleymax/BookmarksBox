@@ -105,13 +105,13 @@ Route::post('/bookmark', [BookmarkApiController::class, 'createBookmark'], true)
 
 Route::get('/teams/create', [TeamsController::class, 'createView'], true, 'teams_add');
 Route::post('/teams/create', [TeamsController::class, 'create'], true);
-Route::get('/teams/{id}', [TeamsController::class, 'teamView'], true)->where('id', '\w{10}');
-Route::get('/teams/{id}/folder/{folder}', [TeamsController::class, 'folderView'], true)->where('folder', '\w{10}')->where('id', '\w{10}');
+Route::get('/teams/{id}', [TeamsController::class, 'teamView'])->where('id', '\w{10}');
+Route::get('/teams/{id}/folder/{folder}', [TeamsController::class, 'folderView'])->where('folder', '\w{10}')->where('id', '\w{10}');
 Route::get('/teams/{id}/manager', [TeamsController::class, 'teamManageView'], true)->where('id', '\w{10}');
 Route::post('/teams/{id}/manager', [TeamsController::class, 'teamManage'], true)->where('id', '\w{10}');
 Route::get('/teams/{id}/leave', [TeamsController::class, 'leaveViewTeam'], true)->where('id', '\w{10}');
 Route::post('/teams/{id}/leave', [TeamsController::class, 'leaveView'], true)->where('id', '\w{10}');
-Route::get('/teams/', [TeamsController::class, 'getTeams'], true, 'teams');
+Route::get('/teams/', [TeamsController::class, 'getTeams'], false, 'teams');
 Route::post('/teams/', [TeamsController::class, 'createTeams'], true);
 Route::get('/teams/invite/{code}', [TeamsController::class, 'inviteCode'], true);
 
@@ -122,6 +122,7 @@ Route::get('/user/', [UserApiController::class, 'getMe'])->api();
 Route::get('/users/', [UserApiController::class, 'getUser'])->api();
 Route::get('/teams/{id}', [TeamsApiController::class, 'getTeam'])->where('id', '\w{10}')->api();
 Route::get('/teams/{id}/members', [TeamsApiController::class, 'getTeamMembers'])->where('id', '\w{10}')->api();
+Route::get('/teams/{id}/folders-main', [TeamsApiController::class, 'getTeamFolderMain'])->where('id', '\w{10}')->api();
 Route::delete('/teams/{id}/members/{member}', [TeamsApiController::class, 'deleteMember'])->where('id', '\w{10}')->api();
 Route::put('/teams/{id}/members/{member}', [TeamsApiController::class, 'addMemberWithId'])->where('id', '\w{10}')->api();
 Route::post('/teams/{id}/members/{member}/role', [TeamsApiController::class, 'changeRoleMember'])->where('id', '\w{10}')->api();
@@ -132,5 +133,5 @@ Route::get('/folders-main', [FolderApiController::class, 'getFolders'])->where('
 
 Route::get('/scrape', [ScrapingApiController::class, 'scrape'])->api();
 
-Route::redirect('/', '/dashboard', true);
+Route::redirect('/', '/teams', true);
 Router::init();

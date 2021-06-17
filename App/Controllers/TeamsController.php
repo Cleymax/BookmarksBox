@@ -56,13 +56,16 @@ class TeamsController extends Controller
         try {
             $equipe = $this->Teams->getById($id);
             $data = $this->Bookmarks->getAllForTeam($id);
-            $equipes = $this->Teams->getAllForMe();
+            if (Auth::check()) {
+                $equipes = $this->Teams->getAllForMe();
+                $role = TeamHelper::getRole($id);
+            }
             $folders = $this->Folders->getAllForTeam($id);
         } catch (\Exception $e) {
             FlashService::error($e->getMessage());
             http_response_code($e->getCode());
         }
-        $this->render(View::new('teams.dashboard', 'dashboard'), 'Equipe ' . $equipe->name, ['data' => $data ?? [], 'id' => $id, 'equipes' => $equipes ?? [], 'equipe' => $equipe, 'folders' => $folders ?? []]);
+        $this->render(View::new('teams.dashboard', 'dashboard'), 'Equipe ' . $equipe->name, ['data' => $data ?? [], 'role' => $role ?? null, 'id' => $id, 'equipes' => $equipes ?? [], 'equipe' => $equipe, 'folders' => $folders ?? []]);
     }
 
     public function folderView(string $team_id, string $folder_id)
@@ -70,23 +73,28 @@ class TeamsController extends Controller
         try {
             $equipe = $this->Teams->getById($team_id);
             $data = $this->Bookmarks->getAllForTeamInDir($team_id, $folder_id);
-            $equipes = $this->Teams->getAllForMe();
+            if (Auth::check()) {
+                $equipes = $this->Teams->getAllForMe();
+                $role = TeamHelper::getRole($team_id);
+            }
             $folders = $this->Folders->getAllForTeamInDir($team_id, $folder_id);
         } catch (\Exception $e) {
             FlashService::error($e->getMessage());
             http_response_code($e->getCode());
         }
-        $this->render(View::new('teams.dashboard', 'dashboard'), 'Equipe ' . $equipe->name, ['data' => $data ?? [], 'id' => $team_id, 'equipes' => $equipes ?? [], 'equipe' => $equipe, 'folders' => $folders ?? []]);
+        $this->render(View::new('teams.dashboard', 'dashboard'), 'Equipe ' . $equipe->name, ['data' => $data ?? [], 'role' => $role, 'id' => $team_id, 'equipes' => $equipes ?? [], 'equipe' => $equipe, 'folders' => $folders ?? []]);
     }
 
     public function getTeams()
     {
-        $data = $this->Teams->getAllForMe();
+        if (Auth::check()) {
+            $data = $this->Teams->getAllForMe();
+        }
         $public = $this->Teams->getPublic();
         if ($this->need_json()) {
             $this->respond_json($data);
         } else {
-            $this->render(View::new('teams.all', 'dashboard'), 'Mes équipes ', ['equipes' => $data, 'equipes_public' => $public ?? []]);
+            $this->render(View::new('teams.all', 'dashboard'), 'Mes équipes ', ['equipes' => $data ?? [], 'equipes_public' => $public ?? []]);
         }
     }
 

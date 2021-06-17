@@ -6,14 +6,14 @@ import {
   deleteFolder,
   getBookmarkInfo,
   isFavorite,
+  isFolder,
   moveBookmark,
-  moveItem,
   moveFolder,
+  moveItem,
   removeFavorite,
   scrape,
-  isFolder,
 } from './api';
-import { flash } from './elements/Alert';
+import {flash} from './elements/Alert';
 
 const btnMenu = document.querySelectorAll('.item');
 
@@ -34,7 +34,7 @@ btnMenu.forEach((value) => {
       });
     } else if (value.hasAttribute('delete')) {
       isFolder(bookmarkId).then((isFolder) => {
-        if(isFolder.result != false){
+        if (isFolder.result != false) {
           deleteBookmark(bookmarkId, (response) => {
             if (response.message === 'Vous avez bien supprime cette bookmarks') {
               const bookmarks = document.querySelectorAll('.bookmark');
@@ -48,7 +48,7 @@ btnMenu.forEach((value) => {
               flash(response.message, 'error', 2);
             }
           });
-        }else{
+        } else {
           deleteFolder(bookmarkId, (response) => {
             const folder = document.querySelectorAll('.folder');
             folder.forEach((folder) => {
@@ -61,7 +61,7 @@ btnMenu.forEach((value) => {
           });
         }
       });
-    }else if (value.hasAttribute('edit')) {
+    } else if (value.hasAttribute('edit')) {
       const modal = document.getElementById('modal');
       getBookmarkInfo(bookmarkId).then((response) => {
         document.getElementById('title-modal').value = response.data[0].title;
@@ -93,7 +93,7 @@ if (btn) {
     const folderId = document.querySelector('folder-menu-row[moveSelected]').getAttribute('folder-id');
     const bookmarkId = document.getElementById('moveMenu').children[0].value;
     isFolder(bookmarkId).then((isFolder) => {
-      if(isFolder.result != false){
+      if (isFolder.result !== false) {
         moveItem(bookmarkId, folderId).then((response) => {
           const bookmarks = document.querySelectorAll('.bookmark');
           bookmarks.forEach((bookmark) => {
@@ -105,7 +105,7 @@ if (btn) {
           menuMove.parentNode.style.display = 'none';
           flash(response.json().message, 'success', 2); /* Casser ça flash pas */
         });
-      }else{
+      } else {
         moveFolder(bookmarkId, folderId).then((response) => {
           const folders = document.querySelectorAll('.folder');
           folders.forEach((folder) => {
@@ -163,18 +163,9 @@ if (btnAddFolder) {
   btnAddFolder.addEventListener('click', () => {
     const color = document.getElementById('color-addModal').value;
     const name = document.getElementById('title-addModal').value;
-    if (window.BB.FOLDER_ID == null) {
-      createFolder(name, color).then((response) => {
-        document.location.reload();
-        flash('ça marche', 'success', 2);
-      });
-    } else {
-      createFolder(name, color, window.BB.FOLDER_ID).then((response) => {
-        document.location.reload();
-        flash('ça marche', 'success', 2);
-      });
-    }
-
+    createFolder(name, color, window.BB.FOLDER_ID, window.BB.TEAM_ID).then(() => {
+      document.location.reload();
+    });
   });
 }
 const finalBtnAdd = document.getElementById('finalBtnAdd');
@@ -185,7 +176,7 @@ if (finalBtnAdd) {
     const description = document.getElementById('description-Finalmodal').value;
     const difficulty = document.getElementById('difficulty-Finalmodal').value;
     const link = document.getElementById('link-Finalmodal').value;
-    createBookmark(title, link, thumbnail, difficulty, description, window.BB.FOLDER_ID).then((response) => {
+    createBookmark(title, link, thumbnail, difficulty, description, window.BB.FOLDER_ID, window.BB.TEAM_ID).then((response) => {
       document.location.reload();
       flash('ça marche', 'success', 2);
     });

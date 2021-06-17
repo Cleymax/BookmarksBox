@@ -1,15 +1,18 @@
 <?php
 
 use App\Helper\TeamHelper;
+use App\Security\Auth;
 use App\Services\FileUploader;
 
-?>
+if (Auth::check()) {
+    ?>
     <div class="info-point tooltipped" data-tooltip="left" data-text="Créer une équipe">
         <a href="<?= get_query_url('teams_add') ?>">
             <span class="material-icons">add</span>
         </a>
     </div>
-<?php
+    <?php
+}
 if (empty($equipes)) {
     ?>
     <?php
@@ -69,7 +72,8 @@ if (empty($equipes)) {
     </div>
     <?php
 }
-?>
+if (Auth::check()) {
+    ?>
     <h2 class="margin-top20 margin-bottom10">Rejoindre une équipe:</h2>
     <h3>Code s'invitation</h3>
     <div class="flex flex-gap-20">
@@ -86,7 +90,8 @@ if (empty($equipes)) {
             </a>
         </div>
     </div>
-<?php
+    <?php
+}
 if (!empty($equipes_public)) {
     ?>
     <h3 class="margin-top20 margin-bottom10">Equipe(s) public:</h3>

@@ -41,6 +41,17 @@ class TeamsApiController extends Controller
         $this->respond_json($query->first());
     }
 
+    public function getTeamFolderMain(string $id)
+    {
+        $query = (new Query())
+            ->select()
+            ->from('folders')
+            ->where('parent_id_folder IS NULL', 'team_id = ?')
+            ->params([$id]);
+
+        $this->respond_json($query->all());
+    }
+
     /**
      * @param string $id
      * @throws InvalidParamException
@@ -163,7 +174,7 @@ class TeamsApiController extends Controller
         $response = $query->first();
         $response2 = $query2->first();
 
-        if (!TeamHelper::canManageWithRole($response->role) || get_array_index($response2->role, TeamHelper::getRoles()) > get_array_index($response->role, TeamHelper::getRoles()) || get_array_index($role,TeamHelper::getRoles()) > get_array_index($response->role, TeamHelper::getRoles())) {
+        if (!TeamHelper::canManageWithRole($response->role) || get_array_index($response2->role, TeamHelper::getRoles()) > get_array_index($response->role, TeamHelper::getRoles()) || get_array_index($role, TeamHelper::getRoles()) > get_array_index($response->role, TeamHelper::getRoles())) {
             throw new MissingAccessException();
         }
 
@@ -234,7 +245,7 @@ class TeamsApiController extends Controller
             ->select('role')
             ->from('teams_members')
             ->where('team_id = ?', 'user_id = ?')
-            ->params([$team_id,$member_id]);
+            ->params([$team_id, $member_id]);
 
         if ($query->rowCount() == 0 || $query2->rowCount() == 0) {
             throw new NotFoundException('Equipe non trouvé !');

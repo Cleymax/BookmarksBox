@@ -10,19 +10,26 @@ use App\Services\CsrfService;
         <label for="last_name" class="textfield">
             <input type="text" id="last_name" name="last_name" spellcheck="false"
                    tabindex="1" aria-label="Nom"
-                   title="Nom" autocapitalize="none" dir="ltr" autofocus">
+                   title="Nom" autocapitalize="none" dir="ltr"
+                   autofocus" <?php if (isset($data->last_name)){
+                echo 'value="'.$data->last_name.'"';
+            } ?>>
             <span>Nom</span>
         </label>
         <label for="first_name" class="textfield">
             <input type="text" id="first_name" name="first_name" spellcheck="false"
                    tabindex="1" aria-label="Prenom"
-                   title="Prenom" autocapitalize="none" dir="ltr" autofocus">
+                   title="Prenom" autocapitalize="none" dir="ltr" autofocus" <?php if (isset($data->first_name)){
+                echo 'value="'.$data->first_name.'"';
+            } ?>>
             <span>Prénom</span>
         </label>
         <label for="username" class="textfield">
             <input type="text" id="username" name="username" spellcheck="false"
                    tabindex="1" aria-label="Pseudonyme"
-                   title="Pseudonyme" autocapitalize="none" dir="ltr" autofocus">
+                   title="Pseudonyme" autocapitalize="none" dir="ltr" autofocus" <?php if (isset($data->username)){
+                echo 'value="'.$data->username.'"';
+            } ?>>
             <span>Nom d'utilisateur</span>
         </label>
         <?php
