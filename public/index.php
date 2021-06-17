@@ -93,6 +93,7 @@ Route::get('/isFolder/{id}', [FolderApiController::class, 'isFolder'], true)->wh
 Route::get('/folder/{id}/bookmarks', [FolderApiController::class, 'getFolderBookmark'], false)->api();
 Route::post('/folder', [FolderApiController::class, 'createFolder'], false)->api();
 Route::get('/folder/{id}/move/{idFolders}', [FolderApiController::class, 'moveFolder'], true)->where('id', '\w{10}')->api();
+Route::post('/folder/edit/{id}', [FolderApiController::class, 'editFolder'], true)->where('id', '\w{10}')->api();
 
 Route::get('/bookmarks', [BookmarkApiController::class, 'getAllBookmarks'], true)->api();
 Route::get('/bookmark/{id}', [BookmarkApiController::class, 'getBookmark'], true)->where('id', '\w{10}')->api();
@@ -102,6 +103,8 @@ Route::get('/bookmark/{id}/favorite/remove', [BookmarkApiController::class, 'rem
 Route::get('/bookmark/{id}/favorite/isFavorite', [BookmarkApiController::class, 'isFavorite'], true)->where('id', '\w{10}')->api();
 Route::get('/bookmark/{id}/delete', [BookmarkApiController::class, 'delete'], true)->where('id', '\w{10}')->api();
 Route::post('/bookmark', [BookmarkApiController::class, 'createBookmark'], true)->api();
+Route::post('/bookmark/edit/{id}', [BookmarkApiController::class, 'editBookmark'], true)->where('id', '\w{10}')->api();
+
 
 Route::get('/teams/create', [TeamsController::class, 'createView'], true, 'teams_add');
 Route::post('/teams/create', [TeamsController::class, 'create'], true);

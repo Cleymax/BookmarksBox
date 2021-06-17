@@ -11,7 +11,8 @@ import {
   moveFolder,
   removeFavorite,
   scrape,
-  isFolder,
+  isFolder, getFolderInfo,
+  editBookmark, editFolder,
 } from './api';
 import { flash } from './elements/Alert';
 
@@ -53,7 +54,6 @@ btnMenu.forEach((value) => {
             const folder = document.querySelectorAll('.folder');
             folder.forEach((folder) => {
               if (folder.getAttribute('folder-id') === bookmarkId) {
-                console.log(folder.parentNode);
                 folder.parentNode.parentNode.removeChild(folder.parentNode);
               }
             });
@@ -63,13 +63,41 @@ btnMenu.forEach((value) => {
       });
     }else if (value.hasAttribute('edit')) {
       const modal = document.getElementById('modal');
-      getBookmarkInfo(bookmarkId).then((response) => {
-        document.getElementById('title-modal').value = response.data[0].title;
-        document.getElementById('thumbnail-modal').value = response.data[0].thumbnail;
-        document.getElementById('link-modal').value = response.data[0].link;
-        document.getElementById('difficulty-modal').value = response.data[0].difficulty;
-        document.getElementById('id_bookmarks').value = response.data[0].id;
-        modal.style.display = 'block';
+      const btn = document.getElementById('btnEdit');
+      isFolder(bookmarkId).then((isFolder) => {
+        if(isFolder.result != false){
+          getBookmarkInfo(bookmarkId).then((response) => {
+            if(btn.hasAttribute("editFolder")){
+              btn.setAttribute("editBookmark", "")
+              btn.removeAttribute("editFolder")
+            }
+            document.getElementById('color-modal').parentNode.style.display = "none";
+            document.getElementById('thumbnail-modal').parentNode.style.display = "block";
+            document.getElementById('link-modal').parentNode.style.display = "block";
+            document.getElementById('difficulty-modal').style.display = "block";
+            document.getElementById('title-modal').value = response.data[0].title;
+            document.getElementById('thumbnail-modal').value = response.data[0].thumbnail;
+            document.getElementById('link-modal').value = response.data[0].link;
+            document.getElementById('difficulty-modal').value = response.data[0].difficulty;
+            document.getElementById('id_bookmarks').value = response.data[0].id;
+            modal.style.display = 'block';
+          });
+        }else{
+          getFolderInfo(bookmarkId).then((response) => {
+            if(btn.hasAttribute("editBookmark")){
+              btn.setAttribute("editFolder", "")
+              btn.removeAttribute("editBookmark")
+            }
+            document.getElementById('id_bookmarks').value = response.data[0].id;
+            document.getElementById('color-modal').parentNode.style.display = "block";
+            document.getElementById('thumbnail-modal').parentNode.style.display = "none";
+            document.getElementById('link-modal').parentNode.style.display = "none";
+            document.getElementById('difficulty-modal').style.display = "none";
+            document.getElementById('color-modal').value = response.data[0].color;
+            document.getElementById('title-modal').value = response.data[0].name;
+            modal.style.display = 'block';
+          })
+        }
       });
     } else if (value.hasAttribute('info')) {
       const content = document.getElementById('content');
@@ -101,7 +129,7 @@ if (btn) {
               bookmark.parentNode.removeChild(bookmark);
             }
           });
-          const menuMove = document.getElementById('moveMenu');
+          const meuMove = document.getElementById('moveMenu');
           menuMove.parentNode.style.display = 'none';
           flash(response.json().message, 'success', 2); /* Casser ça flash pas */
         });
@@ -121,6 +149,33 @@ if (btn) {
     });
   });
 }
+
+const btnEdit = document.getElementById('btnEdit')
+if(btnEdit) {
+  btnEdit.addEventListener('click', () => {
+    if(btnEdit.hasAttribute("editBookmark")){
+      const title = document.getElementById('title-modal').value;
+      const thumbnail = document.getElementById('thumbnail-modal').value;
+      const link = document.getElementById('link-modal').value;
+      const  difficulty = document.getElementById('difficulty-modal').value;
+      const id = document.getElementById('id_bookmarks').value;
+      editBookmark(title, link, thumbnail, difficulty, id).then((response) => {
+        window.location.reload();
+        flash("ça marche", "success", 2);
+      });
+    }else if(btnEdit.hasAttribute("editFolder")){
+      const name = document.getElementById('title-modal').value;
+      const color = document.getElementById('color-modal').value;
+      const id = document.getElementById('id_bookmarks').value;
+      editFolder(name, color, id).then((response) => {
+        window.location.reload();
+        flash("ça marche", "success", 2);
+      })
+    }
+  });
+}
+
+
 
 const btnAddBookmark = document.getElementById('btnAddBookmark');
 if (btnAddBookmark) {
