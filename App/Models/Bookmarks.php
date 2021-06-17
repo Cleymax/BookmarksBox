@@ -13,29 +13,43 @@ class Bookmarks extends Model
         $query = (new Query())
             ->select()
             ->from($this->table)
-            ->where('created_by = ?', 'folder IS NULL')
+            ->where('created_by = ?', 'folder IS NULL', 'team_id IS NULL')
             ->params([Auth::user()->id]);
 
-        if ($query->rowCount() == 0) {
-            throw new NotFoundException("Aucun favoris");
-        } else {
-            return $query->all();
-        }
+        return $query->all();
     }
 
-    public function getAllForMeInDir(string $bookmark_id): array
+    public function getAllForTeam(string $team_id)
     {
         $query = (new Query())
             ->select()
             ->from($this->table)
-            ->where('created_by = ?', 'folder = ?')
-            ->params([Auth::user()->id, $bookmark_id]);
+            ->where('team_id = ?', 'folder IS NULL')
+            ->params([$team_id]);
 
-        if ($query->rowCount() == 0) {
-            throw new NotFoundException("Aucun favoris");
-        } else {
-            return $query->all();
-        }
+        return $query->all();
+    }
+
+    public function getAllForMeInDir(string $folder_id): array
+    {
+        $query = (new Query())
+            ->select()
+            ->from($this->table)
+            ->where('created_by = ?', 'folder = ?', 'team_id IS NULL')
+            ->params([Auth::user()->id, $folder_id]);
+
+        return $query->all();
+    }
+
+    public function getAllForTeamInDir(string $team_id, string $folder_id): array
+    {
+        $query = (new Query())
+            ->select()
+            ->from($this->table)
+            ->where('team_id = ?', 'folder = ?')
+            ->params([$team_id, $folder_id]);
+
+        return $query->all();
     }
 
     public function getFavorite(): array
@@ -47,7 +61,7 @@ class Bookmarks extends Model
             ->where('user_id = ?')
             ->params([Auth::user()->id]);
 
-        return  $query->all();
+        return $query->all();
     }
 
     public function edit(string $id, array $values)
@@ -81,12 +95,15 @@ class Bookmarks extends Model
         $query->execute();
     }
 
+    /**
+     * @throws \App\Exceptions\NotFoundException
+     */
     public function getAllPinForMe(): array
     {
         $query = (new Query())
             ->select()
             ->from("user_favorite_bookmarks")
-            ->where('user_id = ?', 'folder IS NULL')
+            ->where('user_id = ?', 'folder IS NULL', 'team_id IS NULL')
             ->params([Auth::user()->id]);
 
         if ($query->rowCount() == 0) {
@@ -105,12 +122,11 @@ class Bookmarks extends Model
             ->params([Auth::user()->id, $id])
             ->returning("bookmark_id");
 
-        $response = $query->first();
-
-        return $response;
+        return $query->first();
     }
 
-    public function isFavorite(string $id){
+    public function isFavorite(string $id)
+    {
         $query = (new Query())
             ->select()
             ->from("user_favorite_bookmarks")
@@ -118,12 +134,11 @@ class Bookmarks extends Model
             ->params([Auth::user()->id, $id])
             ->returning("bookmark_id");
 
-        $response = $query->first();
-
-        return $response;
+        return $query->first();
     }
 
-    public function removeFavorite(string $id){
+    public function removeFavorite(string $id): void
+    {
         $query = (new Query())
             ->delete()
             ->from("user_favorite_bookmarks")
@@ -143,10 +158,6 @@ class Bookmarks extends Model
             ->params([$title, $link, $thumbnail, $difficulty, Auth::user()->id])
             ->returning("id");
 
-        $response = $query->first();
-
-        return $response;
-
+        return $query->first();
     }
-
 }

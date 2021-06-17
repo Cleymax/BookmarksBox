@@ -28,7 +28,7 @@ export default class FolderMenuRow extends HTMLElement {
     menuRow.classList.add('menu__row');
 
     const a = document.createElement('a');
-    a.setAttribute('href', `https://public.test/folder/${this.id}`);
+    a.setAttribute('href', `${window.BB.BASE_URL}/folder/${this.id}`);
 
     const icon = document.createElement('span');
     icon.classList.add('material-icons');

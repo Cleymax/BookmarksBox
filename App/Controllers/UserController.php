@@ -26,7 +26,8 @@ class UserController extends Controller
     public function profileView()
     {
         $data = $this->User->getById(Auth::user()->id);
-        $this->render(View::new('profil'), 'Profile', ["data" => $data]);
+        $lastcreated = $this->User->lastCreated(Auth::user()->id);
+        $this->render(View::new('profil'), 'Profile', ["data" => $data, 'lastcreated' => $lastcreated ?? []]);
     }
 
     public function settings2fa()

@@ -5,6 +5,7 @@ namespace App;
 use App\Api\AuthApiController;
 use App\Api\BookmarkApiController;
 use App\Api\FolderApiController;
+use App\Api\ScrapingApiController;
 use App\Api\TeamsApiController;
 use App\Api\UserApiController;
 use App\Controllers\AuthController;
@@ -98,7 +99,8 @@ Route::get('/bookmark/{id}/delete', [BookmarkApiController::class, 'delete'], tr
 
 Route::get('/teams/create', [TeamsController::class, 'createView'], true, 'teams_add');
 Route::post('/teams/create', [TeamsController::class, 'create'], true);
-Route::get('/teams/{id}', [TeamsController::class, 'folderView'], true)->where('id', '\w{10}');
+Route::get('/teams/{id}', [TeamsController::class, 'teamView'], true)->where('id', '\w{10}');
+Route::get('/teams/{id}/folder/{folder}', [TeamsController::class, 'folderView'], true)->where('folder', '\w{10}')->where('id', '\w{10}');
 Route::get('/teams/{id}/manager', [TeamsController::class, 'teamManageView'], true)->where('id', '\w{10}');
 Route::post('/teams/{id}/manager', [TeamsController::class, 'teamManage'], true)->where('id', '\w{10}');
 Route::get('/teams/{id}/leave', [TeamsController::class, 'leaveViewTeam'], true)->where('id', '\w{10}');
@@ -119,8 +121,10 @@ Route::put('/teams/{id}/members/{member}', [TeamsApiController::class, 'addMembe
 Route::post('/teams/{id}/members/{member}/role', [TeamsApiController::class, 'changeRoleMember'])->where('id', '\w{10}')->api();
 Route::get('/teams/{id}/settings', [TeamsApiController::class, 'getTeamSettings'])->where('id', '\w{10}')->api();
 
-Route::get('/folders/{id}',[FolderApiController::class, 'getFolderById'])->where('id','\w{10}')->api();
-Route::get('/folders',[FolderApiController::class, 'getFolders'])->where('id','\w{10}')->api();
+Route::get('/folders/{id}', [FolderApiController::class, 'getFolderById'])->where('id', '\w{10}')->api();
+Route::get('/folders', [FolderApiController::class, 'getFolders'])->where('id', '\w{10}')->api();
+
+Route::get('/scrape', [ScrapingApiController::class, 'scrape'])->api();
 
 
 //Route::any('/404', function () {

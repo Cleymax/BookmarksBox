@@ -1,7 +1,6 @@
 <?php
 
 use App\Database\Query;
-use App\Exceptions\NotFoundException;
 use App\Models\Model;
 use App\Security\Auth;
 
@@ -15,26 +14,42 @@ class Folders extends Model
             ->where('user_id = ?', 'parent_id_folder IS NULL')
             ->params([Auth::user()->id]);
 
-        if ($query->rowCount() == 0) {
-            throw new NotFoundException("Aucun dossier");
-        } else {
-            return $query->all();
-        }
+        return $query->all();
     }
-    public function getAllForMeInDir(string $id): array
+
+    public function getAllForTeam(string $team_id): array
+    {
+        $query = (new Query())
+            ->select()
+            ->from("folders")
+            ->where('team_id = ?', 'parent_id_folder IS NULL')
+            ->params([$team_id]);
+
+        return $query->all();
+    }
+
+    public function getAllForMeInDir(string $folder_id): array
     {
         $query = (new Query())
             ->select()
             ->from("folders")
             ->where('user_id = ?', 'parent_id_folder = ?')
-            ->params([Auth::user()->id, $id]);
+            ->params([Auth::user()->id, $folder_id]);
 
-        if ($query->rowCount() == 0) {
-            throw new NotFoundException("Aucun dossier");
-        } else {
-            return $query->all();
-        }
+        return $query->all();
     }
+
+    public function getAllForTeamInDir(string $team_id, string $folder_id): array
+    {
+        $query = (new Query())
+            ->select()
+            ->from("folders")
+            ->where('team_id = ?', 'parent_id_folder = ?')
+            ->params([$team_id, $folder_id]);
+
+        return $query->all();
+    }
+
 
     public function delete(string $id)
     {
@@ -46,8 +61,6 @@ class Folders extends Model
 
         $query->execute();
     }
-
-
 
 
 }
