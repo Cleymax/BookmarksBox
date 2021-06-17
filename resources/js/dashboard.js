@@ -1,4 +1,4 @@
-import { addFavorite, removeFavorite, deleteBookmark, getBookmarkInfo, isFavorite, moveBookmark } from './api';
+import { addFavorite, removeFavorite, deleteBookmark, getBookmarkInfo, isFavorite, moveBookmark, moveItem } from './api';
 import { flash } from './elements/Alert';
 import moment from 'moment';
 
@@ -52,6 +52,7 @@ export default function itemMenu() {
         menuInfo.style.transform = 'translateX(0px)';
       }else if (value.hasAttribute('move')) {
         const menuMove = document.getElementById('moveMenu');
+        menuMove.children[0].value =  bookmarkId;
         menuMove.style.top = `${event.clientY}px`;
         menuMove.style.left = `${event.clientX-80}px`;
         moveBookmark();
@@ -60,6 +61,44 @@ export default function itemMenu() {
     });
   });
 }
+
+export function OnClickMove(){
+  const btn = document.getElementById('move-btn');
+  if(btn){
+    console.log("btn");
+    btn.addEventListener('click', () => {
+      console.log('move');
+      const folderId = document.querySelector("folder-menu-row[moveSelected]").getAttribute('folder-id');
+      const bookmarkId = document.getElementById('moveMenu').children[0].value;
+      console.log("Bookmark ID : " + bookmarkId + "\n Folder ID : " + folderId);
+      moveItem(bookmarkId, folderId).then((response) => {
+        const bookmarks = document.querySelectorAll('.bookmark')
+        bookmarks.forEach((bookmark) => {
+          if(bookmark.getAttribute('bookmark-id') === bookmarkId){
+            bookmark.parentNode.removeChild(bookmark);
+          }
+        });
+        const menuMove = document.getElementById('moveMenu');
+        menuMove.parentNode.style.display = 'none';
+        flash('ça marche', 'success', 2);
+      });
+    });
+  }
+}
+
+export function onAddFolder(){
+  const btn = document.getElementById('addFolders');
+  if(btn){
+    btn.addEventListener('click', () => {
+      const modal = document.getElementById('modal-add');
+      modal.style.display = 'block';
+    });
+  }
+
+}
+
+OnClickMove();
+onAddFolder();
 
 function closeModalInfo() {
   const menuInfo = document.getElementById('menu-info');
@@ -73,6 +112,13 @@ const close = document.getElementsByClassName('info-close')[0];
 
 if (close) {
   close.onclick = closeModalInfo;
+}
+
+const closeMove = document.getElementById('closeMove');
+if(closeMove) {
+  closeMove.addEventListener('click', () => {
+    closeMove.parentNode.parentNode.style.display = 'none';
+  });
 }
 
 window.onclick = function (event) {

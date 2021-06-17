@@ -111,6 +111,8 @@ include 'parts/header-dashboard.php';
                 <img src="https://placeimg.com/200/200/any" class="img-info">
                 <h3 class="flex-center">Mon Bookmarks</h3>
                 <div class="info">
+                    <h5>Temps de lecture  : </h5>
+                    <h5>Difficultés : </h5>
                     <h5><span class="material-icons">description</span> Description</h5>
                     <textarea class="description-info" disabled="disabled">Description</textarea>
                     <h5><span class="material-icons">link</span> Liens</h5>
