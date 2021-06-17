@@ -1,9 +1,10 @@
-
-<div class="btn-container"style="margin: 10px;">
-    <button class="btn" id="addBookmarks" aria-label="Ajouter un Bookmarks" title="addBookmarks" name="addBookmarks" value="addBookmarks"><span
+<div class="btn-container" style="margin: 10px;">
+    <button class="btn" id="addBookmarks" aria-label="Ajouter un Bookmarks" title="addBookmarks" name="addBookmarks"
+            value="addBookmarks"><span
                 class="material-icons">add</span>Ajouter un Bookmarks
     </button>
-    <button class="btn" id="addFolders" aria-label="Ajouter un dossier" title="addFolders" name="addFolders" value="addFolders"><span
+    <button class="btn" id="addFolders" aria-label="Ajouter un dossier" title="addFolders" name="addFolders"
+            value="addFolders"><span
                 class="material-icons">add</span>Ajouter un dossier
     </button>
 </div>
@@ -14,7 +15,9 @@
         <span class="material-icons" style="margin: 10px;position: absolute;right: 0;" id="closeMove">close</span>
         <div id="foldersMove"></div>
         <hr>
-        <button class="btn" id="move-btn" style="width: 80px; margin: 15px; position: absolute;bottom: 0;right: 0;">Déplacer</button>
+        <button class="btn" id="move-btn" style="width: 80px; margin: 15px; position: absolute;bottom: 0;right: 0;">
+            Déplacer
+        </button>
     </div>
 </div>
 
@@ -23,8 +26,8 @@
     <?php
     foreach ($folders as $folder) {
         ?>
-        <a href="<?= get_query_url('/folder/'.$folder->id)?>">
-            <div class="folder" style="color: <?= $folder->color?>">
+        <a href="<?= get_query_url('/folder/' . $folder->id) ?>">
+            <div class="folder" style="color: <?php echo strtolower($folder->color) == '#ffffff' ? 'var(--dark)' : $folder->color ?>">
                 <span class="material-icons">folder</span>
                 <h3>
                     <?= $folder->name ?>
@@ -39,21 +42,29 @@
     <?php
     foreach ($data as $bookmarks) {
         ?>
-        <div class="bookmark" bookmark-id="<?= $bookmarks->id?>">
-            <input type="hidden" value="<?= $bookmarks->thumbnail?>" name="link">
-            <input type="hidden" value="<?= $bookmarks->title?>" name="title">
-            <input type="hidden" value="<?= $bookmarks->reading_time?>" name="reading_time">
-            <input type="hidden" value="<?= $bookmarks->difficulty?>" name="difficulty">
+        <div class="bookmark" bookmark-id="<?= $bookmarks->id ?>">
+            <input type="hidden" value="<?= $bookmarks->thumbnail ?>" name="link">
+            <input type="hidden" value="<?= $bookmarks->title ?>" name="title">
+            <input type="hidden" value="<?= $bookmarks->reading_time ?>" name="reading_time">
+            <input type="hidden" value="<?= $bookmarks->difficulty ?>" name="difficulty">
 
             <img width="200px" height="200px" src="<?= $bookmarks->thumbnail ?>"
                  alt="Avatar de l'équpe <?= $bookmarks->title ?>">
-            <h3>
+            <h3 style="font-size: 21px;">
                 <?= $bookmarks->title ?>
             </h3>
             <div class="bookmark-infos">
-                <h4>
-                    <span class="material-icons" style="margin-right: 5px">schedule</span><?= $bookmarks->reading_time ?>
-                </h4>
+                <?php
+                if ($bookmarks->reading_time) {
+                    ?>
+                    <h4>
+                    <span class="material-icons"
+                          style="margin-right: 5px">schedule</span><?= $bookmarks->reading_time ?>
+                    </h4>
+                    <?php
+                }
+                ?>
+
                 <h4>
                     Difficultés : <?= $bookmarks->difficulty ?>
                 </h4>
@@ -101,7 +112,7 @@
                     $value = ["EASY", "MEDIUM", "DIFFICILE", "PRO"];
 
                     foreach ($value as $v) {
-                        echo "<option value=" . $v . "" . ($v == $bookmarks->difficulty ? ' selected' : '') . ">$v</option>";
+                        echo "<option value=''" . $v . "'>$v</option>";
                     }
                     ?>
                 </select>
@@ -171,26 +182,29 @@
                 </label>
                 <label for="description-Finalmodal" class="textareafield">
                     <textarea type="text" id="description-Finalmodal" name="descriptionFinal" style="height: 150px;"
-                           spellcheck="false"
-                           tabindex="2" aria-label="description" required aria-required="true"
-                           title="Description"
+                              spellcheck="false"
+                              tabindex="2" aria-label="description" required aria-required="true"
+                              title="Description"
                               autocapitalize="none" dir="ltr"></textarea>
                     <span aria-hidden="true">Description</span>
                 </label>
-                <label>Difficultés</label>
-                <select name="difficultyFinal" id="difficulty-Finalmodal">
-                    <?php
-                    $value = ["EASY", "MEDIUM", "DIFFICILE", "PRO"];
+                <label>Difficultés
+                    <select name="difficultyFinal" id="difficulty-Finalmodal">
+                        <?php
+                        $value = ["EASY", "MEDIUM", "DIFFICILE", "PRO"];
 
-                    foreach ($value as $v) {
-                        echo "<option value=" . $v . "" . ($v == $bookmarks->difficulty ? ' selected' : '') . ">$v</option>";
-                    }
-                    ?>
-                </select>
-                <label>Tags</label>
-                <button class="btn" id="finalBtnAdd" aria-label="edit" title="edit" name="action" value="edit" type="button"><span
-                            class="material-icons">add</span>Ajouter
-                </button>
+                        foreach ($value as $v) {
+                            echo "<option value=''" . $v ."'>$v</option>";
+                        }
+                        ?>
+                    </select>
+                </label>
+                <label>Tags
+                    <button class="btn" id="finalBtnAdd" aria-label="edit" title="edit" name="action" value="edit"
+                            type="button"><span
+                                class="material-icons">add</span>Ajouter
+                    </button>
+                </label>
             </form>
         </div>
     </div>

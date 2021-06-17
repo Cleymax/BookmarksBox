@@ -85,7 +85,7 @@ export async function getUser(response, q) {
 }
 
 export function getFolder(response) {
-  jsonFetch('folders')
+  jsonFetch('folders-main')
     .then(response);
 }
 
@@ -101,11 +101,16 @@ export function initFolder() {
       if (foldersDiv) {
         getFolder((folders) => {
           if (folders) {
-            let contentDiv = '';
-            for (const folder of folders.data) {
-              contentDiv += `<folder-menu-row folder-id="${folder.id}" name="${folder.name}" color="${folder.color}" parent-id="${folder.parent_id_folder}"></folder-menu-row>`;
+            const count = parseInt(folders.data.length, 10);
+            if (count > 0) {
+              let contentDiv = '';
+              for (const folder of folders.data) {
+                contentDiv += `<folder-menu-row folder-id="${folder.id}" name="${folder.name}" color="${folder.color}" parent-id="${folder.parent_id_folder}"></folder-menu-row>`;
+              }
+              foldersDiv.innerHTML = contentDiv;
+            } else {
+              foldersDiv.innerHTML = '<span>Aucun dossier</span>';
             }
-            foldersDiv.innerHTML = contentDiv;
           } else {
             flash('Erreur lors du chargement des dossiers !');
           }
@@ -195,15 +200,15 @@ export async function scrape(query) {
   });
 }
 
-export async function createBookmark(title, link, thumbnail, difficulty, description){
-  return jsonFetch(`bookmark`, {
+export async function createBookmark(title, link, thumbnail, difficulty, description) {
+  return jsonFetch('bookmark', {
     method: 'post',
     body: {
       titleFinal: title,
       linkFinal: link,
       thumbnailFinal: thumbnail,
       difficultyFinal: difficulty,
-      descriptionFinal: description
-    }
+      descriptionFinal: description,
+    },
   });
 }

@@ -53,11 +53,7 @@ class Teams extends Model
             ->params([Auth::user()->id])
             ->order('favorite', false);
 
-        if ($query->rowCount() == 0) {
-            throw new NotFoundException();
-        } else {
-            return $query->all();
-        }
+        return $query->all();
     }
 
     /**

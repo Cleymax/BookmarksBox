@@ -126,7 +126,7 @@ Route::post('/teams/{id}/members/{member}/role', [TeamsApiController::class, 'ch
 Route::get('/teams/{id}/settings', [TeamsApiController::class, 'getTeamSettings'])->where('id', '\w{10}')->api();
 
 Route::get('/folders/{id}', [FolderApiController::class, 'getFolderById'])->where('id', '\w{10}')->api();
-Route::get('/folders', [FolderApiController::class, 'getFolders'])->where('id', '\w{10}')->api();
+Route::get('/folders-main', [FolderApiController::class, 'getFolders'])->where('id', '\w{10}')->api();
 
 Route::get('/scrape', [ScrapingApiController::class, 'scrape'])->api();
 

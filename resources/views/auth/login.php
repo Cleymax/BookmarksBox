@@ -42,7 +42,7 @@
                         <span id="remember-label" aria-hidden="true">Se souvenir de moi</span>
                     </div>
                 </div>
-                <div class="btn-container">
+                <div>
                     <div class="button">
                         <button class="btn" aria-label="Connexion" title="Connexion"><span class="material-icons">login</span>Connexion</button>
                     </div>

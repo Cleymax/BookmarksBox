@@ -81,5 +81,5 @@ function headers_security(): void
     header('Cache-Control: no-cache, no-store, max-age=0, must-revalidate');
     header('X-Frame-Options: sameorigin');
     header('X-XSS-Protection: 1; mode=block');
-    header("Content-Security-Policy: default-src 'self' ${_ENV['BASE_URL']}; img-src 'self' data: https://*; child-src 'none';style-src 'self' 'unsafe-inline'; font-src 'self' fonts.gstatic.com; script-src 'self' 'unsafe-inline'; worker-src 'none';");
+    header("Content-Security-Policy: default-src 'self' ${_ENV['BASE_URL']}; img-src 'self' data: https://*; child-src 'none';style-src fonts.googleapis.com 'self' 'unsafe-inline'; font-src 'self' fonts.gstatic.com; script-src 'self' 'unsafe-inline'; worker-src 'none';");
 }

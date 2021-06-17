@@ -418,7 +418,7 @@ class Auth
             $query = (new Query())
                 ->insert("email", "username", "password", "verify")
                 ->into("users")
-                ->values(["?", "?", "?", true])
+                ->values(["?", "?", "?", 'True'])
                 ->params([$email, $u, 'CAS'])
                 ->returning('id');
 

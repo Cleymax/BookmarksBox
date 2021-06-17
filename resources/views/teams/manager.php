@@ -6,7 +6,7 @@ use App\Security\Auth;
 use App\Services\CsrfService;
 use App\Services\FileUploader;
 
-require ROOT_PATH.'/../App/Tools/Array.php'
+require ROOT_PATH . '/../App/Tools/Array.php'
 ?>
 <h1 class="margin-bottom20">Gestion de l'équipe <?= $data->name ?></h1>
 
@@ -72,9 +72,8 @@ require ROOT_PATH.'/../App/Tools/Array.php'
                 <span class="slider round"></span>
             </label>
             <span id="public-label" aria-hidden="true">Visibilité de l'équipe</span>
-
-            <div class="btn-container">
-                <br>
+            <br>
+            <div class="btn-container" style="margin-top: 10px">
                 <div class="button">
                     <button class="btn">
                         <span class="material-icons">edit</span>
@@ -124,13 +123,14 @@ require ROOT_PATH.'/../App/Tools/Array.php'
                                 'OWNER' => 'Propriétaire'
                         ];
                         ?>
-                        <select name="role" id="change-role" <?= $member->id == Auth::user()->id || (get_array_index($member->role,$role) > get_array_index(TeamHelper::getRole($id), $role)) ? 'disabled' : '' ?>>
+                        <select name="role"
+                                id="change-role" <?= $member->id == Auth::user()->id || (get_array_index($member->role, $role) > get_array_index(TeamHelper::getRole($id), $role)) ? 'disabled' : '' ?>>
                             <?php
                             foreach ($role as $key => $value) {
                                 ?>
                                 <option <?php if ($member->role == $key) {
                                     echo "selected";
-                                } ?> <?= get_array_index($key, TeamHelper::getRoles()) > get_array_index(TeamHelper::getRole($id), TeamHelper::getRoles()) ? 'disabled ': '' ?>value="<?= $key ?>"><?= $value ?></option>
+                                } ?> <?= get_array_index($key, TeamHelper::getRoles()) > get_array_index(TeamHelper::getRole($id), TeamHelper::getRoles()) ? 'disabled ' : '' ?>value="<?= $key ?>"><?= $value ?></option>
                                 <?php
                             }
                             ?>
