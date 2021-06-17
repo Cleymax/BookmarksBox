@@ -1,6 +1,6 @@
 
 <div class="btn-container"style="margin: 10px;">
-    <button class="btn" aria-label="Ajouter un Bookmarks" title="addBookmarks" name="addBookmarks" value="addBookmarks"><span
+    <button class="btn" id="addBookmarks" aria-label="Ajouter un Bookmarks" title="addBookmarks" name="addBookmarks" value="addBookmarks"><span
                 class="material-icons">add</span>Ajouter un Bookmarks
     </button>
     <button class="btn" id="addFolders" aria-label="Ajouter un dossier" title="addFolders" name="addFolders" value="addFolders"><span
@@ -24,7 +24,7 @@
     foreach ($folders as $folder) {
         ?>
         <a href="<?= get_query_url('/folder/'.$folder->id)?>">
-            <div class="folder">
+            <div class="folder" style="color: <?= $folder->color?>">
                 <span class="material-icons">folder</span>
                 <h3>
                     <?= $folder->name ?>
@@ -111,10 +111,10 @@
             </form>
         </div>
     </div>
-    <div class="modal" id="modal-add" style="padding-top: 200px;">
+    <div class="modal" id="modal-add" style="padding-top: 250px;">
         <div class="modal-frame">
-            <h4>Ajouter un dossier</h4>
-            <form method="post">
+            <h4 id="titleModalAdd">Ajouter un dossier</h4>
+            <form method="post" novalidate>
                 <label for="title-addModal" class="textfield">
                     <input type="text" id="title-addModal" autocomplete="title" name="title" spellcheck="false"
                            tabindex="2" aria-label="Titre" required aria-required="true"
@@ -122,14 +122,73 @@
                            autocapitalize="none" dir="ltr">
                     <span aria-hidden="true">Titre</span>
                 </label>
-                <label for="color-addModal" class="">
+                <label for="link-addModal" class="textfield" style="display: none">
+                    <input type="text" id="link-addModal" autocomplete="link" name="link" spellcheck="false"
+                           tabindex="2" aria-label="Liens" required aria-required="true"
+                           title="Liens"
+                           autocapitalize="none" dir="ltr">
+                    <span aria-hidden="true">Liens</span>
+                </label>
+                <label for="color-addModal" style="display: none">
+                    <span aria-hidden="true">Code Couleur Hexa</span>
                     <input type="color" id="color-addModal" name="color" spellcheck="false"
                            tabindex="2" aria-label="Couleur" required aria-required="true"
                            title="Couleur"
                            autocapitalize="none" dir="ltr">
-                    <span aria-hidden="true">Code Couleur Hexa</span>
                 </label>
-                <button class="btn" aria-label="add" title="add" name="action" value="add"><span
+                <button class="btn" aria-label="add" title="add" type="button" id="btnAddBookmark"><span
+                            class="material-icons">add</span>Ajouter
+                </button>
+            </form>
+        </div>
+    </div>
+    <div class="modal" id="final-modal" style="padding-top: 75px;">
+        <div class="modal-frame">
+            <h4>Ajouter bookmark</h4>
+            <form method="post">
+                <input type="hidden" value="default" id="id_bookmarks" name="id_bookmarks">
+                <label for="title-Finalmodal" class="textfield">
+                    <input type="text" id="title-Finalmodal" autocomplete="title" name="titleFinal" spellcheck="false"
+                           tabindex="2" aria-label="Titre" required aria-required="true"
+                           title="Titre"
+                           autocapitalize="none" dir="ltr">
+                    <span aria-hidden="true">Titre</span>
+                </label>
+                <label for="link-Finalmodal" class="textfield">
+                    <input type="text" id="link-Finalmodal" autocomplete="link" name="linkFinal" spellcheck="false"
+                           tabindex="2" aria-label="Liens" required aria-required="true"
+                           title="Liens"
+                           autocapitalize="none" dir="ltr">
+                    <span aria-hidden="true">Liens</span>
+                </label>
+                <label for="thumbnail-Finalmodal" class="textfield">
+                    <input type="text" id="thumbnail-Finalmodal" autocomplete="thumbnailFinal" name="thumbnail"
+                           spellcheck="false"
+                           tabindex="2" aria-label="Thumbnail" required aria-required="true"
+                           title="Thumbnail"
+                           autocapitalize="none" dir="ltr">
+                    <span aria-hidden="true">Thumbnail</span>
+                </label>
+                <label for="description-Finalmodal" class="textareafield">
+                    <textarea type="text" id="description-Finalmodal" name="descriptionFinal" style="height: 150px;"
+                           spellcheck="false"
+                           tabindex="2" aria-label="description" required aria-required="true"
+                           title="Description"
+                              autocapitalize="none" dir="ltr"></textarea>
+                    <span aria-hidden="true">Description</span>
+                </label>
+                <label>Difficultés</label>
+                <select name="difficultyFinal" id="difficulty-Finalmodal">
+                    <?php
+                    $value = ["EASY", "MEDIUM", "DIFFICILE", "PRO"];
+
+                    foreach ($value as $v) {
+                        echo "<option value=" . $v . "" . ($v == $bookmarks->difficulty ? ' selected' : '') . ">$v</option>";
+                    }
+                    ?>
+                </select>
+                <label>Tags</label>
+                <button class="btn" id="finalBtnAdd" aria-label="edit" title="edit" name="action" value="edit" type="button"><span
                             class="material-icons">add</span>Ajouter
                 </button>
             </form>

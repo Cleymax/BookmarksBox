@@ -16,7 +16,7 @@ import registerCopyClipboard from './CopyClipboard';
 import FolderMenuRow from './elements/FolderMenuRow';
 import itemMenu from './dashboard';
 import OnClickMove from './dashboard';
-import onAddFolder from './dashboard';
+import onAdd from './dashboard';
 
 window.customElements.define('alert-message', Alert);
 window.customElements.define('skeleton-box', Skeleton);
@@ -34,7 +34,7 @@ itemMenu();
 
 $(document).ready(() => {
   OnClickMove();
-  onAddFolder();
+  onAdd();
   const themeswitch = $('#theme');
   const theme = localStorage.getItem('theme');
   if (theme != null) {
@@ -146,6 +146,18 @@ document.querySelectorAll('.bookmark').forEach((value) => {
     document.getElementById('context-menu').children[0].value = value.getAttribute('bookmark-id');
   });
 });
+
+document.querySelectorAll('.folder').forEach((value) => {
+  value.addEventListener('contextmenu', (event) => {
+    event.preventDefault();
+    const contextElement = document.getElementById('context-menu');
+    contextElement.style.top = `${event.clientY}px`;
+    contextElement.style.left = `${event.clientX}px`;
+    contextElement.classList.add('active');
+    document.getElementById('context-menu').children[0].value = value.getAttribute('bookmark-id');
+  });
+});
+
 
 window.addEventListener('click', () => {
   const contextMenu = document.getElementById('context-menu');
