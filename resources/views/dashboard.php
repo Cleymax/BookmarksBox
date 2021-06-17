@@ -27,7 +27,7 @@
     foreach ($folders as $folder) {
         ?>
         <a href="<?= get_query_url('/folder/' . $folder->id) ?>">
-            <div class="folder" style="color: <?php echo strtolower($folder->color) == '#ffffff' ? 'var(--dark)' : $folder->color ?>">
+            <div class="folder" style="color: <?php echo strtolower($folder->color) == '#ffffff' ? 'var(--dark)' : $folder->color ?>" folder-id="<?= $folder->id ?>">
                 <span class="material-icons">folder</span>
                 <h3>
                     <?= $folder->name ?>
@@ -107,12 +107,19 @@
                            autocapitalize="none" dir="ltr">
                     <span aria-hidden="true">Thumbnail</span>
                 </label>
+                <label for="color-modal">
+                    <span aria-hidden="true">Code Couleur Hexa</span>
+                    <input type="color" id="color-modal" name="color" spellcheck="false"
+                           tabindex="2" aria-label="Couleur" required aria-required="true"
+                           title="Couleur"
+                           autocapitalize="none" dir="ltr">
+                </label>
                 <select name="difficulty" id="difficulty-modal">
                     <?php
                     $value = ["EASY", "MEDIUM", "DIFFICILE", "PRO"];
 
                     foreach ($value as $v) {
-                        echo "<option value=''" . $v . "'>$v</option>";
+                        echo "<option value=\"" . $v . "\">$v</option>";
                     }
                     ?>
                 </select>
@@ -203,7 +210,7 @@
                         $value = ["EASY", "MEDIUM", "DIFFICILE", "PRO"];
 
                         foreach ($value as $v) {
-                            echo "<option value=''" . $v ."'>$v</option>";
+                            echo "<option value=\"" . $v . "\">$v</option>";
                         }
                         ?>
                     </select>

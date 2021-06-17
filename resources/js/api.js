@@ -139,6 +139,9 @@ export function moveBookmark() {
 export async function moveItem(bookmarkId, folderId) {
   return jsonFetch(`bookmark/${bookmarkId}/move/${folderId}`, { method: 'GET' });
 }
+export async function moveFolder(folder, folderId) {
+  return jsonFetch(`folder/${folder}/move/${folderId}`, { method: 'GET' });
+}
 
 export async function isFavorite(bookmarkId, response) {
   return jsonFetch(`bookmark/${bookmarkId}/favorite/isFavorite`, { method: 'GET' })
@@ -188,8 +191,32 @@ export async function deleteBookmark(bookmarkId, response) {
     });
 }
 
+export async function deleteFolder(folderId, response) {
+  Swal.fire({
+    icon: 'warning',
+    title: 'Voulez vous vraiment supprimer ce dossier ?',
+    showDenyButton: true,
+    confirmButtonText: 'Oui',
+    denyButtonText: 'Non',
+  })
+    .then((result) => {
+      if (result.isConfirmed) {
+        jsonFetch(`folder/${folderId}/delete`, { method: 'GET' })
+          .then(response);
+      } else if (result.isDenied) {
+        response(false);
+      }
+    });
+}
+
 export async function getBookmarkInfo(bookmarkId) {
   return jsonFetch(`bookmark/${bookmarkId}?fields=id,title,link,difficulty,thumbnail`, {
+    method: 'get',
+  });
+}
+
+export async function getFolderInfo(folderId) {
+  return jsonFetch(`/folder/${folderId}?fields=id,name,color`, {
     method: 'get',
   });
 }
@@ -200,7 +227,7 @@ export async function scrape(query) {
   });
 }
 
-export async function createBookmark(title, link, thumbnail, difficulty, description) {
+export async function createBookmark(title, link, thumbnail, difficulty, description, parent_id = null) {
   return jsonFetch('bookmark', {
     method: 'post',
     body: {
@@ -209,6 +236,7 @@ export async function createBookmark(title, link, thumbnail, difficulty, descrip
       thumbnailFinal: thumbnail,
       difficultyFinal: difficulty,
       descriptionFinal: description,
+      parent: parent_id,
     },
   });
 }
@@ -222,4 +250,9 @@ export async function createFolder(name, color, parent_id = null) {
       parent: parent_id,
     }
   });
+}
+
+export async function isFolder(id)
+{
+  return jsonFetch(`isFolder/${id}`, {method: 'GET'});
 }

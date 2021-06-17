@@ -125,15 +125,25 @@ class BookmarkApiController extends Controller
 
     function createBookmark()
     {
+
         $data = getBody();
         $json = json_decode($data, true);
 
-        $query = (new Query())
-            ->insert("title", "link", "thumbnail", "difficulty", "description", "created_by")
-            ->into("bookmarks")
-            ->values(["?", "?", "?", "?", "?", "?"])
-            ->params([$json['titleFinal'], $json['linkFinal'], $json['thumbnailFinal'], $json['difficultyFinal'], $json['descriptionFinal'], Auth::userApi()->id])
-            ->returning("id");
+        if($json["parent"] == null){
+            $query = (new Query())
+                ->insert("title", "link", "thumbnail", "difficulty", "description", "created_by")
+                ->into("bookmarks")
+                ->values(["?", "?", "?", "?", "?", "?"])
+                ->params([$json['titleFinal'], $json['linkFinal'], $json['thumbnailFinal'], $json['difficultyFinal'], $json['descriptionFinal'], Auth::userApi()->id])
+                ->returning("id");
+        }else{
+            $query = (new Query())
+                ->insert("title", "link", "thumbnail", "difficulty", "description", "folder", "created_by")
+                ->into("bookmarks")
+                ->values(["?", "?", "?", "?", "?", "?", "?"])
+                ->params([$json['titleFinal'], $json['linkFinal'], $json['thumbnailFinal'], $json['difficultyFinal'], $json['descriptionFinal'], $json["parent"], Auth::userApi()->id])
+                ->returning("id");
+        }
         $query->first();
 
         $this->respond_json([

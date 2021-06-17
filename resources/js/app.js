@@ -137,6 +137,8 @@ document.querySelectorAll('.bookmark').forEach((value) => {
     const contextElement = document.getElementById('context-menu');
     contextElement.style.top = `${event.clientY}px`;
     contextElement.style.left = `${event.clientX}px`;
+    contextElement.children[4].style.display = 'block';
+    contextElement.children[5].style.display = 'block';
     contextElement.classList.add('active');
     document.getElementById('context-menu').children[0].value = value.getAttribute('bookmark-id');
   });
@@ -149,7 +151,9 @@ document.querySelectorAll('.folder').forEach((value) => {
     contextElement.style.top = `${event.clientY}px`;
     contextElement.style.left = `${event.clientX}px`;
     contextElement.classList.add('active');
-    document.getElementById('context-menu').children[0].value = value.getAttribute('bookmark-id');
+    contextElement.children[4].style.display = 'none';
+    contextElement.children[5].style.display = 'none';
+    document.getElementById('context-menu').children[0].value = value.getAttribute('folder-id');
   });
 });
 
