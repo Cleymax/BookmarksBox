@@ -12,8 +12,8 @@ if ($_ENV['MODE'] == 'dev') {
     window.BB = {
         USER: <?= Auth::check() ? Auth::user()->id : 'null' ?>,
         BASE_URL: '<?= $_ENV['BASE_URL'] ?>',
-        TEAM_ID: <?php echo (isset($id) ?  "'$id'" : "'null'") ?>
-
+        TEAM_ID: <?php echo (isset($id) ?  "'$id'" : "'null'") ?>,
+        FOLDER_ID: <?php echo (isset($folder_id) ?  "'$folder_id'" : "'null'") ?>
     };
 </script>
 <script async src="<?= $_ENV['BASE_URL'] ?>/js/app.js"></script>

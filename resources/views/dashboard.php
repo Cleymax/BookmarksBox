@@ -113,6 +113,23 @@
     </div>
     <div class="modal" id="modal-add" style="padding-top: 250px;">
         <div class="modal-frame">
+            <h4 id="titleModalAdd">Ajouter un Bookmark</h4>
+            <form method="post" novalidate>
+                <label for="link-addModal" class="textfield" style="display: none">
+                    <input type="text" id="link-addModal" autocomplete="link" name="link" spellcheck="false"
+                           tabindex="2" aria-label="Liens" required aria-required="true"
+                           title="Liens"
+                           autocapitalize="none" dir="ltr">
+                    <span aria-hidden="true">Liens</span>
+                </label>
+                <button class="btn" aria-label="add" title="add" type="button" id="btnAddBookmark"><span
+                            class="material-icons">add</span>Ajouter
+                </button>
+            </form>
+        </div>
+    </div>
+    <div class="modal" id="modal-add-folder" style="padding-top: 250px;">
+        <div class="modal-frame">
             <h4 id="titleModalAdd">Ajouter un dossier</h4>
             <form method="post" novalidate>
                 <label for="title-addModal" class="textfield">
@@ -122,21 +139,14 @@
                            autocapitalize="none" dir="ltr">
                     <span aria-hidden="true">Titre</span>
                 </label>
-                <label for="link-addModal" class="textfield" style="display: none">
-                    <input type="text" id="link-addModal" autocomplete="link" name="link" spellcheck="false"
-                           tabindex="2" aria-label="Liens" required aria-required="true"
-                           title="Liens"
-                           autocapitalize="none" dir="ltr">
-                    <span aria-hidden="true">Liens</span>
-                </label>
-                <label for="color-addModal" style="display: none">
+                <label for="color-addModal">
                     <span aria-hidden="true">Code Couleur Hexa</span>
                     <input type="color" id="color-addModal" name="color" spellcheck="false"
                            tabindex="2" aria-label="Couleur" required aria-required="true"
                            title="Couleur"
                            autocapitalize="none" dir="ltr">
                 </label>
-                <button class="btn" aria-label="add" title="add" type="button" id="btnAddBookmark"><span
+                <button class="btn" aria-label="add" title="add" type="button" id="btnAddFolder"><span
                             class="material-icons">add</span>Ajouter
                 </button>
             </form>
@@ -146,7 +156,6 @@
         <div class="modal-frame">
             <h4>Ajouter bookmark</h4>
             <form method="post">
-                <input type="hidden" value="default" id="id_bookmarks" name="id_bookmarks">
                 <label for="title-Finalmodal" class="textfield">
                     <input type="text" id="title-Finalmodal" autocomplete="title" name="titleFinal" spellcheck="false"
                            tabindex="2" aria-label="Titre" required aria-required="true"

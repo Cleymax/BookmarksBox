@@ -7,7 +7,8 @@ import {
   moveBookmark,
   moveItem,
   scrape,
-  createBookmark
+  createBookmark,
+  createFolder
 } from './api';
 import { flash } from './elements/Alert';
 import moment from 'moment';
@@ -119,24 +120,13 @@ export function onAdd(){
   const btnaddFolders = document.getElementById('addFolders');
   if(btnaddFolders){
     btnaddFolders.addEventListener('click', () => {
-      const modal = document.getElementById('modal-add');
-      const color = document.getElementById('color-addModal');
-      const btn = document.getElementById('btnAddBookmark')
-      if(btn){
-        btn.setAttribute("id", "btnAddFolder")
-      }
-      color.parentNode.style.display = 'block';
+      const modal = document.getElementById('modal-add-folder');
       modal.style.display = 'block';
-      document.getElementById('titleModalAdd').innerHTML = "Ajouter un dossier";
     });
   }
   const btnAddBookmark = document.getElementById('addBookmarks');
   if(btnAddBookmark){
     btnAddBookmark.addEventListener('click', () => {
-      const btn = document.getElementById('btnAddFolder')
-      if(btn){
-        btn.setAttribute("id", "btnAddBookmark")
-      }
       const modal = document.getElementById('modal-add');
       const title = document.getElementById('title-addModal');
       const link = document.getElementById('link-addModal');
@@ -144,6 +134,22 @@ export function onAdd(){
       title.parentNode.style.display = 'none';
       modal.style.display = 'block';
       document.getElementById('titleModalAdd').innerHTML = "Ajouter un bookmark";
+    });
+  }
+  const btnAddFolder = document.getElementById('btnAddFolder');
+  if(btnAddFolder){
+    btnAddFolder.addEventListener('click', () => {
+      const color = document.getElementById('color-addModal').value;
+      const name = document.getElementById('title-addModal').value;
+      if(window.BB.FOLDER_ID == null){
+        createFolder(name, color).then((response) => {
+          flash("ça marche", "success", 2);
+        })
+      }else{
+        createFolder(name, color, window.BB.FOLDER_ID).then((response) => {
+          flash("ça marche", "success", 2);
+        })
+      }
     });
   }
   const finalBtnAdd = document.getElementById('finalBtnAdd');
@@ -162,15 +168,6 @@ export function onAdd(){
   }
 }
 
-function resetAddModal(){
-  const title = document.getElementById('title-addModal');
-  const color = document.getElementById('color-addModal');
-  const link = document.getElementById('link-addModal');
-  title.parentNode.style.display = 'block';
-  link.parentNode.style.display = 'none';
-  color.parentNode.style.display = 'none';
-  document.getElementById('titleModalAdd').innerHTML = "Ajouter un bookmark";
-}
 
 function closeModalInfo() {
   const menuInfo = document.getElementById('menu-info');
@@ -199,7 +196,10 @@ window.onclick = function (event) {
   }
   const modalAdd = document.getElementById('modal-add');
   if(event.target === modalAdd){
-    resetAddModal()
     modalAdd.style.display = 'none';
+  }
+  const modalAdd2 = document.getElementById('modal-add-folder');
+  if(event.target === modalAdd2){
+    modalAdd2.style.display = 'none';
   }
 };
