@@ -83,6 +83,11 @@ export default class FolderMenuRow extends HTMLElement {
         const childFolder = document.querySelectorAll(`[parent-id="${this.id}"]`);
         childFolder.forEach((value) => value.parentNode.removeChild(value));
       }
+      const select = document.querySelector("folder-menu-row[moveSelected]");
+      if(select){
+        select.removeAttribute('moveSelected');
+      }
+      event.target.parentNode.parentNode.parentNode.setAttribute('moveSelected', '');
     });
   }
 

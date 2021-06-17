@@ -122,9 +122,12 @@ export function moveBookmark() {
   }
 }
 
-export async function isFavorite(bookmarkId, response) {
-  jsonFetch(`bookmark/${bookmarkId}/favorite/isFavorite`, { method: 'GET' }).then(response);
+export async function  moveItem(bookmarkId, folderId, response){
+  jsonFetch(`https://public.test/api/bookmark/${bookmarkId}/move/${folderId}`,  { method: 'GET'}).then(response);
 }
+
+export async function isFavorite(bookmarkId, response){
+  jsonFetch(`https://public.test/api/bookmark/${bookmarkId}/favorite/isFavorite`,  { method: 'GET'}).then(response)
 
 export async function addFavorite(bookmarkId, response) {
   return jsonFetch(`bookmark/${bookmarkId}/favorite/add`, { method: 'GET' }).then(response);

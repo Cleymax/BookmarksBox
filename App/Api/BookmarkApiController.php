@@ -105,10 +105,21 @@ class BookmarkApiController extends Controller
         }
     }
 
-    function move(string $bookmark_id)
+    function moveBookmark(string $bookmark_id, string $folderId)
     {
+        $query = (new Query())
+            ->update()
+            ->into("bookmarks")
+            ->where("id = ?")
+            ->set(["folder" => '?'])
+            ->params([$folderId, $bookmark_id])
+            ->returning("id");
 
+        $query->first();
+
+        $this->respond_json([
+            'type' => 'success',
+            'message' => 'Vous avez bien déplacer cette bookmarks',
+        ]);
     }
-
-
 }

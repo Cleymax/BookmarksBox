@@ -15,6 +15,8 @@ import registerSortableTable from './table';
 import registerCopyClipboard from './CopyClipboard';
 import FolderMenuRow from './elements/FolderMenuRow';
 import itemMenu from './dashboard';
+import OnClickMove from './dashboard';
+import onAddFolder from './dashboard';
 
 window.customElements.define('alert-message', Alert);
 window.customElements.define('skeleton-box', Skeleton);
@@ -31,6 +33,8 @@ initFolder();
 itemMenu();
 
 $(document).ready(() => {
+  OnClickMove();
+  onAddFolder();
   const themeswitch = $('#theme');
   const theme = localStorage.getItem('theme');
   if (theme != null) {

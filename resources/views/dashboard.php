@@ -3,18 +3,18 @@
     <button class="btn" aria-label="Ajouter un Bookmarks" title="addBookmarks" name="addBookmarks" value="addBookmarks"><span
                 class="material-icons">add</span>Ajouter un Bookmarks
     </button>
-    <button class="btn" aria-label="Ajouter un dossier" title="addFolders" name="addFolders" value="addFolders"><span
+    <button class="btn" id="addFolders" aria-label="Ajouter un dossier" title="addFolders" name="addFolders" value="addFolders"><span
                 class="material-icons">add</span>Ajouter un dossier
     </button>
 </div>
 
-<div class="moveMenuContainer">
+<div class="moveMenuContainer" id="moveMenuContainer">
     <div class="moveMenu" id="moveMenu">
-        <input type="hidden" value="default" name="id">
-        <span class="material-icons" style="margin: 10px;position: absolute;right: 0;">close</span>
+        <input type="hidden" value="default" name="bookmarkId">
+        <span class="material-icons" style="margin: 10px;position: absolute;right: 0;" id="closeMove">close</span>
         <div id="foldersMove"></div>
         <hr>
-        <button class="btn" style="width: 80px; margin: 15px; position: absolute;bottom: 0;right: 0;">Déplacer</button>
+        <button class="btn" id="move-btn" style="width: 80px; margin: 15px; position: absolute;bottom: 0;right: 0;">Déplacer</button>
     </div>
 </div>
 
@@ -107,6 +107,30 @@
                 </select>
                 <button class="btn" aria-label="edit" title="edit" name="action" value="edit"><span
                             class="material-icons">edit</span>Edit
+                </button>
+            </form>
+        </div>
+    </div>
+    <div class="modal" id="modal-add" style="padding-top: 200px;">
+        <div class="modal-frame">
+            <h4>Ajouter un dossier</h4>
+            <form method="post">
+                <label for="title-addModal" class="textfield">
+                    <input type="text" id="title-addModal" autocomplete="title" name="title" spellcheck="false"
+                           tabindex="2" aria-label="Titre" required aria-required="true"
+                           title="Titre"
+                           autocapitalize="none" dir="ltr">
+                    <span aria-hidden="true">Titre</span>
+                </label>
+                <label for="color-addModal" class="">
+                    <input type="color" id="color-addModal" name="color" spellcheck="false"
+                           tabindex="2" aria-label="Couleur" required aria-required="true"
+                           title="Couleur"
+                           autocapitalize="none" dir="ltr">
+                    <span aria-hidden="true">Code Couleur Hexa</span>
+                </label>
+                <button class="btn" aria-label="add" title="add" name="action" value="add"><span
+                            class="material-icons">add</span>Ajouter
                 </button>
             </form>
         </div>

@@ -91,6 +91,7 @@ Route::get('/folder/{id}/info', [FolderController::class, 'getFolderInfo'], true
 
 Route::get('/bookmarks', [BookmarkApiController::class, 'getAllBookmarks'], true)->api();
 Route::get('/bookmark/{id}', [BookmarkApiController::class, 'getBookmark'], true)->where('id', '\w{10}')->api();
+Route::get('/bookmark/{id}/move/{idFolders}', [BookmarkApiController::class, 'moveBookmark'], true)->where('id', '\w{10}')->api();
 Route::get('/bookmark/{id}/favorite/add', [BookmarkApiController::class, 'addFavorite'], true)->where('id', '\w{10}')->api();
 Route::get('/bookmark/{id}/favorite/remove', [BookmarkApiController::class, 'removeFavorite'], true)->where('id', '\w{10}')->api();
 Route::get('/bookmark/{id}/favorite/isFavorite', [BookmarkApiController::class, 'isFavorite'], true)->where('id', '\w{10}')->api();

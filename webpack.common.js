@@ -27,12 +27,12 @@ module.exports = [{
         test: /\.scss$/,
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
-      {
+      /* {
         test: /\.js$/,
         loader: 'eslint-loader',
         exclude: /node_modules|vendor\.js/,
         enforce: 'pre',
-      },
+      },*/
       {
         test: /\.js$/,
         exclude: /node_modules/,
