@@ -13,7 +13,7 @@ if (empty($data)) {
             <div class="team  cards" data-id="<?= $bookmark->id ?>" style="width: 170px;">
                 <a href="#<?= $bookmark->id ?>">
                     <img class="img-200" src="<?= $bookmark->thumbnail ?>" alt="Miniature de  <?= $bookmark->title ?>">
-                    <h3>
+                    <h3 style="font-size: 16px;">
                         <?= $bookmark->title ?>
                     </h3>
                 </a>

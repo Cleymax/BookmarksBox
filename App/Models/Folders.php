@@ -11,7 +11,7 @@ class Folders extends Model
         $query = (new Query())
             ->select()
             ->from("folders")
-            ->where('user_id = ?', 'parent_id_folder IS NULL')
+            ->where('user_id = ?', 'parent_id_folder IS NULL', 'team_id IS NULL')
             ->params([Auth::user()->id]);
 
         return $query->all();

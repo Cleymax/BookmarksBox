@@ -24,6 +24,11 @@ class TeamHelper
         return $role == 'OWNER' || $role == 'MANAGER';
     }
 
+    public static function canEditWithRole(string $role): bool
+    {
+        return $role == 'OWNER' || $role == 'MANAGER' || $role == 'EDITOR';
+    }
+
     public static function canManage(string $team_id): bool
     {
         $query = (new Query())
@@ -69,5 +74,18 @@ class TeamHelper
             'MANAGER' => 'Manager',
             'OWNER' => 'Propriétaire'
         ];
+    }
+
+    public static function canEdit(string $id)
+    {
+        $query = (new Query())
+            ->select('role')
+            ->from('teams_members')
+            ->where('user_id = ?', 'team_id = ?')
+            ->params([Auth::user()->id, $id]);
+
+        $role = $query->first()->role;
+
+        return self::canEditWithRole($role);
     }
 }

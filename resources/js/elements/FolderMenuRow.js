@@ -28,7 +28,11 @@ export default class FolderMenuRow extends HTMLElement {
     menuRow.classList.add('menu__row');
 
     const a = document.createElement('a');
-    a.setAttribute('href', `${window.BB.BASE_URL}/folder/${this.id}`);
+    if (window.BB.TEAM_ID === 'null') {
+      a.setAttribute('href', `${window.BB.BASE_URL}/folder/${this.id}`);
+    } else {
+      a.setAttribute('href', `${window.BB.BASE_URL}/teams/${window.BB.TEAM_ID}/folder/${this.id}`);
+    }
 
     const icon = document.createElement('span');
     icon.classList.add('material-icons');

@@ -32,7 +32,7 @@ use Sonata\GoogleAuthenticator\GoogleQrUrl;
                     </label>
                 </div>
             </div>
-            <div class="btn-container">
+            <div class="btn-container" style="justify-content: center;">
                 <div class="button">
                     <button class="btn" aria-label="Activer" name="action" value="activate" title="Activer">
                         <span class="material-icons">check</span>Activer
@@ -41,7 +41,7 @@ use Sonata\GoogleAuthenticator\GoogleQrUrl;
             </div>
         <?php } else { ?>
             <h3>Déjà activé sur votre compte.</h3>
-            <div class="btn-container">
+            <div class="btn-container" >
                 <div class="button">
                     <button class="btn" aria-label="Réinitialiser" name="action" value="reset" title="Réinitialiser">
                         <span class="material-icons">restart_alt</span>Réinitialiser

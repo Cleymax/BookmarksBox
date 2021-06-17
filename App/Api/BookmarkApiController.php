@@ -8,7 +8,6 @@ use App\Database\QueryApi;
 use App\Exceptions\NotFoundException;
 use App\Exceptions\TokenNotFoundException;
 use App\Security\Auth;
-use App\Services\FlashService;
 
 class BookmarkApiController extends Controller
 {
@@ -68,11 +67,11 @@ class BookmarkApiController extends Controller
 
     public function addFavorite(string $bookmark_id)
     {
-            $this->Bookmarks->addFavorite($bookmark_id);
-            $this->respond_json([
-                'type' => 'success',
-                'message' => 'Votre bookmarks à bien était ajouter en favoris',
-            ]);
+        $this->Bookmarks->addFavorite($bookmark_id);
+        $this->respond_json([
+            'type' => 'success',
+            'message' => 'Votre bookmarks à bien était ajouter en favoris',
+        ]);
     }
 
     /**
@@ -81,7 +80,7 @@ class BookmarkApiController extends Controller
      */
     public function removeFavorite(string $bookmark_id)
     {
-        if ( $this->Bookmarks->isFavorite($bookmark_id) == null) {
+        if ($this->Bookmarks->isFavorite($bookmark_id) == null) {
             throw new NotFoundException('This bookmarks is not in your favorite !');
         }
 
@@ -94,9 +93,9 @@ class BookmarkApiController extends Controller
 
     public function delete(string $bookmark_id)
     {
-        if($this->Bookmarks->isFavorite($bookmark_id) != null){
+        if ($this->Bookmarks->isFavorite($bookmark_id) != null) {
             throw new NotFoundException('Vous ne pouvez pas supprime un bookmarks mis en favoris');
-        }else{
+        } else {
             $this->Bookmarks->delete($bookmark_id);
             $this->respond_json([
                 'type' => 'success',
@@ -123,25 +122,46 @@ class BookmarkApiController extends Controller
         ]);
     }
 
+    /**
+     * @throws \App\Exceptions\TokenNotFoundException
+     */
     function createBookmark()
     {
         $data = getBody();
         $json = json_decode($data, true);
 
-        if($json["parent"] == "null"){
-            $query = (new Query())
-                ->insert("title", "link", "thumbnail", "difficulty", "description", "created_by")
-                ->into("bookmarks")
-                ->values(["?", "?", "?", "?", "?", "?"])
-                ->params([$json['titleFinal'], $json['linkFinal'], $json['thumbnailFinal'], $json['difficultyFinal'], $json['descriptionFinal'], Auth::userApi()->id])
-                ->returning("id");
-        }else{
-            $query = (new Query())
-                ->insert("title", "link", "thumbnail", "difficulty", "description", "folder", "created_by")
-                ->into("bookmarks")
-                ->values(["?", "?", "?", "?", "?", "?", "?"])
-                ->params([$json['titleFinal'], $json['linkFinal'], $json['thumbnailFinal'], $json['difficultyFinal'], $json['descriptionFinal'], $json["parent"], Auth::userApi()->id])
-                ->returning("id");
+        if ($json["parent"] == 'null') {
+            if ($json['team'] == 'null') {
+                $query = (new Query())
+                    ->insert("title", "link", "thumbnail", "difficulty", "description", "created_by")
+                    ->into("bookmarks")
+                    ->values(["?", "?", "?", "?", "?", "?"])
+                    ->params([$json['titleFinal'], $json['linkFinal'], $json['thumbnailFinal'], $json['difficultyFinal'], $json['descriptionFinal'], Auth::userApi()->id])
+                    ->returning("id");
+            } else {
+                $query = (new Query())
+                    ->insert("title", "link", "thumbnail", "difficulty", "description", "created_by", "team_id")
+                    ->into("bookmarks")
+                    ->values(["?", "?", "?", "?", "?", "?", "?"])
+                    ->params([$json['titleFinal'], $json['linkFinal'], $json['thumbnailFinal'], $json['difficultyFinal'], $json['descriptionFinal'], Auth::userApi()->id, $json['team'],])
+                    ->returning("id");
+            }
+        } else {
+            if ($json['team'] != 'null') {
+                $query = (new Query())
+                    ->insert("title", "link", "thumbnail", "difficulty", "description", "folder", "created_by", "team_id")
+                    ->into("bookmarks")
+                    ->values(["?", "?", "?", "?", "?", "?", "?", "?"])
+                    ->params([$json['titleFinal'], $json['linkFinal'], $json['thumbnailFinal'], $json['difficultyFinal'], $json['descriptionFinal'], $json["parent"], Auth::userApi()->id, $json['team']])
+                    ->returning("id");
+            } else {
+                $query = (new Query())
+                    ->insert("title", "link", "thumbnail", "difficulty", "description", "folder", "created_by")
+                    ->into("bookmarks")
+                    ->values(["?", "?", "?", "?", "?", "?", "?"])
+                    ->params([$json['titleFinal'], $json['linkFinal'], $json['thumbnailFinal'], $json['difficultyFinal'], $json['descriptionFinal'], $json["parent"], Auth::userApi()->id])
+                    ->returning("id");
+            }
         }
         $query->first();
 

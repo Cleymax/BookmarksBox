@@ -26,7 +26,7 @@ class FolderApiController extends Controller
         $query = (new QueryApi())
             ->select()
             ->from('folders')
-            ->where(is_null($id) ? 'parent_id_folder IS NULL' : 'parent_id_folder = ?', 'user_id = ?');
+            ->where(is_null($id) ? 'parent_id_folder IS NULL' : 'parent_id_folder = ?', 'user_id = ?', 'team_id IS NULL');
 
         if (is_null($id)) {
             $query->params([Auth::userApi()->id]);
@@ -112,17 +112,35 @@ class FolderApiController extends Controller
         $json = json_decode($data, true);
 
         if ($json['parent'] == 'null') {
-            $query = (new Query())
-                ->insert("name", "color", "user_id")
-                ->into("folders")
-                ->values(["?", "?", "?"])
-                ->params([$json["name"], $json["color"], Auth::userApi()->id]);
+            if ($json['team'] == 'null') {
+                $query = (new Query())
+                    ->insert("name", "color", "user_id")
+                    ->into("folders")
+                    ->values(["?", "?", "?"])
+                    ->params([$json["name"], $json["color"], Auth::userApi()->id]);
+            }else {
+                $query = (new Query())
+                    ->insert("name", "color", "user_id","team_id")
+                    ->into("folders")
+                    ->values(["?", "?", "?", "?"])
+                    ->params([$json["name"], $json["color"], Auth::userApi()->id, $json['team']]);
+            }
+
         } else {
-            $query = (new Query())
-                ->insert("name", "color", "parent_id_folder", "user_id")
-                ->into("folders")
-                ->values(["?", "?", "?", "?"])
-                ->params([$json["name"], $json["color"], $json['parent'], Auth::userApi()->id]);
+            if ($json['team'] == 'null') {
+                $query = (new Query())
+                    ->insert("name", "color", "parent_id_folder", "user_id")
+                    ->into("folders")
+                    ->values(["?", "?", "?", "?"])
+                    ->params([$json["name"], $json["color"], $json['parent'], Auth::userApi()->id]);
+            }else {
+                $query = (new Query())
+                    ->insert("name", "color", "parent_id_folder", "user_id", "team_id")
+                    ->into("folders")
+                    ->values(["?", "?", "?", "?", "?"])
+                    ->params([$json["name"], $json["color"], $json['parent'], Auth::userApi()->id, $json['team']]);
+            }
+
         }
 
         $query->execute();

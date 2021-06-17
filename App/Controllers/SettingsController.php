@@ -84,7 +84,7 @@ class SettingsController extends Controller
             if (!empty($new_path)) {
                 $avatar = $new_path['name'];
                 $this->User->changeAvatar($avatar);
-                FlashService::success('Avatar modifié !',5);
+                FlashService::success('Avatar modifié !', 5);
             }
         } catch (\Exception $e) {
             FlashService::error($e->getMessage(), 4);
@@ -122,6 +122,11 @@ class SettingsController extends Controller
     public function deleteView()
     {
         $this->render(View::new('settings.delete', 'settings'), "Supprimer");
+    }
+
+    public function delete()
+    {
+
     }
 
     public function passwordView()
@@ -171,21 +176,23 @@ class SettingsController extends Controller
 
     public function identityView()
     {
-        $this->render(View::new('settings.identity', 'settings'), "Identité");
+        $response = $this->User->getById(Auth::user()->id);
+        $this->render(View::new('settings.identity', 'settings'), "Identité", ['data' => $response]);
     }
 
     public function identity()
     {
         try {
             $this->checkCsrf();
-            $this->checkPost("current", "Merci de préciser votre mot de passe !");
-
             $response = $this->User->getById(Auth::user()->id);
 
-            if (!password_verify($_ENV['SALT'] . $_POST["current"], $response->password)) {
-                throw new AuthException('Le mot de passe ne correspond pas');
-            }
+            if ($response->password != 'CAS') {
+                $this->checkPost("current", "Merci de préciser votre mot de passe !");
 
+                if (!password_verify($_ENV['SALT'] . $_POST["current"], $response->password)) {
+                    throw new AuthException('Le mot de passe ne correspond pas');
+                }
+            }
             // Check si username n'existe pas déjà
 
             $request_values = $this->getRequestValue([], [
