@@ -87,7 +87,7 @@
                     $value = ["EASY", "MEDIUM", "DIFFICILE", "PRO"];
 
                     foreach ($value as $v) {
-                        echo "<option value=" . $v . "" . ($v == $bookmarks->difficulty ? ' selected' : '') . ">$v</option>";
+                        echo "<option value=''" . $v . "'>$v</option>";
                     }
                     ?>
                 </select>

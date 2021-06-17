@@ -27,6 +27,8 @@ use App\Services\FlashService;
     <!--  css  -->
     <link rel="stylesheet" href="<?= $_ENV['BASE_URL'] ?>/css/app.css"
           integrity="<?= hash_file('sha256', ROOT_PATH . '/css/app.css') ?>" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
     <?php if ($_ENV['MODE'] == 'dev') {
         echo $render->renderHead();
     } ?>

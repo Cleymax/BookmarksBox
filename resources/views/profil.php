@@ -3,6 +3,7 @@
     <div class="profil-header">
         <img src="<?php
 
+        use App\Helper\BookmarkHelper;
         use App\Services\FileUploader;
         use App\Tools\Str;
 
@@ -31,16 +32,22 @@
                      style="display: flex;flex-direction: column; align-items: center; padding: 5px; width: 200px !important;">
                     <img width="150px" height="150px" src="<?= $bookmarks->thumbnail ?>"
                          alt="Avatar de l'équpe <?= $bookmarks->title ?>">
-                    <h3>
+                    <h3 style="font-size: 18px;">
                         <?= $bookmarks->title ?>
                     </h3>
                     <div class="bookmark-infos">
-                        <h4>
+                        <?php
+                        if ($bookmarks->reading_time) {
+                            ?>
+                            <h4>
                                 <span class="material-icons"
                                       style="margin-right: 5px">schedule</span><?= $bookmarks->reading_time ?>
-                        </h4>
+                            </h4>
+                            <?php
+                        }
+                        ?>
                         <h4>
-                            <?= \App\Helper\BookmarkHelper::translateDifficulty($bookmarks->difficulty) ?>
+                            <?= BookmarkHelper::translateDifficulty($bookmarks->difficulty) ?>
                         </h4>
                     </div>
                 </div>

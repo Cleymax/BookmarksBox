@@ -57,7 +57,7 @@ use App\Services\CsrfService;
         </div>
     </form>
 </div>
-<script src="<?= getenv('BASE_URL') . '/debugbar/vendor/jquery/dist/jquery.min.js' ?>"></script>
+<script src="<?= $_ENV['BASE_URL'] . '/debugbar/vendor/jquery/dist/jquery.min.js' ?>"></script>
 <script>
     function readURL(input) {
         if (input.files && input.files[0]) {
