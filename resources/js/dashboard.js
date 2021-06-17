@@ -3,12 +3,15 @@ import {
   createBookmark,
   createFolder,
   deleteBookmark,
+  deleteFolder,
   getBookmarkInfo,
   isFavorite,
   moveBookmark,
   moveItem,
+  moveFolder,
   removeFavorite,
   scrape,
+  isFolder,
 } from './api';
 import { flash } from './elements/Alert';
 
@@ -30,20 +33,35 @@ btnMenu.forEach((value) => {
         }
       });
     } else if (value.hasAttribute('delete')) {
-      deleteBookmark(bookmarkId, (response) => {
-        if (response.message === 'Vous avez bien supprime cette bookmarks') {
-          const bookmarks = document.querySelectorAll('.bookmark');
-          bookmarks.forEach((bookmark) => {
-            if (bookmark.getAttribute('bookmark-id') === bookmarkId) {
-              bookmark.parentNode.removeChild(bookmark);
+      isFolder(bookmarkId).then((isFolder) => {
+        if(isFolder.result != false){
+          deleteBookmark(bookmarkId, (response) => {
+            if (response.message === 'Vous avez bien supprime cette bookmarks') {
+              const bookmarks = document.querySelectorAll('.bookmark');
+              bookmarks.forEach((bookmark) => {
+                if (bookmark.getAttribute('bookmark-id') === bookmarkId) {
+                  bookmark.parentNode.removeChild(bookmark);
+                }
+              });
+              flash(response.message, 'success', 2);
+            } else {
+              flash(response.message, 'error', 2);
             }
           });
-          flash(response.message, 'success', 2);
-        } else {
-          flash(response.message, 'error', 2);
+        }else{
+          deleteFolder(bookmarkId, (response) => {
+            const folder = document.querySelectorAll('.folder');
+            folder.forEach((folder) => {
+              if (folder.getAttribute('folder-id') === bookmarkId) {
+                console.log(folder.parentNode);
+                folder.parentNode.parentNode.removeChild(folder.parentNode);
+              }
+            });
+            flash(response.message, 'success', 2);
+          });
         }
       });
-    } else if (value.hasAttribute('edit')) {
+    }else if (value.hasAttribute('edit')) {
       const modal = document.getElementById('modal');
       getBookmarkInfo(bookmarkId).then((response) => {
         document.getElementById('title-modal').value = response.data[0].title;
@@ -74,16 +92,32 @@ if (btn) {
   btn.addEventListener('click', () => {
     const folderId = document.querySelector('folder-menu-row[moveSelected]').getAttribute('folder-id');
     const bookmarkId = document.getElementById('moveMenu').children[0].value;
-    moveItem(bookmarkId, folderId).then((response) => {
-      const bookmarks = document.querySelectorAll('.bookmark');
-      bookmarks.forEach((bookmark) => {
-        if (bookmark.getAttribute('bookmark-id') === bookmarkId) {
-          bookmark.parentNode.removeChild(bookmark);
-        }
-      });
-      const menuMove = document.getElementById('moveMenu');
-      menuMove.parentNode.style.display = 'none';
-      flash(response.json().message, 'success', 2); /* Casser ça flash pas */
+    isFolder(bookmarkId).then((isFolder) => {
+      if(isFolder.result != false){
+        moveItem(bookmarkId, folderId).then((response) => {
+          const bookmarks = document.querySelectorAll('.bookmark');
+          bookmarks.forEach((bookmark) => {
+            if (bookmark.getAttribute('bookmark-id') === bookmarkId) {
+              bookmark.parentNode.removeChild(bookmark);
+            }
+          });
+          const menuMove = document.getElementById('moveMenu');
+          menuMove.parentNode.style.display = 'none';
+          flash(response.json().message, 'success', 2); /* Casser ça flash pas */
+        });
+      }else{
+        moveFolder(bookmarkId, folderId).then((response) => {
+          const folders = document.querySelectorAll('.folder');
+          folders.forEach((folder) => {
+            if (folder.getAttribute('folder-id') === bookmarkId) {
+              folder.parentNode.parentNode.removeChild(folder.parentNode);
+            }
+          });
+          const menuMove = document.getElementById('moveMenu');
+          menuMove.parentNode.style.display = 'none';
+          flash(response.json().message, 'success', 2); /* Casser ça flash pas */
+        });
+      }
     });
   });
 }
@@ -131,13 +165,16 @@ if (btnAddFolder) {
     const name = document.getElementById('title-addModal').value;
     if (window.BB.FOLDER_ID == null) {
       createFolder(name, color).then((response) => {
+        document.location.reload();
         flash('ça marche', 'success', 2);
       });
     } else {
       createFolder(name, color, window.BB.FOLDER_ID).then((response) => {
+        document.location.reload();
         flash('ça marche', 'success', 2);
       });
     }
+
   });
 }
 const finalBtnAdd = document.getElementById('finalBtnAdd');
@@ -148,10 +185,10 @@ if (finalBtnAdd) {
     const description = document.getElementById('description-Finalmodal').value;
     const difficulty = document.getElementById('difficulty-Finalmodal').value;
     const link = document.getElementById('link-Finalmodal').value;
-    createBookmark(title, link, thumbnail, difficulty, description).then((response) => {
+    createBookmark(title, link, thumbnail, difficulty, description, window.BB.FOLDER_ID).then((response) => {
+      document.location.reload();
       flash('ça marche', 'success', 2);
     });
-    document.location.reload();
   });
 }
 

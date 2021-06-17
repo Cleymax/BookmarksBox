@@ -154,7 +154,7 @@ class FolderApiController extends Controller
     {
         $query = (new Query())
             ->update()
-            ->into("bookmarks")
+            ->into("folders")
             ->where("id = ?")
             ->set(["parent_id_folder" => '?'])
             ->params([$parentFolderId, $folderId])
