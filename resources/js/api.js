@@ -249,7 +249,7 @@ export async function deleteFolder(folderId, response) {
 }
 
 export async function getBookmarkInfo(bookmarkId) {
-  return jsonFetch(`bookmark/${bookmarkId}?fields=id,title,link,difficulty,thumbnail`, {
+  return jsonFetch(`bookmark/${bookmarkId}?fields=id,title,link,difficulty,thumbnail,description`, {
     method: 'get',
   });
 }
@@ -321,3 +321,20 @@ export async function editFolder(name = null, color = null, id)
   });
 }
 
+export async function deleteAccount(response) {
+  Swal.fire({
+    icon: 'warning',
+    title: 'Voulez vous vraiment supprimer votre compte ?',
+    showDenyButton: true,
+    confirmButtonText: 'Oui',
+    denyButtonText: 'Non',
+  })
+    .then((result) => {
+      if (result.isConfirmed) {
+        jsonFetch(`settings/account/delete`, {method: 'post'})
+          .then(response);
+      } else if (result.isDenied) {
+        response(false);
+      }
+    });
+}

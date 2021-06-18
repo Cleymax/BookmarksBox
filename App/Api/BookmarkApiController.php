@@ -46,7 +46,7 @@ class BookmarkApiController extends Controller
             ->where('created_by = ?', 'id = ?')
             ->params([Auth::userApi()->id, $bookmark_id]);
 
-        $query->setPossibility(['id', 'title', 'link', 'thumbnail', 'reading_time', 'pin', 'difficulty', 'created_at']);
+        $query->setPossibility(['id', 'title', 'link', 'thumbnail', 'reading_time', 'pin', 'difficulty', 'description', 'created_at']);
         $query->setDefault(['id', 'title', 'link', 'created_at']);
         $query->build();
 

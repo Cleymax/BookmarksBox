@@ -118,4 +118,15 @@ class UserApiController extends Controller
             'new_state' => $response->favorite
         ]);
     }
+
+    public function delete()
+    {
+        $query = (new Query())
+            ->delete()
+            ->from("users")
+            ->where("id = ?")
+            ->params([Auth::userApi()->id]);
+
+        $query->execute();
+    }
 }
