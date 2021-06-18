@@ -133,15 +133,14 @@ include 'parts/header-dashboard.php';
             </div>
             <div class="menu-info" id="menu-info" style="transform: translateX(280px);">
                 <span class="material-icons info-close">close</span>
-                <img src="https://placeimg.com/200/200/any" class="img-info">
-                <h3 class="flex-center">Mon Bookmarks</h3>
+                <img src="https://placeimg.com/200/200/any" id="imgInfo" class="img-info">
+                <h3 class="flex-center" id="titleInfo">Mon Bookmarks</h3>
                 <div class="info">
-                    <h5>Temps de lecture : </h5>
-                    <h5>Difficultés : </h5>
+                    <h5 id="DifficultyInfo">Difficultés : </h5>
                     <h5><span class="material-icons">description</span> Description</h5>
-                    <textarea class="description-info" disabled="disabled">Description</textarea>
+                    <textarea class="description-info" disabled="disabled" id="DescriptionInfo">Description</textarea>
                     <h5><span class="material-icons">link</span> Liens</h5>
-                    <textarea disabled="disabled">liens</textarea>
+                    <textarea disabled="disabled" id="linkInfo">liens</textarea>
                 </div>
             </div>
         </div>

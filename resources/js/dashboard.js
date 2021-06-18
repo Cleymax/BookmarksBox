@@ -6,7 +6,6 @@ import {
   deleteFolder,
   getBookmarkInfo,
   isFavorite,
-  isFolder,
   moveBookmark,
   moveFolder,
   moveItem,
@@ -105,6 +104,20 @@ btnMenu.forEach((value) => {
       content.style.marginRight = '280px';
       const menuInfo = document.getElementById('menu-info');
       menuInfo.style.transform = 'translateX(0px)';
+
+      const title = document.getElementById('titleInfo');
+      const img = document.getElementById('imgInfo');
+      const readingTime = document.getElementById('ReadingTimeInfo');
+      const difficulty = document.getElementById('DifficultyInfo');
+      const description = document.getElementById('DescriptionInfo');
+      const link = document.getElementById('linkInfo');
+      getBookmarkInfo(bookmarkId).then((response) => {
+        title.innerHTML = response.data[0].title;
+        img.src = response.data[0].thumbnail;
+        difficulty.innerHTML = "Difficultés : " + response.data[0].difficulty;
+        description.value = response.data[0].description;
+        link.value = response.data[0].link;
+      });
     } else if (value.hasAttribute('move')) {
       const menuMove = document.getElementById('moveMenu');
       menuMove.children[0].value = bookmarkId;

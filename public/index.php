@@ -57,25 +57,18 @@ Route::post('/settings/security/2fa', [UserController::class, 'settings2faActiva
 
 Route::get('/settings/account/infos', [SettingsController::class, 'infosView'], true, 'infos');
 Route::post('/settings/account/infos', [SettingsController::class, 'infos'], true);
-
 Route::get('/settings/account/password', [SettingsController::class, 'passwordView'], true, 'password');
 Route::post('/settings/account/password', [SettingsController::class, 'password'], true);
-
 Route::get('/settings/account/email', [SettingsController::class, 'emailView'], true, 'email');
 Route::post('/settings/account/email', [SettingsController::class, 'email'], true);
-
 Route::get('/settings/account/identity', [SettingsController::class, 'identityView'], true, 'identity');
 Route::post('/settings/account/identity', [SettingsController::class, 'identity'], true);
-
 Route::get('/settings/account/profilpic', [SettingsController::class, 'profilpicView'], true, 'profil_picture');
 Route::post('/settings/account/profilpic', [SettingsController::class, 'profilpic'], true);
-
 Route::get('/settings/account/biography', [SettingsController::class, 'biographyView'], true, 'biography');
 Route::post('/settings/account/biography', [SettingsController::class, 'biography'], true);
-
 Route::get('/settings/account/delete', [SettingsController::class, 'deleteView'], true, 'delete');
-Route::post('/settings/account/delete', [SettingsController::class, 'delete'], true);
-
+Route::post('/settings/account/delete', [UserApiController::class, 'delete'], true);
 
 Route::get('/dashboard', [DashboardController::class, 'dashboard'], true, 'dashboard');
 Route::get('/recherche', [DashboardController::class, 'recherche'], true, 'recherche');
