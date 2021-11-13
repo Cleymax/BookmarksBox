@@ -37,7 +37,7 @@ class TeamHelper
             ->where('user_id = ?', 'team_id = ?')
             ->params([Auth::user()->id, $team_id]);
 
-        $role = $query->first()->role;
+        $role = $query->first()->role ?? 'not-member';
 
         return self::canManageWithRole($role);
     }
@@ -61,9 +61,11 @@ class TeamHelper
             ->where('user_id = ?', 'team_id = ?')
             ->params([Auth::user()->id, $team_id]);
 
-        $role = $query->first()->role;
-
-        return $role;
+        if ($query->rowCount() == 0) {
+            return null;
+        } else {
+            return $query->first()->role;
+        }
     }
 
     public static function getRoles(): array
@@ -84,7 +86,7 @@ class TeamHelper
             ->where('user_id = ?', 'team_id = ?')
             ->params([Auth::user()->id, $id]);
 
-        $role = $query->first()->role;
+        $role = $query->first()->role ?? 'not-member';
 
         return self::canEditWithRole($role);
     }

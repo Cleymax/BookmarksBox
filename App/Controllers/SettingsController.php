@@ -36,19 +36,22 @@ class SettingsController extends Controller
 
     public function emailView()
     {
-        $this->render(View::new('settings.email', 'settings'), "Email");
+        $response = $this->User->getById(Auth::user()->id);
+        $this->render(View::new('settings.email', 'settings'), "Email", ["data" => $response]);
     }
 
     public function email()
     {
         try {
             $this->checkCsrf();
-            $this->checkPost("current", "Merci de préciser votre mot de passe !");
 
             $response = $this->User->getById(Auth::user()->id);
 
-            if (!password_verify($_ENV['SALT'] . $_POST["current"], $response->password)) {
-                throw new AuthException('Le mot de passe ne correspond pas');
+            if ($response->password != 'CAS') {
+                $this->checkPost("current", "Merci de préciser votre mot de passe !");
+                if (!password_verify($_ENV['SALT'] . $_POST["current"], $response->password)) {
+                    throw new AuthException('Le mot de passe ne correspond pas');
+                }
             }
 
             $request_values = $this->getRequestValue([], [
@@ -126,7 +129,6 @@ class SettingsController extends Controller
 
     public function delete()
     {
-
     }
 
     public function passwordView()

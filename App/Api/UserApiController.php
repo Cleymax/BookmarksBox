@@ -121,6 +121,13 @@ class UserApiController extends Controller
 
     public function delete()
     {
+        
+        (new Query())
+        ->delete()
+        ->from('teams_members')
+        ->where('user_id = ?')
+        ->params([Auth::userApi()->id])->execute();
+
         $query = (new Query())
             ->delete()
             ->from("users")
@@ -128,5 +135,7 @@ class UserApiController extends Controller
             ->params([Auth::userApi()->id]);
 
         $query->execute();
+
+        Auth::logout();
     }
 }

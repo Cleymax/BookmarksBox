@@ -3,7 +3,7 @@
 <?php
 if (empty($result)) {
     ?>
-
+        <alert-message type="danger">Aucun résultat</alert-message>
     <?php
 } else {
     ?>

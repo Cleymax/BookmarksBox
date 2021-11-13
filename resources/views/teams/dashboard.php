@@ -1,5 +1,6 @@
 <?php
 
+use App\Helper\BookmarkHelper;
 use App\Helper\TeamHelper;
 use App\Security\Auth;
 
@@ -86,7 +87,7 @@ if (Auth::check() && TeamHelper::canEdit($id)) {
                 ?>
 
                 <h4>
-                    Difficultés : <?= $bookmarks->difficulty ?>
+                    Difficultés : <?= BookmarkHelper::translateDifficulty($bookmarks->difficulty) ?>
                 </h4>
             </div>
             <div class="flex-row">

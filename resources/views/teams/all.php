@@ -15,6 +15,7 @@ if (Auth::check()) {
 }
 if (empty($equipes)) {
     ?>
+    <alert-message>Vous n'avez aucun équipe !</alert-message>
     <?php
 } else {
     ?>

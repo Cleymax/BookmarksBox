@@ -105,7 +105,7 @@ require ROOT_PATH . '/../App/Tools/Array.php'
                 ?>
                 <tr data-user-id="<?= $member->id ?>">
                     <td>
-                        <img src="<?= $member->avatar ?>" height="20px" width="20px" alt="Username Avatar">
+                        <img src="<?= FileUploader::getSrc($member->avatar) ?>" height="20px" width="20px" alt="Username Avatar">
                         <span style="margin-left: 10px"><?= $member->username ?></span>
                     </td>
                     <td>
@@ -116,7 +116,7 @@ require ROOT_PATH . '/../App/Tools/Array.php'
                     </td>
                     <td>
                         <?php
-                        $role = [
+                        $roles = [
                                 'MEMBER' => 'Membre',
                                 'EDITOR' => 'Editeur',
                                 'MANAGER' => 'Manager',
@@ -124,9 +124,9 @@ require ROOT_PATH . '/../App/Tools/Array.php'
                         ];
                         ?>
                         <select name="role"
-                                id="change-role" <?= $member->id == Auth::user()->id || (get_array_index($member->role, $role) > get_array_index(TeamHelper::getRole($id), $role)) ? 'disabled' : '' ?>>
+                                id="change-role" <?= $member->id == Auth::user()->id || (get_array_index($member->role, $roles) > get_array_index(TeamHelper::getRole($id), $roles)) ? 'disabled' : '' ?>>
                             <?php
-                            foreach ($role as $key => $value) {
+                            foreach ($roles as $key => $value) {
                                 ?>
                                 <option <?php if ($member->role == $key) {
                                     echo "selected";
@@ -249,7 +249,7 @@ if (TeamHelper::isOwner($id)) {
 }
 ?>
 
-<script src="<?= getenv('BASE_URL') . '/debugbar/vendor/jquery/dist/jquery.min.js' ?>"></script>
+<script src="<?= $_ENV['BASE_URL'] . '/debugbar/vendor/jquery/dist/jquery.min.js' ?>"></script>
 <script>
     function readURL(input) {
         if (input.files && input.files[0]) {

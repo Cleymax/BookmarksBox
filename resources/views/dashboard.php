@@ -24,7 +24,10 @@
 <div class="grid-250">
 
     <?php
-    foreach ($folders as $folder) {
+
+use App\Helper\BookmarkHelper;
+
+foreach ($folders as $folder) {
         ?>
         <a href="<?= get_query_url('/folder/' . $folder->id) ?>">
             <div class="folder" style="color: <?php echo strtolower($folder->color) == '#ffffff' ? 'var(--dark)' : $folder->color ?>" folder-id="<?= $folder->id ?>">
@@ -66,7 +69,7 @@
                 ?>
 
                 <h4>
-                    Difficultés : <?= $bookmarks->difficulty ?>
+                    Difficultés : <?= BookmarkHelper::translateDifficulty($bookmarks->difficulty) ?>
                 </h4>
             </div>
             <div class="flex-row">

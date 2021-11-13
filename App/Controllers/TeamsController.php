@@ -47,7 +47,7 @@ class TeamsController extends Controller
                 'link' => $_ENV['BASE_URL'] . '/teams/' . $id
             ]);
         } else {
-            $this->redirect('teams/' . $id . '/');
+            $this->redirect('teams/' . $id . '/manager');
         }
     }
 
@@ -108,12 +108,13 @@ class TeamsController extends Controller
             $equipes = $this->Teams->getAllForMe();
             $data = $this->Teams->getById($id);
             $members = $this->Teams->getMember($id);
+            $role = TeamHelper::getRole($id);
         } catch (\Exception $e) {
             $members = [];
             FlashService::error($e->getMessage(), 4);
         }
 
-        $this->render(View::new('teams.manager', 'dashboard'), 'Equipe ' . $data->name, ['equipes' => $equipes ?? [], 'data' => $data, 'id' => $id, 'members' => $members]);
+        $this->render(View::new('teams.manager', 'dashboard'), 'Equipe ' . $data->name, ['equipes' => $equipes ?? [], 'role' => $role, 'data' => $data, 'id' => $id, 'members' => $members]);
     }
 
     public function teamManage(string $id)

@@ -7,8 +7,13 @@ import registerWindowHeightCSS from './window';
 import joinTeamsWithCode from './Teams';
 import registerTab from './tab';
 import registerAdminChangeRole from './admin';
-import { getWindowWidth } from './dom';
-import { initFolder, removeFavorite } from './api';
+import {
+  getWindowWidth
+} from './dom';
+import {
+  initFolder,
+  removeFavorite
+} from './api';
 import registerTeam from './team';
 import FilesUploader from './elements/FilesUploader';
 import registerSortableTable from './table';
@@ -29,58 +34,79 @@ registerSortableTable();
 registerCopyClipboard();
 initFolder();
 
-$(document).ready(() => {
-  const themeswitch = $('#theme');
-  const theme = localStorage.getItem('theme');
-  if (theme != null) {
-    themeswitch.prop('checked', theme !== 'theme-light');
-    $('body').addClass(theme);
+const themeswitch = $('#theme');
+const theme = window.localStorage.getItem('theme');
+if (theme != null) {
+  themeswitch.prop('checked', theme !== 'theme-light');
+  $('body').addClass(theme);
+}
+
+themeswitch.on('click', () => {
+  const body = $('body');
+  if (body.hasClass('theme-light')) {
+    body.removeClass('theme-light');
+    body.addClass('theme-dark');
+    localStorage.setItem('theme', 'theme-dark');
+  } else {
+    body.removeClass('theme-dark');
+    body.addClass('theme-light');
+    localStorage.setItem('theme', 'theme-light');
   }
-  themeswitch.click(() => {
-    const body = $('body');
-    if (body.hasClass('theme-light')) {
-      body.removeClass('theme-light');
-      body.addClass('theme-dark');
-      localStorage.setItem('theme', 'theme-dark');
+});
+$('#show-password').on('click', () => {
+  document.querySelectorAll('input[autocomplete="current-password"]').forEach((value) => {
+    if (value.type === 'password') {
+      value.type = 'text';
     } else {
-      body.removeClass('theme-dark');
-      body.addClass('theme-light');
-      localStorage.setItem('theme', 'theme-light');
+      value.type = 'password';
     }
   });
-  $('#show-password').on('click', () => {
-    document.querySelectorAll('input[autocomplete="current-password"]').forEach((value) => {
-      if (value.type === 'password') {
-        value.type = 'text';
-      } else {
-        value.type = 'password';
-      }
-    });
+});
+const tooltippeds = document.querySelectorAll('.tooltipped');
+for (let i = 0; i < tooltippeds.length; i += 1) {
+  // eslint-disable-next-line no-new
+  new Tooltip(tooltippeds[i]);
+}
+const code = document.getElementById('code');
+if (code) {
+  code.addEventListener('keyup', (event) => {
+    if (event.keyCode === 13) {
+      event.preventDefault();
+      joinTeamsWithCode();
+    }
   });
-  const tooltippeds = document.querySelectorAll('.tooltipped');
-  for (let i = 0; i < tooltippeds.length; i += 1) {
-    // eslint-disable-next-line no-new
-    new Tooltip(tooltippeds[i]);
+}
+
+const hamburger = document.getElementById('hamburger');
+console.log("dqzd");
+if (hamburger) {
+  console.log("dqzd");
+  const menu = document.getElementById('menu');
+  const content = document.getElementById('content');
+
+  const state = window.localStorage.getItem('menu');
+
+  if (state != null && state === 'close') {
+    const width = parseInt(`${getWindowWidth()}`, 10);
+    if (width < 600) {
+      menu.style.transform = 'translateX(-100%)';
+    } else {
+      menu.style.transform = 'translateX(-280px)';
+    }
+    content.style.marginLeft = '0px';
+    content.style.display = 'block';
   }
-  const code = document.getElementById('code');
-  if (code) {
-    code.addEventListener('keyup', (event) => {
-      if (event.keyCode === 13) {
-        event.preventDefault();
-        joinTeamsWithCode();
+
+  hamburger.addEventListener('click', () => {
+    const width = parseInt(`${getWindowWidth()}`, 10);
+    if (menu.style.transform) {
+      menu.style.transform = '';
+      if (width < 600) {
+        content.style.display = 'none';
       }
-    });
-  }
-
-  const hamburger = document.getElementById('hamburger');
-  if (hamburger) {
-    const menu = document.getElementById('menu');
-    const content = document.getElementById('content');
-
-    const state = window.localStorage.getItem('menu');
-
-    if (state != null && state === 'close') {
-      const width = parseInt(`${getWindowWidth()}`, 10);
+      content.style.marginLeft = '280px';
+      window.localStorage.setItem('menu', 'open');
+    } else {
       if (width < 600) {
         menu.style.transform = 'translateX(-100%)';
       } else {
@@ -88,47 +114,27 @@ $(document).ready(() => {
       }
       content.style.marginLeft = '0px';
       content.style.display = 'block';
+      window.localStorage.setItem('menu', 'close');
     }
+  });
+}
 
-    hamburger.addEventListener('click', () => {
-      const width = parseInt(`${getWindowWidth()}`, 10);
-      if (menu.style.transform) {
-        menu.style.transform = '';
-        if (width < 600) {
-          content.style.display = 'none';
-        }
-        content.style.marginLeft = '280px';
-        window.localStorage.setItem('menu', 'open');
-      } else {
-        if (width < 600) {
-          menu.style.transform = 'translateX(-100%)';
-        } else {
-          menu.style.transform = 'translateX(-280px)';
-        }
-        content.style.marginLeft = '0px';
-        content.style.display = 'block';
-        window.localStorage.setItem('menu', 'close');
+document.querySelectorAll('#remove-favorite').forEach((value) => {
+  value.addEventListener('click', () => {
+    const box = value.parentNode.parentNode;
+    const id = box.getAttribute('data-id');
+    removeFavorite(id, (data) => {
+      if (data) {
+        box.classList.add('out');
+        setTimeout(() => {
+          box.parentNode.removeChild(box);
+        }, 600);
       }
     });
-  }
-
-  document.querySelectorAll('#remove-favorite').forEach((value) => {
-    value.addEventListener('click', () => {
-      const box = value.parentNode.parentNode;
-      const id = box.getAttribute('data-id');
-      removeFavorite(id, (data) => {
-        if (data) {
-          box.classList.add('out');
-          setTimeout(() => {
-            box.parentNode.removeChild(box);
-          }, 600);
-        }
-      });
-    });
   });
-  $('#join-team').on('click', () => {
-    joinTeamsWithCode();
-  });
+});
+$('#join-team').on('click', () => {
+  joinTeamsWithCode();
 });
 
 document.querySelectorAll('.bookmark').forEach((value) => {

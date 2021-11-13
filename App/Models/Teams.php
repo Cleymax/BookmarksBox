@@ -176,6 +176,12 @@ class Teams extends Model
 
     public function delete(string $team_id)
     {
+        (new Query())
+            ->delete()
+            ->into('teams_members')
+            ->where('team_id = ?')
+            ->params([$team_id])
+            ->execute();
         $query = (new Query())
             ->delete()
             ->into($this->table)

@@ -53,10 +53,10 @@ class Auth
         $key = Str::random(32);
 
         $query = (new Query())
-            ->insert("email", "username", "password", "verify_key")
+            ->insert("email", "username", "password", "verify_key", "avatar")
             ->into("users")
-            ->values(["?", "?", "?", "?"])
-            ->params([$mail, $username, $password, $key])
+            ->values(["?", "?", "?", "?" , "?"])
+            ->params([$mail, $username, $password, $key, "default-avatar.png"])
             ->returning('id');
 
         $response = $query->first();
@@ -209,7 +209,7 @@ class Auth
      */
     public static function userApi(): object
     {
-        if(Auth::check()){
+        if (Auth::check()) {
             return Auth::user();
         }
 
@@ -416,10 +416,10 @@ class Auth
         if ($count == 0) {
             $email = "$u@iut-acy.univ-smb.fr";
             $query = (new Query())
-                ->insert("email", "username", "password", "verify")
+                ->insert("email", "username", "password", "verify", "default-avatar.png")
                 ->into("users")
-                ->values(["?", "?", "?", 'True'])
-                ->params([$email, $u, 'CAS'])
+                ->values(["?", "?", "?", 'True', "?"])
+                ->params([$email, $u, 'CAS', "default-avatar.png"])
                 ->returning('id');
 
             $response = $query->first();
