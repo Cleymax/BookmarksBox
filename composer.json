@@ -30,6 +30,6 @@
   },
   "require-dev": {
     "symfony/var-dumper": "^v5.2.6",
-    "phpstan/phpstan": "^0.12.83"
+    "phpstan/phpstan": "^1.5.7"
   }
 }
