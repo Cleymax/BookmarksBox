@@ -20,7 +20,7 @@
     "sonata-project/google-authenticator": "^2.2.0",
     "phpmailer/phpmailer": "^v6.4.1",
     "maximebf/debugbar": "^v1.16.5",
-    "firebase/php-jwt": "^5.2",
+    "firebase/php-jwt": "^6.3",
     "bitverse/identicon": "^1.1",
     "nikolaposa/rate-limit": "^2.2",
     "predis/predis": "^1.1",
